@@ -45,7 +45,7 @@ function Dashboard() {
                 </p>
               </div>
 
-              <div className="flex-1 bg-red-400 border-2 border-black text-white rounded-2xl shadow-2xl">
+              <div className="flex-1 bg-red-400 border-2 border-black rounded-2xl shadow-2xl">
                 <p className="text-center text-sm font-bold opacity-80 pt-2">
                   Usage
                 </p>
