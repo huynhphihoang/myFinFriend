@@ -8,3 +8,5 @@ def parse_pdf(pdf_path):
             text = page.extract_text()
             print(text)
             return text
+
+
