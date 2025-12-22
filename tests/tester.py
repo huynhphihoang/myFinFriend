@@ -1,6 +1,11 @@
-import file_validator as validator
-import pdf_parser as parser
-import gemini_client as client
+import os 
+import sys
+
+from source.file_validator import validate_file
+from source.pdf_parser import parse_pdf
+from source import gemini_client
+
+
 # This is the central workflow testing file
 
 #User uploads file into webpage -> pdf OR CSV - Supabase step
@@ -10,7 +15,7 @@ import gemini_client as client
 #If CSV returns 0
 #If not return -1 -> outputs error message
 #use file_validator.py to validate the file
-result_Validator =validator.validate_file("C:\Users\hoang\OneDrive\Documents\Work\Qantas Lounge\Payslips\Payslip 20251111-20251124.pdf")
+result_Validator =validator.validate_file(r"C:\Users\hoang\OneDrive\Documents\Work\Qantas Lounge\Payslips\Payslip 20251111-20251124.pdf")
 if result_Validator == 1:
     print("File is a PDF")
 elif result_Validator == 0:

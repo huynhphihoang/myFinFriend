@@ -18,11 +18,11 @@ def extract_transactions(pdf_text, categories=None):
     Returns:
         str: JSON string with extracted transaction details
     """
-    # Fetch categories from Supabase if not provided
+    #Fetch categories from Supabase if not provided
     if categories is None:
         categories = get_transaction_categories()
     
-    # Format categories for the prompt
+    #Format categories for the prompt
     categories_text = ""
     if categories:
         categories_list = ", ".join(categories)

@@ -1,0 +1,11 @@
+# PDF Processing
+pdfplumber>=0.10.0
+
+# Environment Variables
+python-dotenv>=1.0.0
+
+# Supabase Client
+supabase>=2.0.0
+
+# Google Gemini AI
+google-generativeai>=0.3.0
