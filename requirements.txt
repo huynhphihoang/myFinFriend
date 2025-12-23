@@ -8,4 +8,5 @@ python-dotenv>=1.0.0
 supabase>=2.0.0
 
 # Google Gemini AI
-google-generativeai>=0.3.0
+# Note: google-generativeai is deprecated, using google-genai instead
+google-genai>=1.0.0

@@ -1,6 +1,6 @@
 import google.generativeai as genai
 import os
-from category_extractor import get_transaction_categories
+from source.category_extractor import get_transaction_categories
 
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
