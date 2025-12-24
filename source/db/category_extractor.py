@@ -3,7 +3,7 @@ Category Extractor Module
 
 Extracts transaction categories from Supabase transaction_categories table.
 """
-from supabase_client import supabase
+from db.supabase_client import supabase
 
 
 def get_transaction_categories() -> list:

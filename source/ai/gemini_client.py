@@ -1,8 +1,12 @@
-import google.generativeai as genai
+from google import genai
 import os
-from source.category_extractor import get_transaction_categories
+import sys
+project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, project_root)
+from db.category_extractor import get_transaction_categories
+from flows.pdf_parser import parse_pdf
 
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
 model = "gemini-3-flash-preview"
 
@@ -69,11 +73,8 @@ def extract_transactions(pdf_text, categories=None):
     }}
 
     """
-    response = genai.generate_content(
+    response = client.models.generate_content(
         model=model,
-        prompt=prompt,
-        contents=pdf_text
+        contents=f"{prompt}\n\n{pdf_text}"
     )
     return response.text
-
-
