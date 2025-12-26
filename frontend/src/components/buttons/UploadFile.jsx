@@ -29,7 +29,7 @@ function UploadFile() {
         disabled={uploading}
         onClick={() => fileInputRef.current?.click()}
         className="flex items-center shadow-lg font-manrope font-bold gap-2 border border-black 
-        rounded-full px-5 py-3 hover:bg-black hover:text-white duration-500 disabled:opacity-60"
+        rounded-full px-5 py-3 hover:bg-black hover:text-white hover:-translate-y-0.5 duration-500 disabled:opacity-60"
       >
         {uploading ? "Uploading..." : "Upload file"}
         <MdOutlineFileUpload className="text-xl" />
@@ -38,7 +38,7 @@ function UploadFile() {
       <input
         ref={fileInputRef}
         type="file"
-        accept=".csv"
+        accept=".csv, .pdf"
         className="hidden"
         onChange={handleFileChange}
       />
