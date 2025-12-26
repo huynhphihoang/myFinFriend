@@ -1,7 +1,7 @@
-import { MdOutlineFileUpload } from "react-icons/md";
 import { FaArrowRight } from "react-icons/fa";
 import { TiDocumentText } from "react-icons/ti";
 import {Link} from "react-router-dom";
+import UploadFile from "../components/buttons/UploadFile"
 
 function Dashboard() {
     return (
@@ -12,14 +12,7 @@ function Dashboard() {
 
           {/* Buttons */}
           <div className="flex justify-center gap-3 mt-3">
-            <label className="flex items-center shadow-lg font-manrope font-bold gap-2 border border-black rounded-full px-5 py-3 hover:bg-black hover:text-white duration-500 transition-full">
-                Upload file 
-                <MdOutlineFileUpload className="text-xl"/> 
-                <input type="file" 
-                accept=".csv"
-                className="hidden" 
-                /> 
-            </label>
+            <UploadFile/>
             <Link to="/details" className="flex items-center shadow-lg font-manrope font-bold gap-2 border border-black rounded-full px-5 py-3 hover:bg-black hover:text-white duration-500 transition-full"> 
               <TiDocumentText className="text-xl"/> 
               View Transactions

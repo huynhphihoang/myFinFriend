@@ -1,6 +1,6 @@
 # api/transactions.py
 from flask import Blueprint
-from flask import Flask, jsonify
+from flask import Flask, request, jsonify
 from db.category_extractor import get_transaction_categories
 from ai.gemini_client import extract_transactions
 from flows.pdf_parser import parse_pdf
@@ -28,3 +28,23 @@ def get_detailed_transactions():
     parse_ai = parse_ai_json(result)
 
     return [parse_ai]
+
+@bp.post("/")
+def upload_file():
+    if "file" not in request.files:
+        return {"error": "No file provided"}, 400
+
+    # Get the file
+    file = request.files["file"]
+
+    #TODO: Create the function to save filename into supabase.
+    
+    print({
+        "filename": file.filename,
+        "status": "uploaded"
+    })
+    
+    return jsonify({
+        "filename": file.filename,
+        "status": "uploaded"
+    })
