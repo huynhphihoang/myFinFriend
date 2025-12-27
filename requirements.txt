@@ -10,3 +10,6 @@ supabase>=2.0.0
 # Google Gemini AI
 # Note: google-generativeai is deprecated, using google-genai instead
 google-genai>=1.0.0
+
+# Testing
+pytest>=7.0.0
