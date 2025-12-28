@@ -1,34 +1,40 @@
+# Reusable Gemini client configuration with library imports and environment variables loading
+# ONLY USE THIS CLIENT INSTANCE FOR SERVER SIDE TASKS
+
 import google.generativeai as genai
+from dotenv import load_dotenv
 import os
-from source.category_extractor import get_transaction_categories
-from source.ai.prompts import get_transaction_extraction_prompt
 
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+# Load environment variables from .env file first
+load_dotenv()
 
-model = "gemini-3-flash-preview"
+# Track if Gemini is configured
+GEMINI_CONFIGURED: bool = False
+GEMINI_MODEL: str = "gemini-3-flash-preview"
 
-def extract_transactions(pdf_text, categories=None):
+def get_gemini():
     """
-    Extract transaction details from PDF text using Gemini AI.
-    
-    Arguments:
-        pdf_text (str): The extracted text from the PDF
-        categories (list, optional): List of transaction categories fetches from Supabase
+    Initialize and return the configured Gemini genai module and model name.
+    This function ensures Gemini is configured only once (singleton pattern).
     
     Returns:
-        str: JSON string with extracted transaction details
+        tuple: (genai module, model_name string)
     """
-    #Fetch categories from Supabase if not provided
-    if categories is None:
-        categories = get_transaction_categories()
+    global GEMINI_CONFIGURED, GEMINI_MODEL
     
-    # Get the prompt from the prompts module
-    prompt = get_transaction_extraction_prompt(categories)
-    response = genai.generate_content(
-        model=model,
-        prompt=prompt,
-        contents=pdf_text
-    )
-    return response.text
-
-
+    # Configure Gemini API if not already configured
+    if not GEMINI_CONFIGURED:
+        # Get Gemini API key from environment
+        GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+        
+        # Error catching
+        if not GEMINI_API_KEY:
+            raise ValueError(
+                "GEMINI_API_KEY must be set in environment variables"
+            )
+        
+        # Configure the Gemini API
+        genai.configure(api_key=GEMINI_API_KEY)
+        GEMINI_CONFIGURED = True
+    
+    return genai, GEMINI_MODEL

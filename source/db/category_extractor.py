@@ -5,4 +5,3 @@ def get_transaction_categories_with_ids(SUPABASE_CLIENT) -> list[dict]:
         .execute()
 
     return response.data or []
-
