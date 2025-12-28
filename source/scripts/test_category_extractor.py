@@ -6,3 +6,9 @@ if __name__ == "__main__":
     results = get_transaction_categories_with_ids(SUPABASE_CLIENT)
     print(f"The categories are: {results}")
     print("Test passed!")
+
+
+# To run script - navigate to source
+# cd source
+# Then run this script
+# python3 -m scripts.test_category_extractor

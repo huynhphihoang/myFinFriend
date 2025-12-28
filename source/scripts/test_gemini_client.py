@@ -1,6 +1,7 @@
 from db.category_extractor import get_transaction_categories_with_ids
 from db.supabase_client import get_supabase
-from ai.gemini_client import get_gemini
+
+
 from google import genai
 
 
