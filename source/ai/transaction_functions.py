@@ -17,7 +17,7 @@ def get_transaction_extraction_prompt(categories):
 
     You need to extract transaction details from the input text.
 
-    You CANNOT store identifiable, and sensitive information into your memory and response including:
+    You CANNOT store identifiable, and sensitive information into your memory and response including but not limited to:
         Full Names, Date of Birth, Employment Status, Company's Name, Personal Address, Personal Phone Number, Company's Address
         Payroll number, employee's number
     
