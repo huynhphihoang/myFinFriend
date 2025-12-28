@@ -1,6 +1,4 @@
 #This file contains all functions that is related to transactions
-from source.ai.gemini_config import get_gemini
-from source.ai.prompts import get_transaction_extraction_prompt
 
 # Prompt template for LLM injection
 def get_transaction_extraction_prompt(categories):
@@ -64,7 +62,7 @@ def extract_transactions_details(pdf_text, categories=None):
         str: JSON string with extracted transaction details
     """
     # Get configured Gemini client and model
-    genai, model = get_gemini()
+    GEMINI_CLIENT = get_gemini()
     
     #Fetch categories from Supabase if not provided
     if categories is None:
