@@ -1,4 +1,4 @@
-from .transactions import bp as transactions_bp
+from .main_workflow import bp as main_workflow_bp
 
 def register_blueprints(app):
-    app.register_blueprint(transactions_bp)
+    app.register_blueprint(main_workflow_bp)
