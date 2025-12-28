@@ -1,9 +1,19 @@
 import { IoIosArrowDown } from "react-icons/io";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import {useState} from "react";
-function Allowance() {
+import { useTransaction } from "../../hooks/useTransactions";
 
+function Allowance() {
     const [isOpen,setIsOpen] = useState(false);
+    const { transaction, loading, error } = useTransaction();
+
+    if (loading) {
+    return <div className="text-center mt-5">Loading Transaction...</div>;
+    }
+
+    if (error) {
+        return <div className="text-center mt-5 text-red-500">Error: {error}</div>;
+    }
 
     const handleOpen = () => {
         if (isOpen) {
@@ -35,14 +45,15 @@ function Allowance() {
                         <th className="px-4 py-2"></th>
                     </tr>
                 </thead>
-
                 <tbody>
+                {transaction.map((cat) => (
+                    
                     <tr className="border-b border-gray-400 hover:bg-gray-50">
-                        <td className="px-4 py-3">2025-01-10</td>
-                        <td className="px-4 py-3">Income</td>
-                        <td className="px-4 py-3">Investment</td>
+                        <td className="px-4 py-3">{cat['transaction_date']}</td>
+                        <td className="px-4 py-3">{cat['transaction_category']}</td>
+                        <td className="px-4 py-3">{cat['transaction_details']}</td>
                         <td className="px-4 py-3 text-green-600 font-bold text-right">
-                            +$102.50
+                            +{cat['transaction_amount']}
                         </td>
                         <td className="px-4 py-3">
                             <div className="flex justify-end">
@@ -51,19 +62,7 @@ function Allowance() {
                         </td>
                     </tr>
 
-                    <tr className="border-b border-gray-400 hover:bg-gray-50">
-                        <td className="px-4 py-3">2025-01-10</td>
-                        <td className="px-4 py-3">Income</td>
-                        <td className="px-4 py-3">Investment</td>
-                        <td className="px-4 py-3 text-green-600 font-bold text-right">
-                            +$102.50
-                        </td>
-                        <td className="px-4 py-3">
-                            <div className="flex justify-end">
-                            <BsThreeDotsVertical className="text-gray-500 hover:text-black cursor-pointer" />
-                            </div>
-                        </td>
-                    </tr>
+                ))}
                 </tbody>
             </table>
 
