@@ -15,7 +15,7 @@ function Usage() {
     return(
         <div>
         <nav onClick={handleOpen} 
-            className={`flex items-center justify-between shadow-lg font-bold mt-3 mx-4 gap-2 border border-black rounded-full px-5 py-3 bg-red-400 
+            className={`flex items-center justify-between shadow-lg font-bold mt-3 mx-4 gap-2 border border-black rounded-lg px-5 py-3 bg-red-400 
             hover:bg-red-700 hover:text-white duration-500 transition-full ${isOpen && "bg-red-700 text-white"}`}>
             <h3 className="px-4"> Usage </h3>
             <div className="flex items-center px-4 gap-4">

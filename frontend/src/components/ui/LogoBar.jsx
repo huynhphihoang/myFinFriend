@@ -1,5 +1,4 @@
 import { IoNotificationsOutline } from "react-icons/io5";
-import { FaArrowRight } from "react-icons/fa";
 function LogoBar () {
     return(
         <div>
@@ -8,7 +7,7 @@ function LogoBar () {
                     myFinFriend
                 </h1>
                 <div className="flex items-center">
-                    <IoNotificationsOutline className="text-xl"/>
+                    <IoNotificationsOutline className="text-xl hover:text-gray-700 hover:animate-ring origin-top"/>
                 </div>
             </div>
             <hr className='border-t-2'/>

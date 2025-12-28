@@ -11,7 +11,10 @@ function PeriodInput() {
             hover:bg-black hover:text-white duration-300
             focus:outline-none focus:ring-2 focus:ring-black"
             >
-            <option value="monthly">Monthly</option>
+                <option value="monthly" name="monthly">Monthly</option>
+                <option value="annually" name="annually">Annually</option>
+                <option value="daily" name="daily">Daily</option>
+                <option value="weekly" name="weekly">Weekly</option>
             </select>
         </div>
     );
