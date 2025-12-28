@@ -11,9 +11,6 @@ A personal financial management web-app that integrates AI-powered tools to keep
 - Go to the folder "source" and then type `pip install -r requirements.txt` to download the requirements
 - Then, type `python main` to run the backend while running the frontend.
 
-#Testing
-The team decided to utilize pytest library for structured and automatic testing of functions to ensure scalability and readability of code
-
 #Supabase Schemas
 
 

@@ -1,0 +1,14 @@
+from db.category_extractor import get_transaction_categories_with_ids
+from db.supabase_client import get_supabase
+
+if __name__ == "__main__":
+    SUPABASE_CLIENT = get_supabase()
+    results = get_transaction_categories_with_ids(SUPABASE_CLIENT)
+    print(f"The categories are: {results}")
+    print("Test passed!")
+
+
+# To run script - navigate to source
+# cd source
+# Then run this script
+# python3 -m scripts.test_category_extractor
