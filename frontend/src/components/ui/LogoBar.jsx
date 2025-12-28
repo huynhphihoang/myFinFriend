@@ -1,4 +1,5 @@
 import { IoNotificationsOutline } from "react-icons/io5";
+import { FaArrowRight } from "react-icons/fa";
 function LogoBar () {
     return(
         <div>
@@ -7,9 +8,6 @@ function LogoBar () {
                     myFinFriend
                 </h1>
                 <div className="flex items-center">
-                    <select className="text-sm font-manrope font-bold border border-black rounded-full mx-2 p-2 hover:bg-black hover:text-white transation-full duration-500" name="date">
-                        <option value=""> May 25, 2025</option>
-                    </select>
                     <IoNotificationsOutline className="text-xl"/>
                 </div>
             </div>

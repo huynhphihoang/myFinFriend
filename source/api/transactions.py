@@ -16,11 +16,11 @@ def get_transactions():
 
 @bp.get("/detailed_transactions")
 def get_detailed_transactions():
-    pdf_text = parse_pdf("payslip/your_pay_slip")
+    pdf_text = parse_pdf("payslip/yourp_pay_slip")
 
     if not pdf_text.strip():
         return {"error": "No text found in PDF"}, 400
-
+    print("AI is reading the file......")
     # Extract the JSON form from ai
     result = extract_transactions(pdf_text)
     
