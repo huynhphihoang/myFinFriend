@@ -3,10 +3,13 @@ pdfplumber>=0.10.0
 
 # Environment Variables
 python-dotenv>=1.0.0
+flask-cors>=6.0.0
+flask>=3.0.0
 
 # Supabase Client
 supabase>=2.0.0
 
 # Google Gemini AI
 # Note: google-generativeai is deprecated, using google-genai instead
+# download: pip install google-genai
 google-genai>=1.0.0

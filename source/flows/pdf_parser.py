@@ -6,7 +6,6 @@ def parse_pdf(pdf_path):
     with pp.open(pdf_path) as pdf:
         for page in pdf.pages:
             text = page.extract_text()
-            print(text)
             return text
 
 
