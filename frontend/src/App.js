@@ -1,6 +1,7 @@
 import LogoBar from "./components/ui/LogoBar"
 import Dashboard from "./pages/Dashboard"
 import Details from "./pages/Details"
+import LogIn from "./pages/LogIn";
 
 import {
   BrowserRouter as Router,
@@ -21,11 +22,18 @@ function App() {
             <Dashboard/>
             }>
           </Route>
-
+          
           <Route
             path="/details"
             element={
             <Details/>
+            }>
+          </Route>
+
+          <Route
+            path="/login"
+            element={
+            <LogIn/>
             }>
           </Route>
       </Routes>

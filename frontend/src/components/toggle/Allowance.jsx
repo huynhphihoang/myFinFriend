@@ -31,12 +31,12 @@ function Allowance() {
         </nav>
 
         {isOpen && (
-            <div>
+            <div className="flex justify-center">
             {loading ? (
-                <div className="text-center text-rose-700 text-xl mt-4"> Loading the transactions...</div>
-            ) 
+                <div className="text-rose-700 text-xl mt-4"> Loading the transactions...</div>
+                ) 
                 : (
-                <table className="w-full mt-4 border border-black border-black font-manrope rounded-xl overflow-hidden text-center">
+                <table className="w-5/6 mt-4 border border-black border-black font-manrope rounded-xl overflow-hidden text-center">
                     <thead className="border-b border-gray-400">
                         <tr>
                             <th className="px-4 py-2">Date</th>
