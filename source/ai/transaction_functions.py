@@ -1,12 +1,22 @@
 #This file contains all functions that is related to transactions
 
-# Prompt template for LLM injection
-def get_transaction_extraction_prompt(categories):
+# Prompt template for LLM injection 
+def get_context_prompt(categories: list[dict]) -> str:
+    # Context prompt for AI model
+
     # Getting remote categories from supabase table
     # Format categories for the prompt
-    if categories:
-        categories_list = ", ".join(categories)
-        categories_text = f"""Available transaction categories: {categories_list}
+    # Extract category names safely
+    category_names = [
+        c.get("category_name")
+        for c in categories
+        if isinstance(c, dict) and c.get("category_name")
+    ]
+
+    if category_names:
+        categories_list = ", ".join(category_names)
+        categories_text = f"""
+        Available transaction categories: {categories_list}
         You MUST use one of these categories when categorizing transactions. If the transaction doesn't match any of these categories, return "Unknown".
         """
     else:
@@ -18,29 +28,64 @@ def get_transaction_extraction_prompt(categories):
     You need to extract transaction details from the input text.
 
     You CANNOT store identifiable, and sensitive information into your memory and response including but not limited to:
-        Full Names, Date of Birth, Employment Status, Company's Name, Personal Address, Personal Phone Number, Company's Address
-        Payroll number, employee's number
+        - Full names
+        - Dates of birth
+        - Employment status
+        - Company names
+        - Personal or company addresses
+        - Phone numbers
+        - Payroll or employee numbers
+
     
     All data types are to be returned in the context of the user residing in Australia, using Australian Dollars (AUD)
-    {categories_text}
-    Return transaction_type as 1 for expenses and 2 for income, otherwise 0 for undefined
 
-    You MUST read and return the transaction details in a JSON format following the schema:
+    {categories_text}
+
+    Return a JSON object with the following fields and STRICT data types:
+        - transaction_date: string
+        Format: "YYYY-MM-DD" (ISO 8601 date). Do NOT include time.
+
+        - transaction_details: string
+        A short human-readable description of the transaction.
+
+        - transaction_amount: number
+        A signed decimal number.
+        Expenses must be negative.
+        Income must be positive.
+        Do NOT include currency symbols.
+
+        - transaction_category: string
+        Must be exactly one of the provided categories, or "Unknown".
+
+        - transaction_type: integer
+        Allowed values:
+            1 = expense
+            2 = income
+            0 = undefined
+
+        - relevant: boolean
+        true if the transaction is valid, otherwise false.
+
+        Return transaction_type as:
+        - 1 for expenses
+        - 2 for income
+        - 0 for undefined
+
     
     {{
         "transaction_date": "YYYY-MM-DD",
         "transaction_details": "Rent Receipt",
-        "transaction_amount": " -$120",
+        "transaction_amount": -120,
         "transaction_category": "Rent",
         "transaction_type": 1,
         "relevant": true
     }}
 
-    If the input text doesn't contain at least date and amount, return a JSON file following this format:
+    If the input text doesn't contain at least date and amount, return this JSON instead:
     {{
         "transaction_date": "NULL",
         "transaction_details": "NULL",
-        "transaction_amount": " NULL",
+        "transaction_amount":  NULL,
         "transaction_category": "NULL",
         "transaction_type": 0,
         "relevant": false
@@ -48,36 +93,3 @@ def get_transaction_extraction_prompt(categories):
 
     """
     return prompt
-
-#
-def extract_transactions_details(pdf_text, categories=None):
-    """
-    Extract transaction details from PDF text using Gemini AI.
-    
-    Arguments:
-        pdf_text (str): The extracted text from the PDF
-        categories (list, optional): List of transaction categories fetches from Supabase
-    
-    Returns:
-        str: JSON string with extracted transaction details
-    """
-    # Get configured Gemini client and model
-    GEMINI_CLIENT = get_gemini()
-    
-    #Fetch categories from Supabase if not provided
-    if categories is None:
-        from source.db.category_extractor import get_transaction_categories_with_ids
-        from source.db.supabase_client import get_supabase
-        SUPABASE_CLIENT = get_supabase()
-        categories_with_ids = get_transaction_categories_with_ids(SUPABASE_CLIENT)
-        # Extract just the category names (list of strings)
-        categories = [cat.get('category_name') for cat in categories_with_ids if cat.get('category_name')] if categories_with_ids else []
-    
-    #Get the prompt from the prompts module
-    prompt = get_transaction_extraction_prompt(categories)
-    response = genai.generate_content(
-        model=model,
-        prompt=prompt,
-        contents=pdf_text
-    )
-    return response.text
