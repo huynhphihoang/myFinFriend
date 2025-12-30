@@ -1,5 +1,5 @@
-## This file contains ALL functions that have READ, INSERT, UPDATE operations to the remote database SUPABASE
-## This file is to be used in junction with supabase_client.py
+# This file contains ALL functions that have READ, INSERT, UPDATE operations to the remote database SUPABASE
+# This file is to be used in junction with supabase_client.py
 
 # Imports for specifying the return types
 from typing import List, Dict, Any
@@ -25,11 +25,31 @@ def get_transaction_categories_with_ids(SUPABASE_CLIENT_SERVICE) -> list:
         print(f"Error fetching transaction categories: {e}")
         return []
 
-# Function to upload pdf/csv file to supabase
-def upload_file_supabase(SUPABASE_CLIENT_ANON,pdf_path):
+# Function to upload pdf/csv file to supabase with parameters: 
+# SUPABASE_CLIENT_ANON -> get_supabase_anon(); file_bytes: bytes
+# supabase: Supabase ANON client with user session
+# file_bytes (bytes): Raw file bytes
+# filename (str): Original filename
+# mime_type (str): File MIME type
+def upload_file_supabase(SUPABASE_CLIENT_ANON, file_bytes: bytes, filename: str, mime_type: str):
+    storage_path = f"uploads/{filename}"
+
+    response = SUPABASE_CLIENT_ANON.storage.from_("uploads").upload(
+        path=storage_path,
+        file=file_bytes,
+        file_options={
+            "content-type": mime_type,
+            "upsert": False
+        }
+    )
+
+    if response.get("error"):
+        raise RuntimeError(response["error"]["message"])
+
+    return storage_path
     
 
-## This function inserts a single transaction into supabase db, USE ANON_CLIENT for this so supabase link the auth.id() to users.id()
+# This function inserts a single transaction into supabase db, USE ANON_CLIENT for this so supabase link the auth.id() to users.id()
 def insert_transaction_supabase(
         SUPABASE_CLIENT_ANON,
         transaction: Dict[str, Any]
@@ -50,7 +70,7 @@ def insert_transaction_supabase(
     if response.error:
         raise RuntimeError(response.error.message)
     
-## This function SELECT a list of transactions from supabase, with RLS: Users can read their own rows
+# This function SELECT a list of transactions from supabase, with RLS: Users can read their own rows
 def get_transactions_from_supabase(SUPABASE_CLIENT_ANON) ->  List[Dict[str, Any]]:
     response = (
         SUPABASE_CLIENT_ANON
