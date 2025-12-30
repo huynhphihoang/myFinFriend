@@ -1,6 +1,6 @@
-#This file contains all functions that is related to transactions
+# This file contains all functions that is related to AI
 
-# Prompt template for LLM injection 
+# Prompt template for LLM 
 def get_context_prompt(categories: list[dict]) -> str:
     # Context prompt for AI model
 
