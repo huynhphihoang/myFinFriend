@@ -32,24 +32,82 @@ def get_transaction_categories_with_ids(SUPABASE_CLIENT_SERVICE) -> list:
 # filename (str): Original filename
 # mime_type (str): File MIME type
 def upload_file_supabase(SUPABASE_CLIENT_ANON, file_bytes: bytes, filename: str, mime_type: str):
+
+    # Upload to supabase storage bucket
     storage_path = f"uploads/{filename}"
 
-    response = SUPABASE_CLIENT_ANON.storage.from_("uploads").upload(
-        path=storage_path,
-        file=file_bytes,
-        file_options={
-            "content-type": mime_type,
-            "upsert": False
-        }
+    upload_request = (
+        SUPABASE_CLIENT_ANON
+        .storage
+        .from_("Upload Storage")
+        .upload(
+            path=storage_path,
+            file=file_bytes,
+            file_options={
+                "content-type": mime_type,
+                "upsert": False
+            }
+        )
     )
 
-    if response.get("error"):
-        raise RuntimeError(response["error"]["message"])
+    # Error Catching
+    if upload_request.get("error"):
+        raise RuntimeError(upload_request["error"]["message"])
+    
+    # Insert new row into "Upload Storage table"
+    insert_upload_storage = (
+        SUPABASE_CLIENT_ANON
+        .table("Upload Storage")
+        .insert({
+            "upload_status" : False
+        })
+        .execute()
+    )
 
-    return storage_path
+    # Error Catching
+    if insert_upload_storage.get("error"):
+        raise RuntimeError(insert_upload_storage["error"]["message"])
+
+    return {
+        "storage_path": storage_path,
+        "upload_id": insert_upload_storage.data[0]["upload_id"]
+    }
     
 
-# This function inserts a single transaction into supabase db, USE ANON_CLIENT for this so supabase link the auth.id() to users.id()
+# This function is used to verify the upload_status of a file based on its file_name
+def verify_upload_status(
+        filename: str,
+        SUPABASE_CLIENT_ANON
+) -> bool:
+    # Extract files visible to this user
+    files_visible = (SUPABASE_CLIENT_ANON.storage.from_("Upload Storage").list())
+
+    # Error catching
+    if files_visible.get("error"):
+        raise RuntimeError(files_visible["error"]["message"])
+    
+    filenames = {f["name"] for f in files_visible}
+
+    if filename not in filenames:
+        return False
+    
+
+    # Update upload_status
+    update_upload_storage = (
+        SUPABASE_CLIENT_ANON
+        .table("Upload Storage")
+        .update({"upload_status":True})
+        .eq("upload_status", False)
+        .execute()
+    )
+
+    # Error catching
+    if update_upload_storage.error:
+        raise RuntimeError(update_upload_storage.error.message)
+
+    return True
+
+# This function INSERT a single transaction into supabase db, USE ANON_CLIENT for this so supabase link the auth.id() to users.id()
 def insert_transaction_supabase(
         SUPABASE_CLIENT_ANON,
         transaction: Dict[str, Any]
