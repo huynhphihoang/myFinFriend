@@ -1,4 +1,5 @@
 import { IoNotificationsOutline } from "react-icons/io5";
+import { RxAvatar } from "react-icons/rx";
 import { useAuth } from "../../hooks/useAuth";
 import LogInButton from "../buttons/LogInButton";
 import {Link} from "react-router-dom"
@@ -14,11 +15,20 @@ function LogoBar () {
                         myFinFriend
                     </Link>
                 </h1>
-                {!loading && user ? (                    
-                    <IoNotificationsOutline
-                    className="text-xl cursor-pointer hover:text-gray-700
-                    hover:animate-ring origin-top"
-                    />) : (
+                {!loading && user ? (   
+                    <div className="flex gap-4 items-center">            
+                        <IoNotificationsOutline
+                        className="text-xl cursor-pointer hover:text-gray-700
+                        hover:animate-ring origin-top"
+                        />
+                     
+                        <div>
+                            <Link to="/profile" className="bg-black">
+                                <RxAvatar className="text-xl hover:text-gray-700"/>  
+                            </Link> 
+                        </div>
+                              
+                    </div> ) : (
                     <LogInButton/>
                 )}
             </div>

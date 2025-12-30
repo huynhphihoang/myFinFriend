@@ -1,7 +1,8 @@
 import LogoBar from "./components/ui/LogoBar"
 import Dashboard from "./pages/Dashboard"
 import Details from "./pages/Details"
-import LogIn from "./pages/LogIn";
+import SignUp from "./pages/SignUp"
+import Profile from "./pages/Profile"
 
 import {
   BrowserRouter as Router,
@@ -31,9 +32,16 @@ function App() {
           </Route>
 
           <Route
-            path="/login"
+            path="/signup"
             element={
-            <LogIn/>
+            <SignUp/>
+            }>
+          </Route>
+
+          <Route
+            path="/profile"
+            element={
+            <Profile/>
             }>
           </Route>
       </Routes>

@@ -1,4 +1,4 @@
-import UploadFile from "../components/buttons/UploadFile"
+import UploadFile from "../components/inputs/UploadFile"
 import ViewTransactions from "../components/buttons/ViewTransactions";
 import BarChart from "../components/charts/BarChart";
 import CircleChart from "../components/charts/CircleChart";
