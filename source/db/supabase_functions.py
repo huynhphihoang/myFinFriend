@@ -32,9 +32,12 @@ def get_transaction_categories_with_ids(SUPABASE_CLIENT_SERVICE) -> list:
 # filename (str): Original filename
 # mime_type (str): File MIME type
 def upload_file_supabase(SUPABASE_CLIENT_ANON, file_bytes: bytes, filename: str, mime_type: str):
+    # Extract the current user_id
+    current_uid = SUPABASE_CLIENT_ANON.auth.get_user().user.id
+
 
     # Upload to supabase storage bucket
-    storage_path = f"uploads/{filename}"
+    storage_path = f"{current_uid}/{filename}"
 
     upload_request = (
         SUPABASE_CLIENT_ANON
@@ -119,7 +122,7 @@ def insert_transaction_supabase(
             "transaction_date": transaction["transaction_date"],
             "transaction_details": transaction["transaction_details"],
             "transaction_amount": transaction["transaction_amount"],
-            "transaction_category": transaction["transaction_category"],
+            "transaction_category_id": transaction["transaction_category"],
             "transaction_type": transaction["transaction_type"],
         })
         .execute()
