@@ -29,5 +29,10 @@ if __name__ == "__main__":
     mime_type, _ = mimetypes.guess_type(pdf_path)
 
     # Call upload_file_supabase
-    upload_file_supabase(SUPABASE_CLIENT_ANON,file_bytes,file_name,mime_type)
+    storage_path = upload_file_supabase(SUPABASE_CLIENT_ANON,file_bytes,file_name,mime_type)
+
+    print(f"This is the storage path {storage_path}")
+
+    # Verify if the file is uploaded
+    print(verify_upload_status(file_name,SUPABASE_CLIENT_ANON))
     

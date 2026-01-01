@@ -53,10 +53,6 @@ def upload_file_supabase(SUPABASE_CLIENT_ANON, file_bytes: bytes, filename: str,
         )
     )
 
-    # Error Catching
-    if upload_request.get("error"):
-        raise RuntimeError(upload_request["error"]["message"])
-    
     # Insert new row into "Upload Storage table"
     insert_upload_storage = (
         SUPABASE_CLIENT_ANON
@@ -67,13 +63,8 @@ def upload_file_supabase(SUPABASE_CLIENT_ANON, file_bytes: bytes, filename: str,
         .execute()
     )
 
-    # Error Catching
-    if insert_upload_storage.get("error"):
-        raise RuntimeError(insert_upload_storage["error"]["message"])
-
     return {
-        "storage_path": storage_path,
-        "upload_id": insert_upload_storage.data[0]["upload_id"]
+        "storage_path": storage_path
     }
     
 
@@ -82,31 +73,32 @@ def verify_upload_status(
         filename: str,
         SUPABASE_CLIENT_ANON
 ) -> bool:
-    # Extract files visible to this user
-    files_visible = (SUPABASE_CLIENT_ANON.storage.from_("Upload Storage").list())
+    # Extract the user_id()
+    user_id = SUPABASE_CLIENT_ANON.auth.get_user().user.id
+    
 
-    # Error catching
-    if files_visible.get("error"):
-        raise RuntimeError(files_visible["error"]["message"])
+    # Extract files visible to this user
+    files_visible = (
+        SUPABASE_CLIENT_ANON
+        .storage
+        .from_("Upload Storage")
+        .list(path=user_id)
+    )
     
     filenames = {f["name"] for f in files_visible}
 
     if filename not in filenames:
         return False
     
-
     # Update upload_status
     update_upload_storage = (
         SUPABASE_CLIENT_ANON
         .table("Upload Storage")
         .update({"upload_status":True})
+        .eq("user_id", user_id)
         .eq("upload_status", False)
         .execute()
     )
-
-    # Error catching
-    if update_upload_storage.error:
-        raise RuntimeError(update_upload_storage.error.message)
 
     return True
 
