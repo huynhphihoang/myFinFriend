@@ -10,15 +10,27 @@ import json
 
 bp = Blueprint("transactions", __name__, url_prefix="/transactions")
 
-@bp.get("/")
+@bp.get("/summary")
 def get_summary_transactions():
-    SUPABASE_CLIENT_ANON = get_supabase_anon()
+    auth = request.headers.get("Authorization")
+
+    if not auth:
+        return jsonify({"error": "Missing token"}), 401
+
+    token = auth.split(" ")[1]
+    SUPABASE_CLIENT_ANON = get_supabase_anon(token)
     result = get_transaction_summary(SUPABASE_CLIENT_ANON)
     return result
 
 @bp.get("/detailed_transactions")
 def get_detailed_transactions():
-    SUPABASE_CLIENT_ANON = get_supabase_anon()
+    auth = request.headers.get("Authorization")
+
+    if not auth:
+        return jsonify({"error": "Missing token"}), 401
+
+    token = auth.split(" ")[1]
+    SUPABASE_CLIENT_ANON = get_supabase_anon(token)
     result = get_transactions_from_supabase(SUPABASE_CLIENT_ANON)
     return result
     # pdf_text = parse_pdf("payslip/yourp_pay_slip")
