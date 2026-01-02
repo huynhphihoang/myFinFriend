@@ -5,6 +5,8 @@ import {
   Legend,
 } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
+import { useTransactionSummary } from "../../hooks/useTransactionSummary";
+
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -24,11 +26,12 @@ const shadowPlugin = {
 };
 
 function CircleChart() {
+  const { transactionSummary, loadingSummary, errorSummary } = useTransactionSummary();
   const data = {
     labels: ["Allowance", "Usage", "Remaining"],
     datasets: [
       {
-        data: [100.54, 90.54, 10],
+        data: [transactionSummary["total_income"],transactionSummary['total_expense'],transactionSummary['balance']],
         backgroundColor: [
           "#34d399", // emerald-400
           "#fb7185", // rose-400
