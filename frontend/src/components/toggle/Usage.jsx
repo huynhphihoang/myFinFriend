@@ -2,8 +2,15 @@ import { IoIosArrowDown } from "react-icons/io";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import {useState} from "react";
 
-function Usage() {
+function Usage({transactionSummary, loadingSummary, errorSummary, transaction, loading, error}) {
     const [isOpen,setIsOpen] = useState(false);
+
+    if (error) {
+        return <div className="text-center mt-5 text-red-500">Error: {error}</div>;
+    }
+    if (errorSummary) {
+        return <div className="text-center mt-5 text-red-500">Error Summary: {errorSummary}</div>;
+    }
 
     const handleOpen = () => {
         if (isOpen) {
@@ -19,13 +26,17 @@ function Usage() {
             hover:bg-red-700 hover:text-white duration-500 transition-full ${isOpen && "bg-red-700 text-white"}`}>
             <h3 className="px-4"> Usage </h3>
             <div className="flex items-center px-4 gap-4">
-                <p name="cash"> $110 </p>
+                {loadingSummary ? (<p>...</p>) : (<p name="cash"> ${transactionSummary['total_expense'] || "..."} </p>)}
                 <IoIosArrowDown className="text-xl"/>
             </div>
         </nav>
-
-        <nav className="flex justify-center">
+            
         {isOpen && (
+            <nav className="flex justify-center">
+            {loading ? (
+                <div className="text-rose-700 text-xl mt-4"> Loading the transactions...</div>
+                ) 
+                : (
             <table className="w-5/6 mt-4 border border-black border-black font-manrope rounded-xl overflow-hidden text-center">
                 <thead className="border-b border-gray-400">
                     <tr>
@@ -38,38 +49,28 @@ function Usage() {
                 </thead>
 
                 <tbody>
-                    <tr className="border-b border-gray-400 hover:bg-gray-50">
-                        <td className="px-4 py-3">2025-01-10</td>
-                        <td className="px-4 py-3">Food</td>
-                        <td className="px-4 py-3">Korean Food</td>
-                        <td className="px-4 py-3 text-green-600 font-bold text-right">
-                            -$102.50
-                        </td>
-                        <td className="px-4 py-3">
-                            <div className="flex justify-end">
-                            <BsThreeDotsVertical className="text-gray-500 hover:text-black cursor-pointer" />
-                            </div>
-                        </td>
-                    </tr>
+                    {transaction.filter((cat) => cat['transaction_amount'] < 0).map((cat) => (
+                        
+                        <tr key={cat["transaction_id"]} className="border-b border-gray-400 hover:bg-gray-50">
+                            <td className="px-4 py-3">{cat['transaction_date']}</td>
+                            <td className="px-4 py-3">{cat['transaction_category'] || "Uncategorized"}</td>
+                            <td className="px-4 py-3">{cat['transaction_details']}</td>
+                            <td className="px-4 py-3 text-green-600 font-bold text-right">
+                                ${cat['transaction_amount']}
+                            </td>
+                            <td className="px-4 py-3">
+                                <div className="flex justify-end">
+                                <BsThreeDotsVertical className="text-gray-500 hover:text-black cursor-pointer" />
+                                </div>
+                            </td>
+                        </tr>
 
-                    <tr className="border-b border-gray-400 hover:bg-gray-50">
-                        <td className="px-4 py-3">2025-01-10</td>
-                        <td className="px-4 py-3">Drink</td>
-                        <td className="px-4 py-3">Beer</td>
-                        <td className="px-4 py-3 text-green-600 font-bold text-right">
-                            -$102.50
-                        </td>
-                        <td className="px-4 py-3">
-                            <div className="flex justify-end">
-                            <BsThreeDotsVertical className="text-gray-500 hover:text-black cursor-pointer" />
-                            </div>
-                        </td>
-                    </tr>
+                    ))}
                 </tbody>
             </table>
-
+            )}
+            </nav>
         )}
-        </nav>
         </div>
     );
 }

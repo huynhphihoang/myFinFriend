@@ -13,6 +13,19 @@ export async function fetchTransactions() {
   return res.json();
 }
 
+export async function fetchTransactionSummary() {
+  // Send get request to backend to get all text
+  const res = await fetch(`${API_URL}/transactions`);
+
+  // Verify the response
+  if (!res.ok) {
+    throw new Error("Failed to fetch text");
+  }
+
+  // Return the json of the response
+  return res.json();
+}
+
 export async function uploadTransaction(file) {
 
   // If file return the messages.
