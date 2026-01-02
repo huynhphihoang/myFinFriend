@@ -3,6 +3,7 @@
 
 # Imports for specifying the return types
 from typing import List, Dict, Any
+from flask import jsonify
 
 # USE SUPABASE_CLIENT_SERVICE from supabase_client_service.py for this function 
 def get_transaction_categories_with_ids(SUPABASE_CLIENT_SERVICE) -> list:
@@ -141,7 +142,7 @@ def get_transactions_from_supabase(SUPABASE_CLIENT_ANON) ->  List[Dict[str, Any]
             "transaction_amount, "
             "transaction_details, "
             "transaction_date, "
-            "transaction_category"
+            "transaction_category_id"
         )
         .order("transaction_date",desc=False)
         .execute()
@@ -152,3 +153,35 @@ def get_transactions_from_supabase(SUPABASE_CLIENT_ANON) ->  List[Dict[str, Any]
     
     return response.data
 
+def get_transaction_summary(SUPABASE_CLIENT_ANON):
+    try:
+        response = (
+            SUPABASE_CLIENT_ANON
+            .table("Transaction History")
+            .select("transaction_amount")
+            .execute()
+        )
+        income = sum(
+            t["transaction_amount"]
+            for t in response.data
+            if t["transaction_amount"] > 0
+        )
+
+        expense = sum(
+            t["transaction_amount"]
+            for t in response.data
+            if t["transaction_amount"] < 0
+        )
+
+        return {
+        "total_income": income,
+        "total_expense": expense,
+        "balance": income + expense
+        }
+
+    except Exception as e:
+        return {
+        "total_income": 0,
+        "total_expense": 0,
+        "balance": 0
+        }
