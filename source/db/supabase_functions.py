@@ -112,7 +112,7 @@ def insert_transaction_supabase(
     try:
         response = (
             SUPABASE_CLIENT_ANON
-            .table("Transaction History")
+            .table("transaction_history")
             .insert({
                 "transaction_date": transaction["transaction_date"],
                 "transaction_details": transaction["transaction_details"],
@@ -131,7 +131,7 @@ def get_transactions_from_supabase(SUPABASE_CLIENT_ANON) ->  List[Dict[str, Any]
     try: 
         response = (
             SUPABASE_CLIENT_ANON
-            .table("Transaction History")
+            .table("transaction_history")
             .select(
                 "transaction_id, "
                 "transaction_amount, "
@@ -153,7 +153,7 @@ def get_transaction_summary(SUPABASE_CLIENT_ANON):
     try:
         response = (
             SUPABASE_CLIENT_ANON
-            .table("Transaction History")
+            .table("transaction_history")
             .select("transaction_amount")
             .execute()
         )
