@@ -34,6 +34,12 @@ def get_supabase_service() -> Client:
     return SUPABASE_CLIENT_SERVICE
 
 def get_supabase_anon(token) -> Client:
+    """ 
+    parameter: 
+        - token is an access token from the frontend to allow the user connect their database to get the necessary info 
+    return:
+        - the supabase storage of the user
+    """
     # Create a global supabase client that entails service role for backend functions
     global SUPABASE_CLIENT_ANON
 

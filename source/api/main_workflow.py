@@ -12,24 +12,34 @@ bp = Blueprint("transactions", __name__, url_prefix="/transactions")
 
 @bp.get("/summary")
 def get_summary_transactions():
+    # Get the authorization from the frontend
     auth = request.headers.get("Authorization")
 
+    # return the error if there is no token.
     if not auth:
         return jsonify({"error": "Missing token"}), 401
-
+    
+    # Get the token from the auth
     token = auth.split(" ")[1]
+    
+    # Connect with the SUPABASE
     SUPABASE_CLIENT_ANON = get_supabase_anon(token)
     result = get_transaction_summary(SUPABASE_CLIENT_ANON)
     return result
 
 @bp.get("/detailed_transactions")
 def get_detailed_transactions():
+    # Get the authorization from the frontend
     auth = request.headers.get("Authorization")
 
+    # return the error if there is no token.
     if not auth:
         return jsonify({"error": "Missing token"}), 401
 
+    # Get the token from the auth
     token = auth.split(" ")[1]
+    
+    # Connect with the SUPABASE
     SUPABASE_CLIENT_ANON = get_supabase_anon(token)
     result = get_transactions_from_supabase(SUPABASE_CLIENT_ANON)
     return result
