@@ -5,7 +5,7 @@ import mimetypes
 
 if __name__ == "__main__":
     # Log In First
-    SUPABASE_CLIENT_ANON = get_supabase_anon()
+    SUPABASE_CLIENT_ANON = get_supabase_anon(token)
 
     SUPABASE_CLIENT_ANON.auth.sign_in_with_password({
         "email":"11a4huynhphihoang06@gmail.com",

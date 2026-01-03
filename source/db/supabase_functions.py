@@ -60,7 +60,7 @@ def upload_file_supabase(SUPABASE_CLIENT_ANON, file_bytes: bytes, filename: str,
         .table("upload_storage")
         .insert({
             "upload_status" : False,
-            "upload_path":storage_path
+            "storage_path":storage_path
         })
         .execute()
     )
