@@ -4,15 +4,12 @@ from api import register_blueprints
 from ai.gemini_client import extract_transactions
 from flask import Flask
 from flask_cors import CORS
-from db.category_extractor import get_transaction_categories
 
 
 # Add project root to Python path so imports work
 project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, project_root)
 
-from db.category_extractor import get_transaction_categories_with_ids
-from flows.file_validator import validate_file
 from flows.pdf_parser import parse_pdf
 
 

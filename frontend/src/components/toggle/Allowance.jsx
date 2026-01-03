@@ -1,14 +1,15 @@
 import { IoIosArrowDown } from "react-icons/io";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import {useState} from "react";
-import { useTransaction } from "../../hooks/useTransactions";
 
-function Allowance() {
+function Allowance({transactionSummary, loadingSummary, errorSummary, transaction, loading, error}) {
     const [isOpen,setIsOpen] = useState(false);
-    const { transaction, loading, error } = useTransaction();
 
     if (error) {
         return <div className="text-center mt-5 text-red-500">Error: {error}</div>;
+    }
+    if (errorSummary) {
+        return <div className="text-center mt-5 text-red-500">Error Summary: {errorSummary}</div>;
     }
 
     const handleOpen = () => {
@@ -25,7 +26,7 @@ function Allowance() {
             hover:bg-green-700 hover:text-white duration-500 transition-full ${isOpen && "bg-green-700 text-white"}`}>
             <h3 className="px-4"> Allowance </h3>
             <div className="flex items-center px-4 gap-4">
-                {loading ? (<p>...</p>) : (<p name="cash">  $202.50 </p>)}
+                {loadingSummary ? (<p>...</p>) : (<p name="cash">  ${transactionSummary['total_income'] || "..."} </p>)}
                 <IoIosArrowDown className="text-xl"/>
             </div>
         </nav>
@@ -47,11 +48,11 @@ function Allowance() {
                         </tr>
                     </thead>
                     <tbody>
-                    {transaction.map((cat) => (
+                    {transaction.filter((cat) => cat['transaction_amount'] > 0).map((cat) => (
                         
-                        <tr className="border-b border-gray-400 hover:bg-gray-50">
+                        <tr key={cat["transaction_id"]} className="border-b border-gray-400 hover:bg-gray-50">
                             <td className="px-4 py-3">{cat['transaction_date']}</td>
-                            <td className="px-4 py-3">{cat['transaction_category']}</td>
+                            <td className="px-4 py-3">{cat['transaction_category'] || "Uncategorized"}</td>
                             <td className="px-4 py-3">{cat['transaction_details']}</td>
                             <td className="px-4 py-3 text-green-600 font-bold text-right">
                                 +{cat['transaction_amount']}

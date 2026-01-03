@@ -1,7 +1,7 @@
 # Reusable supabase client with library imports and environment variables loading
 # ONLY USE THIS CLIENT INSTANCE FOR SERVER SIDE TASKS
 
-from supabase import create_client, Client
+from supabase import create_client, Client, ClientOptions
 from dotenv import load_dotenv
 import os
 
@@ -33,7 +33,7 @@ def get_supabase_service() -> Client:
 
     return SUPABASE_CLIENT_SERVICE
 
-def get_supabase_anon() -> Client:
+def get_supabase_anon(token) -> Client:
     # Create a global supabase client that entails service role for backend functions
     global SUPABASE_CLIENT_ANON
 
@@ -43,14 +43,23 @@ def get_supabase_anon() -> Client:
         SUPABASE_URL = os.getenv("NEXT_PUBLIC_SUPABASE_URL")
         SUPABASE_ANON_KEY = os.getenv("NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY")
 
-    # Error catching
-    if not SUPABASE_URL or not SUPABASE_ANON_KEY :
-        raise ValueError(
-            "SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY must be set in environment variables"
-        )
-    
-    # Create new client instance -> call this in other file
-    SUPABASE_CLIENT_ANON = create_client(SUPABASE_URL,SUPABASE_ANON_KEY )
+        # Error catching
+        if not SUPABASE_URL or not SUPABASE_ANON_KEY :
+            raise ValueError(
+                "SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY must be set in environment variables"
+            )
+        
+        options = ClientOptions(
+        headers={
+            "Authorization": f"Bearer {token}"
+        },
+        auto_refresh_token=False,
+        persist_session=False,
+        storage=None, 
+    )
+
+        # Create new client instance -> call this in other file
+        SUPABASE_CLIENT_ANON = create_client(SUPABASE_URL,SUPABASE_ANON_KEY, options)
 
     return SUPABASE_CLIENT_ANON
 

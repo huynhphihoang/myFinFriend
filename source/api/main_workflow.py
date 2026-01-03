@@ -1,7 +1,8 @@
 # api/transactions.py
 from flask import Blueprint
 from flask import Flask, request, jsonify
-from db.category_extractor import get_transaction_categories
+from db.supabase_functions import get_transactions_from_supabase, get_transaction_summary
+from db.supabase_client import get_supabase_anon
 from ai.gemini_client import extract_transactions
 from flows.pdf_parser import parse_pdf
 from flows.ai_parser import parse_ai_json
@@ -9,25 +10,41 @@ import json
 
 bp = Blueprint("transactions", __name__, url_prefix="/transactions")
 
-@bp.get("/")
-def get_transactions():
-    response = get_transaction_categories()
-    return jsonify(response)
+@bp.get("/summary")
+def get_summary_transactions():
+    auth = request.headers.get("Authorization")
+
+    if not auth:
+        return jsonify({"error": "Missing token"}), 401
+
+    token = auth.split(" ")[1]
+    SUPABASE_CLIENT_ANON = get_supabase_anon(token)
+    result = get_transaction_summary(SUPABASE_CLIENT_ANON)
+    return result
 
 @bp.get("/detailed_transactions")
 def get_detailed_transactions():
-    pdf_text = parse_pdf("payslip/yourp_pay_slip")
+    auth = request.headers.get("Authorization")
 
-    if not pdf_text.strip():
-        return {"error": "No text found in PDF"}, 400
-    print("AI is reading the file......")
-    # Extract the JSON form from ai
-    result = extract_transactions(pdf_text)
+    if not auth:
+        return jsonify({"error": "Missing token"}), 401
+
+    token = auth.split(" ")[1]
+    SUPABASE_CLIENT_ANON = get_supabase_anon(token)
+    result = get_transactions_from_supabase(SUPABASE_CLIENT_ANON)
+    return result
+    # pdf_text = parse_pdf("payslip/yourp_pay_slip")
+
+    # if not pdf_text.strip():
+    #     return {"error": "No text found in PDF"}, 400
+    # print("AI is reading the file......")
+    # # Extract the JSON form from ai
+    # result = extract_transactions(pdf_text)
     
-    # Take the JSON object.
-    parse_ai = parse_ai_json(result)
+    # # Take the JSON object.
+    # parse_ai = parse_ai_json(result)
 
-    return [parse_ai]
+    # return [parse_ai]
 
 @bp.post("/")
 def upload_file():

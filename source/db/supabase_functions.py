@@ -3,6 +3,7 @@
 
 # Imports for specifying the return types
 from typing import List, Dict, Any
+from flask import jsonify
 
 # USE SUPABASE_CLIENT_SERVICE from supabase_client_service.py for this function 
 def get_transaction_categories_with_ids(SUPABASE_CLIENT_SERVICE) -> list:
@@ -108,40 +109,75 @@ def insert_transaction_supabase(
         SUPABASE_CLIENT_ANON,
         transaction: Dict[str, Any]
 )->Dict[str, Any]:
-    response = (
-        SUPABASE_CLIENT_ANON
-        .table("transaction_history")
-        .insert({
-            "transaction_date": transaction["transaction_date"],
-            "transaction_details": transaction["transaction_details"],
-            "transaction_amount": transaction["transaction_amount"],
-            "transaction_category_id": transaction["transaction_category"],
-            "transaction_type": transaction["transaction_type"],
-        })
-        .execute()
-    )
+    try:
+        response = (
+            SUPABASE_CLIENT_ANON
+            .table("Transaction History")
+            .insert({
+                "transaction_date": transaction["transaction_date"],
+                "transaction_details": transaction["transaction_details"],
+                "transaction_amount": transaction["transaction_amount"],
+                "transaction_category_id": transaction["transaction_category"],
+                "transaction_type": transaction["transaction_type"],
+            })
+            .execute()
+        )
 
-    if response.error:
-        raise RuntimeError(response.error.message)
+    except Exception as e:
+        raise RuntimeError(f"Insert transaction supabase failed: {e}")
     
 # This function SELECT a list of transactions from supabase, with RLS: Users can read their own rows
 def get_transactions_from_supabase(SUPABASE_CLIENT_ANON) ->  List[Dict[str, Any]]:
-    response = (
-        SUPABASE_CLIENT_ANON
-        .table("transaction_history")
-        .select(
-            "transaction_id, "
-            "transaction_amount, "
-            "transaction_details, "
-            "transaction_date, "
-            "transaction_category"
+    try: 
+        response = (
+            SUPABASE_CLIENT_ANON
+            .table("Transaction History")
+            .select(
+                "transaction_id, "
+                "transaction_amount, "
+                "transaction_details, "
+                "transaction_date, "
+                "transaction_category_id"
+            )
+            .order("transaction_date",desc=False)
+            .execute()
         )
-        .order("transaction_date",desc=False)
-        .execute()
-    )
 
-    if response.error:
-        raise RuntimeError(response.error.message)
-    
-    return response.data
+        return response.data
 
+    except Exception as e:
+        raise RuntimeError(f"Get transactions from supabase failed: {e}")
+
+# This function SELECT all AMOUNT of the transactions from supabase and calculate the income, expense and balance for user to read.
+def get_transaction_summary(SUPABASE_CLIENT_ANON):
+    try:
+        response = (
+            SUPABASE_CLIENT_ANON
+            .table("Transaction History")
+            .select("transaction_amount")
+            .execute()
+        )
+        income = sum(
+            t["transaction_amount"]
+            for t in response.data
+            if t["transaction_amount"] > 0
+        )
+
+        expense = sum(
+            t["transaction_amount"]
+            for t in response.data
+            if t["transaction_amount"] < 0
+        )
+
+        return {
+        "total_income": income,
+        "total_expense": expense,
+        "balance": income + expense
+        }
+
+    except Exception as e:
+        return {
+        "total_income": 0,
+        "total_expense": 0,
+        "balance": 0
+        }

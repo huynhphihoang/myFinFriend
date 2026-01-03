@@ -3,7 +3,8 @@ import os
 import sys
 project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, project_root)
-from db.category_extractor import get_transaction_categories
+from db.supabase_functions import get_transaction_categories_with_ids
+from db.supabase_client import get_supabase_anon
 from flows.pdf_parser import parse_pdf
 
 client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
@@ -22,9 +23,11 @@ def extract_transactions(pdf_text, categories=None):
     Returns:
         str: JSON string with extracted transaction details
     """
+    
     #Fetch categories from Supabase if not provided
+    SUPABASE_CLIENT_ANON=get_supabase_anon()
     if categories is None:
-        categories = get_transaction_categories()
+        categories = get_transaction_categories_with_ids(SUPABASE_CLIENT_ANON)
     
     #Format categories for the prompt
     categories_text = ""

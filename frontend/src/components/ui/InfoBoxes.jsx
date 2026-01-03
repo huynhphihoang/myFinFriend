@@ -1,5 +1,7 @@
+import { useTransactionSummary } from "../../hooks/useTransactionSummary";
 
 function InfoBoxes() {
+    const { transactionSummary, loadingSummary, errorSummary } = useTransactionSummary();
     return(
         <div className="flex gap-4 text-white">
             <div className="flex-1 bg-gradient-to-br from-green-400 to-green-600 rounded-2xl shadow-lg">
@@ -7,7 +9,7 @@ function InfoBoxes() {
                     Allowance
                 </p>
                 <p className="text-center text-2xl font-bold py-4">
-                    $100.54
+                    ${transactionSummary['total_income'] || "----"}
                 </p>
             </div>
 
@@ -16,7 +18,7 @@ function InfoBoxes() {
                     Usage
                 </p>
                 <p className="text-center text-2xl font-bold py-4">
-                    -$90.54
+                    ${transactionSummary['total_expense'] || "----"}
                 </p>
             </div>
 
@@ -25,7 +27,7 @@ function InfoBoxes() {
                     Total Cash Balance
                 </p>
                 <p className="text-center text-2xl font-bold py-4">
-                    $10.00
+                    ${transactionSummary['balance'] || "----"}
                 </p>
             </div>
         </div>
