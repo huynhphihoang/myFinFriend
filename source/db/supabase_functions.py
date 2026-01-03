@@ -19,7 +19,7 @@ def get_transaction_categories_with_ids(SUPABASE_CLIENT_SERVICE) -> list:
     """
     try:
         # Fetch all categories with IDs
-        response = SUPABASE_CLIENT_SERVICE.table("Category List").select("category_id, category_name").execute()
+        response = SUPABASE_CLIENT_SERVICE.table("category_list").select("category_id, category_name").execute()
         
         return response.data if response.data else []
     except Exception as e:
@@ -54,12 +54,13 @@ def upload_file_supabase(SUPABASE_CLIENT_ANON, file_bytes: bytes, filename: str,
         )
     )
 
-    # Insert new row into "Upload Storage table"
+    # Insert new row into "upload_storage table"
     insert_upload_storage = (
         SUPABASE_CLIENT_ANON
-        .table("Upload Storage")
+        .table("upload_storage")
         .insert({
-            "upload_status" : False
+            "upload_status" : False,
+            "upload_path":storage_path
         })
         .execute()
     )
@@ -94,7 +95,7 @@ def verify_upload_status(
     # Update upload_status
     update_upload_storage = (
         SUPABASE_CLIENT_ANON
-        .table("Upload Storage")
+        .table("upload_storage")
         .update({"upload_status":True})
         .eq("user_id", user_id)
         .eq("upload_status", False)
@@ -111,7 +112,7 @@ def insert_transaction_supabase(
     try:
         response = (
             SUPABASE_CLIENT_ANON
-            .table("Transaction History")
+            .table("transaction_history")
             .insert({
                 "transaction_date": transaction["transaction_date"],
                 "transaction_details": transaction["transaction_details"],
@@ -130,7 +131,7 @@ def get_transactions_from_supabase(SUPABASE_CLIENT_ANON) ->  List[Dict[str, Any]
     try: 
         response = (
             SUPABASE_CLIENT_ANON
-            .table("Transaction History")
+            .table("transaction_history")
             .select(
                 "transaction_id, "
                 "transaction_amount, "
@@ -152,7 +153,7 @@ def get_transaction_summary(SUPABASE_CLIENT_ANON):
     try:
         response = (
             SUPABASE_CLIENT_ANON
-            .table("Transaction History")
+            .table("transaction_history")
             .select("transaction_amount")
             .execute()
         )
