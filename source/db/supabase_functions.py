@@ -19,7 +19,7 @@ def get_transaction_categories_with_ids(SUPABASE_CLIENT_SERVICE) -> list:
     """
     try:
         # Fetch all categories with IDs
-        response = SUPABASE_CLIENT_SERVICE.table("Category List").select("category_id, category_name").execute()
+        response = SUPABASE_CLIENT_SERVICE.table("category_list").select("category_id, category_name").execute()
         
         return response.data if response.data else []
     except Exception as e:
