@@ -40,32 +40,30 @@ def get_supabase_anon(token) -> Client:
     return:
         - the supabase storage of the user
     """
-    # Create a global supabase client that entails service role for backend functions
-    global SUPABASE_CLIENT_ANON
-
-    # Initialize Supabase client
-    if SUPABASE_CLIENT_ANON is None:
-        # Get Supabase credentials from environment
-        SUPABASE_URL = os.getenv("NEXT_PUBLIC_SUPABASE_URL")
-        SUPABASE_ANON_KEY = os.getenv("NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY")
-
-        # Error catching
-        if not SUPABASE_URL or not SUPABASE_ANON_KEY :
+        
+    # Get the URL and ANON key
+    SUPABASE_URL = os.getenv("NEXT_PUBLIC_SUPABASE_URL")
+    SUPABASE_ANON_KEY = os.getenv("NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY")
+    
+    # Return error if the varaibles are None
+    if not SUPABASE_URL or not SUPABASE_ANON_KEY :
             raise ValueError(
                 "SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY must be set in environment variables"
             )
-        
-        options = ClientOptions(
+    
+    # Get the token for the user.    
+    options = ClientOptions(
         headers={
             "Authorization": f"Bearer {token}"
         },
         auto_refresh_token=False,
         persist_session=False,
-        storage=None, 
+        storage=None,
     )
 
-        # Create new client instance -> call this in other file
-        SUPABASE_CLIENT_ANON = create_client(SUPABASE_URL,SUPABASE_ANON_KEY, options)
-
-    return SUPABASE_CLIENT_ANON
+    return create_client(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY,
+        options
+    )
 
