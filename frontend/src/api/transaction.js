@@ -60,7 +60,10 @@ export async function fetchTransactionSummary() {
 
 /*   This fetch UPLOAD the given file into the storage.   */
 export async function uploadTransaction(file) {
-
+  if (!session) {
+    throw new Error("User not authenticated");
+  }
+  
   // If file return the messages.
   if (!file) return alert("Please select a file");
 
@@ -71,12 +74,15 @@ export async function uploadTransaction(file) {
   const res = await fetch(`${API_URL}/transactions`, {
   method: "POST",
   body: formData,
+  headers: {
+        Authorization: `Bearer ${session.access_token}`,
+      },
   });
 
   // If fail to get response, throw error with the msg or defaut message
   if (!res.ok) {
     const msg = await res.text().catch(() => "");
-    throw new Error(msg || "Failed to create animal");
+    throw new Error(msg || "Failed to upload the transaction.");
   }
 
   // Return the json of the response

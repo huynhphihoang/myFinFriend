@@ -47,7 +47,9 @@ from flows.pdf_parser import parse_pdf
 
 app = Flask(__name__)
 
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}},
+    allow_headers=["Authorization", "Content-Type"],
+    methods=["GET", "POST", "OPTIONS"],)
 
 register_blueprints(app)
 
