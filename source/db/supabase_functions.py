@@ -35,8 +35,7 @@ def get_transaction_categories_with_ids(SUPABASE_CLIENT_SERVICE) -> list:
 def upload_file_supabase(SUPABASE_CLIENT_ANON, file_bytes: bytes, filename: str, mime_type: str):
     # Extract the current user_id
     current_uid = SUPABASE_CLIENT_ANON.auth.get_user().user.id
-
-
+    
     # Upload to supabase storage bucket
     storage_path = f"{current_uid}/{filename}"
 

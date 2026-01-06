@@ -2,15 +2,13 @@ from db.supabase_functions import upload_file_supabase, verify_upload_status
 from db.supabase_client import get_supabase_anon
 from pathlib import Path
 import mimetypes
+import os
 
 if __name__ == "__main__":
-    # Log In First
-    SUPABASE_CLIENT_ANON = get_supabase_anon(token)
 
-    SUPABASE_CLIENT_ANON.auth.sign_in_with_password({
-        "email":"11a4huynhphihoang06@gmail.com",
-        "password":"12345678910"
-    })
+    token=os.getenv("TOKEN_ACCESS")   
+
+    SUPABASE_CLIENT_ANON = get_supabase_anon(token)
 
     # Extract file path
     pdf_path = Path("/mnt/c/Users/hoang/OneDrive/Documents/Work/Qantas Lounge/Payslips/Payslip_625313_20250401.pdf")
