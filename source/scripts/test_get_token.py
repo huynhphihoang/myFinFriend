@@ -1,3 +1,6 @@
+### File for testing if we can get the token from the supabase.
+
+# Necessary imports
 from dotenv import load_dotenv
 import requests
 import os

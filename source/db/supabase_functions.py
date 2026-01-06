@@ -113,11 +113,10 @@ def insert_transaction_supabase(
             SUPABASE_CLIENT_ANON
             .table("transaction_history")
             .insert({
-                "transaction_date": transaction["transaction_date"],
-                "transaction_details": transaction["transaction_details"],
-                "transaction_amount": transaction["transaction_amount"],
-                "transaction_category_id": transaction["transaction_category"],
-                "transaction_type": transaction["transaction_type"],
+            "transaction_date": transaction["transaction_date"],
+            "transaction_details": transaction["transaction_details"],
+            "transaction_amount": float(transaction["transaction_amount"]),
+            "transaction_category_id": int(transaction["transaction_category_id"]),
             })
             .execute()
         )
