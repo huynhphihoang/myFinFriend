@@ -24,7 +24,7 @@ function Allowance({transactionSummary, loadingSummary, errorSummary, transactio
         <nav onClick={handleOpen} 
             className={`flex items-center justify-between shadow-lg font-bold mt-3 mx-4 gap-2 border border-black rounded-lg px-5 py-3 bg-green-400 
             hover:bg-green-700 hover:text-white duration-500 transition-full ${isOpen && "bg-green-700 text-white"}`}>
-            <h3 className="px-4"> Allowance </h3>
+            <h3 className="px-4"> Income </h3>
             <div className="flex items-center px-4 gap-4">
                 {loadingSummary ? (<p>...</p>) : (<p name="cash">  ${transactionSummary['total_income'] || "..."} </p>)}
                 <IoIosArrowDown className="text-xl"/>

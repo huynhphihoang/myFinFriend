@@ -28,7 +28,7 @@ const shadowPlugin = {
 function CircleChart() {
   const { transactionSummary, loadingSummary, errorSummary } = useTransactionSummary();
   const data = {
-    labels: ["Allowance", "Usage", "Remaining"],
+    labels: ["Income", "Usage", "Remaining"],
     datasets: [
       {
         data: [transactionSummary["total_income"],transactionSummary['total_expense'],transactionSummary['balance']],
@@ -68,7 +68,11 @@ function CircleChart() {
       </h3>
 
       <div className="w-64 mx-auto">
-        <Doughnut data={data} options={options} plugins={[shadowPlugin]} />
+        {transactionSummary==null ? (<Doughnut data={data} options={options} plugins={[shadowPlugin]} />) 
+        : (
+          <div className="text-rose-500 text-center mt-8"> There is no data to show </div>
+        )}
+        
       </div>
     </div>
   );

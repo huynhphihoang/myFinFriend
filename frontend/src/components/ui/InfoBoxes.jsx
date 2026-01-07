@@ -6,7 +6,7 @@ function InfoBoxes() {
         <div className="flex gap-4 text-white">
             <div className="flex-1 bg-gradient-to-br from-green-400 to-green-600 rounded-2xl shadow-lg">
                 <p className="text-center text-sm font-bold opacity-80 pt-2">
-                    Allowance
+                    Income
                 </p>
                 <p className="text-center text-2xl font-bold py-4">
                     ${transactionSummary['total_income'] || "----"}
