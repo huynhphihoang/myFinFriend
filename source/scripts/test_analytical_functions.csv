@@ -1,6 +1,6 @@
-transaction_id,transaction_amount,transaction_details,transaction_date,user_id,category_id
-1,120,Groceries,2025-09-23,4ee52904-08e6-44ae-b06f-ee756de93158,1
-2,-10,tickets,2025-09-24,4ee52904-08e6-44ae-b06f-ee756de93158,6
-10,402.5,Salary Payment,2025-12-15,4ee52904-08e6-44ae-b06f-ee756de93158,18
-11,402.5,Salary Payment,2025-12-15,4ee52904-08e6-44ae-b06f-ee756de93158,18
-12,402.5,Salary Payment Me2U Viet Eatery,2025-12-15,4ee52904-08e6-44ae-b06f-ee756de93158,18
+transaction_id,transaction_amount,transaction_details,transaction_date,user_id,category_name
+1,120,Groceries,2025-09-23,4ee52904-08e6-44ae-b06f-ee756de93158,Groceries
+2,-10,tickets,2025-09-24,4ee52904-08e6-44ae-b06f-ee756de93158,Entertainment
+10,402.5,Salary Payment,2025-12-15,4ee52904-08e6-44ae-b06f-ee756de93158,Income
+11,402.5,Salary Payment,2025-12-15,4ee52904-08e6-44ae-b06f-ee756de93158,Income
+12,402.5,Salary Payment Me2U Viet Eatery,2025-12-15,4ee52904-08e6-44ae-b06f-ee756de93158,Income

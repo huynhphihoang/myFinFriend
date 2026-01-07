@@ -9,6 +9,9 @@ def get_expenses_by_frequency(
     # Turn data into a pandas DataFrame
     df = pd.DataFrame(data)
 
+    # Convert into DATETIME format
+    df["transaction_date"] = pd.to_datetime(df["transaction_date"])
+
     # Filters to show only negative transaction amounts
     df = df[df["transaction_amount"] < 0]
 
@@ -41,8 +44,12 @@ def get_income_by_frequency(
     # Turn data into a pandas DataFrame
     df = pd.DataFrame(data)
 
+    # Convert into DATETIME format
+    df["transaction_date"] = pd.to_datetime(df["transaction_date"])
+
     # Filters to show only positive transaction amounts
     df = df[df["transaction_amount"] > 0]
+
 
     # List the frequency map
     frequency_map = {
@@ -65,20 +72,15 @@ def get_income_by_frequency(
 
 def get_expenses_by_categories(
     data: List[Dict],
-    categories_with_ids: List[Dict]
 ) -> List[Dict]:
     # Turn data into a pandas DataFrame
     df = pd.DataFrame(data)
-    cat_ids = pd.DataFrame(categories_with_ids)
 
     # Filters to show only negative transaction amounts
     df = df[df["transaction_amount"] < 0]
 
-    # Left join cat_ids with df
-    result = df.merge(cat_ids, on="category_id",how = "left")
-
     result = (
-        result
+        df
         .groupby("category_name", as_index=False)
         .agg(total_expense=("transaction_amount","sum"))
         .sort_values("total_expense")
