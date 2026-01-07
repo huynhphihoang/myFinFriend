@@ -19,11 +19,12 @@ def get_expenses_by_frequency(
     frequency_map = {
         "Weekly" : "W",
         "Monthly":"M",
-        "Quarterly":"Q"
+        "Quarterly":"Q",
+        "Annually": "Y"
     }
 
     if frequency not in frequency_map:
-        raise ValueError("frequency must be 'weekly', 'monthly', or 'quarterly'")
+        raise ValueError("frequency must be 'Weekly', 'Monthly', 'Quarterly' or 'Annually'")
     
     # Group the transactions by the desired frequency
     df["period"] = df["transaction_date"].dt.to_period(frequency_map[frequency])
@@ -55,11 +56,12 @@ def get_income_by_frequency(
     frequency_map = {
         "Weekly" : "W",
         "Monthly":"M",
-        "Quarterly":"Q"
+        "Quarterly":"Q",
+        "Annually": "Y"
     }
 
     if frequency not in frequency_map:
-        raise ValueError("frequency must be 'weekly', 'monthly', or 'quarterly'")
+        raise ValueError("frequency must be 'Weekly', 'Monthly', 'Quarterly' or 'Annually'")
 
     result = df.groupby("period", as_index=False)["transaction_amount"].sum().sort_values("period")
 
