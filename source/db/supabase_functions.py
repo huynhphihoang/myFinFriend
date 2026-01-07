@@ -107,7 +107,7 @@ def verify_upload_status(
 def insert_transaction_supabase(
         SUPABASE_CLIENT_ANON,
         transaction: Dict[str, Any]
-)->Dict[str, Any]:
+):
     try:
         response = (
             SUPABASE_CLIENT_ANON

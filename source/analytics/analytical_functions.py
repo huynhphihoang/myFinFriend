@@ -5,7 +5,7 @@ from typing import List, Dict, Any
 def get_expenses_by_frequency(
     frequency: str, # Weekly, Monthly, Quarterly
     data: List[Dict]
-) -> pd.DataFrame:
+) -> List[Dict]:
     # Turn data into a pandas DataFrame
     df = pd.DataFrame(data)
 
@@ -37,7 +37,7 @@ def get_expenses_by_frequency(
 def get_income_by_frequency(    
     frequency: str, # Weekly, Monthly, Quarterly
     data: List[Dict]
-) -> pd.DataFrame:
+) -> List[Dict]:
     # Turn data into a pandas DataFrame
     df = pd.DataFrame(data)
 
@@ -65,8 +65,9 @@ def get_income_by_frequency(
 
 
 def get_expenses_by_categories(
-    data: List[Dict]
-) -> pd.DataFrame:
+    data: List[Dict],
+    cate
+) -> List[Dict]:
     # Turn data into a pandas DataFrame
     df = pd.DataFrame(data)
 
