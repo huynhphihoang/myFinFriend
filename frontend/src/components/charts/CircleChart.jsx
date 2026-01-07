@@ -68,7 +68,7 @@ function CircleChart() {
       </h3>
 
       <div className="w-64 mx-auto">
-        {transactionSummary==null ? (<Doughnut data={data} options={options} plugins={[shadowPlugin]} />) 
+        {transactionSummary!==null ? (<Doughnut data={data} options={options} plugins={[shadowPlugin]} />) 
         : (
           <div className="text-rose-500 text-center mt-8"> There is no data to show </div>
         )}

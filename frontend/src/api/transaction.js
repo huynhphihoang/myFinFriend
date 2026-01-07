@@ -58,6 +58,30 @@ export async function fetchTransactionSummary() {
   return res.json();
 }
 
+/*   This fetch GET the summary of all transactions.   */
+export async function fetchExpenseCategory() {
+  if (!session) {
+    throw new Error("User not authenticated");
+  }
+  // Send get request to backend to get all text
+  const res = await fetch(
+    `${API_URL}/transactions/expense_categories`,
+    {
+      headers: {
+        Authorization: `Bearer ${session.access_token}`,
+      },
+    }
+  );
+
+  // Verify the response
+  if (!res.ok) {
+    throw new Error("Failed to fetch text");
+  }
+
+  // Return the json of the response
+  return res.json();
+}
+
 /*   This fetch UPLOAD the given file into the storage.   */
 export async function uploadTransaction(file) {
   if (!session) {

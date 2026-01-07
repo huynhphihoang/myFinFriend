@@ -14,6 +14,7 @@ function UploadFile() {
       setUploading(true);
       await uploadTransaction(selected); 
       alert("Uploaded!");
+      window.location.reload();
     } catch (err) {
       alert(err.message || "Upload failed");
     } finally {

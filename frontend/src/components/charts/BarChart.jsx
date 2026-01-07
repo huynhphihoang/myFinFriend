@@ -7,6 +7,7 @@ import {
   Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
+import { useExpenseCategories } from "../../hooks/useExpenseCategories";
 
 // Register chart components
 ChartJS.register(
@@ -33,12 +34,16 @@ const shadowPlugin = {
 };
 
 function BarChart() {
+  const { transaction, loading, error } = useExpenseCategories();
+  console.log(transaction)
+  const labelValues = transaction.map(item => item['category_name']);
+  const dataValues = transaction.map(item => Math.abs(item['total_expense']));
   const data = {
-    labels: ["Groceries", "Rent", "Transport", "Entertainment", "Other"],
+    labels: labelValues,
     datasets: [
       {
         label: "Spending ($)",
-        data: [120, 800, 150, 90, 60],
+        data: dataValues,
 
         backgroundColor: (context) => {
           const { chart } = context;

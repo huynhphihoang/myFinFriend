@@ -8,6 +8,7 @@ from db.supabase_client import get_supabase_anon
 from ai.gemini_client import extract_transactions
 from flows.file_parser import parse_file
 from flows.ai_parser import parse_ai_json
+from analytics.analytical_functions import get_expenses_by_categories
 
 # The URL for the api to connect
 bp = Blueprint("transactions", __name__, url_prefix="/transactions")
@@ -48,7 +49,23 @@ def get_detailed_transactions():
 
 @bp.get("/expense_categories")
 def get_expesne_categories():
-    return None
+    # Get the authorization from the frontend
+    auth = request.headers.get("Authorization")
+
+    # return the error if there is no token.
+    if not auth:
+        return jsonify({"error": "Missing token"}), 401
+
+    # Get the token from the auth
+    token = auth.split(" ")[1]
+    
+    # Connect with the SUPABASE
+    SUPABASE_CLIENT_ANON = get_supabase_anon(token)
+    result = get_transactions_from_supabase(SUPABASE_CLIENT_ANON)
+    expesne_categories_result = get_expenses_by_categories(result)
+    print(expesne_categories_result)
+    return expesne_categories_result
+
 @bp.post("/", strict_slashes=False)
 def upload_file():
     try:
@@ -82,10 +99,7 @@ def upload_file():
             refresh_token=""
         )
         
-        # Upload the file to the supabase and verify it.
-        upload_file_supabase(SUPABASE_CLIENT_ANON,file_bytes,file.filename,mime_type)
-        verify_upload_status(file.filename, SUPABASE_CLIENT_ANON)
-        
+
         if not pdf_text.strip():
             return {"error": "No text found in PDF"}, 400
         

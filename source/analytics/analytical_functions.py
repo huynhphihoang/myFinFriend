@@ -75,9 +75,13 @@ def get_income_by_frequency(
 def get_expenses_by_categories(
     data: List[Dict],
 ) -> List[Dict]:
+    print(data)
     # Turn data into a pandas DataFrame
     df = pd.DataFrame(data)
 
+    # Get the category name from the category list.
+    df["category_name"] = df["category_list"].str["category_name"]
+    
     # Filters to show only negative transaction amounts
     df = df[df["transaction_amount"] < 0]
 
