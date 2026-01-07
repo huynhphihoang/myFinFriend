@@ -4,8 +4,6 @@ import sys
 project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, project_root)
 from db.supabase_functions import get_transaction_categories_with_ids
-from db.supabase_client import get_supabase_anon
-from flows.pdf_parser import parse_pdf
 
 client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 

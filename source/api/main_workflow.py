@@ -6,7 +6,7 @@ from flask import request, jsonify
 from db.supabase_functions import get_transactions_from_supabase, get_transaction_summary, insert_transaction_supabase
 from db.supabase_client import get_supabase_anon
 from ai.gemini_client import extract_transactions
-from flows.pdf_parser import parse_pdf
+from flows.file_parser import parse_file
 from flows.ai_parser import parse_ai_json
 
 # The URL for the api to connect
@@ -46,6 +46,9 @@ def get_detailed_transactions():
     result = get_transactions_from_supabase(SUPABASE_CLIENT_ANON)
     return result
 
+@bp.get("/expense_categories")
+def get_expesne_categories():
+    return None
 @bp.post("/", strict_slashes=False)
 def upload_file():
     try:
@@ -67,8 +70,8 @@ def upload_file():
         
         # Connect with the SUPABASE
         SUPABASE_CLIENT_ANON = get_supabase_anon(token)
-
-        pdf_text = parse_pdf(file)
+        
+        pdf_text = parse_file(file)
 
         if not pdf_text.strip():
             return {"error": "No text found in PDF"}, 400

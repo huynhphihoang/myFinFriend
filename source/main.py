@@ -1,7 +1,6 @@
 import os 
 import sys
 from api import register_blueprints
-from ai.gemini_client import extract_transactions
 from flask import Flask
 from flask_cors import CORS
 
@@ -9,9 +8,6 @@ from flask_cors import CORS
 # Add project root to Python path so imports work
 project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, project_root)
-
-from flows.pdf_parser import parse_pdf
-
 
 # # This is the central workflow testing file
 
