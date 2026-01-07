@@ -127,7 +127,7 @@ def insert_transaction_supabase(
 # This function SELECT a list of transactions from supabase, with RLS: Users can read their own rows
 def get_transactions_from_supabase(SUPABASE_CLIENT_ANON) ->  List[Dict[str, Any]]:
     try: 
-        response = (
+        transactions = (
             SUPABASE_CLIENT_ANON
             .table("transaction_history")
             .select(
@@ -135,13 +135,12 @@ def get_transactions_from_supabase(SUPABASE_CLIENT_ANON) ->  List[Dict[str, Any]
                 "transaction_amount, "
                 "transaction_details, "
                 "transaction_date, "
-                "transaction_category_id"
+                "category_list(category_name)"
             )
             .order("transaction_date",desc=False)
             .execute()
         )
-
-        return response.data
+        return transactions.data
 
     except Exception as e:
         raise RuntimeError(f"Get transactions from supabase failed: {e}")
