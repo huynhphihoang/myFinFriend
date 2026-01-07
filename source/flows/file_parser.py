@@ -1,36 +1,32 @@
-import pdfplumber as pp
-import csv 
-from pathlib import Path
-from typing import Union
-
 # Parse pdf or csv file into text
-def parse_file(file_path: Union[str,Path]) -> str:
-    file_path = Path(file_path)
-    suffix = file_path.suffix.lower()
+def parse_file(file_bytes: bytes, mime_type:str) -> str:
+    if mime_type == "application/pdf":
+        return _parse_pdf(file_bytes)
 
-    if suffix == ".pdf":
-        return _parse_pdf(file_path)
-
-    elif suffix == ".csv":
-        return _parse_csv(file_path)
+    elif mime_type == "text/csv":
+        return _parse_csv(file_bytes)
 
     else:
-        raise ValueError(f"Unsupported file type: {suffix}")
+        raise ValueError(f"Unsupported file type: {mime_type}")
 
 
-def _parse_pdf(pdf_path: Path) -> str:
-    with pp.open(pdf_path) as pdf:
+def _parse_pdf(file_bytes: bytes) -> str:
+    import io
+    import pdfplumber as pp
+
+    text_chunks = []
+    with pp.open(io.BytesIO(file_bytes)) as pdf:
         for page in pdf.pages:
             text = page.extract_text()
-            return text
+            if text:
+                text_chunks.append(text)
 
-def _parse_csv(csv_path: Path) -> str:
-    """Parse a CSV file into text."""
-    lines = []
+    return "\n".join(text_chunks)
 
-    with open(csv_path, newline="", encoding="utf-8") as f:
-        reader = csv.reader(f)
-        for row in reader:
-            lines.append(", ".join(row))
+def _parse_csv(file_bytes: bytes) -> str:
+    import io, csv
 
-    return "\n".join(lines)
+    text_stream = io.StringIO(file_bytes.decode("utf-8"))
+    reader = csv.reader(text_stream)
+
+    return "\n".join(", ".join(row) for row in reader)
