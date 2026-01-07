@@ -3,7 +3,7 @@
 # Necessary imports.
 from flask import Blueprint
 from flask import request, jsonify
-from db.supabase_functions import get_transactions_from_supabase, get_transaction_summary, insert_transaction_supabase
+from db.supabase_functions import get_transactions_from_supabase, get_transaction_summary, insert_transaction_supabase, upload_file_supabase, verify_upload_status
 from db.supabase_client import get_supabase_anon
 from ai.gemini_client import extract_transactions
 from flows.file_parser import parse_file
@@ -65,14 +65,27 @@ def upload_file():
         if not auth:
             return jsonify({"error": "Missing token"}), 401
         
-        # Get the token from the auth
+        # Get the token from the auth and necessary variables.
         token = auth.split(" ")[1]
+        mime_type = file.content_type
+        file_bytes = file.read()
         
         # Connect with the SUPABASE
         SUPABASE_CLIENT_ANON = get_supabase_anon(token)
         
-        pdf_text = parse_file(file)
 
+        pdf_text = parse_file(file_bytes, mime_type)
+        
+        # Refresh the Supabase Client Anon
+        SUPABASE_CLIENT_ANON.auth.set_session(
+            access_token=token,
+            refresh_token=""
+        )
+        
+        # Upload the file to the supabase and verify it.
+        upload_file_supabase(SUPABASE_CLIENT_ANON,file_bytes,file.filename,mime_type)
+        verify_upload_status(file.filename, SUPABASE_CLIENT_ANON)
+        
         if not pdf_text.strip():
             return {"error": "No text found in PDF"}, 400
         
