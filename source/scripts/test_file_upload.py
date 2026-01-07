@@ -2,11 +2,15 @@ from db.supabase_functions import upload_file_supabase, verify_upload_status
 from db.supabase_client import get_supabase_anon
 from pathlib import Path
 import mimetypes
-import os
+
+from db.supabase_functions import login_and_get_token
 
 if __name__ == "__main__":
 
-    token=os.getenv("TOKEN_ACCESS")   
+    token=login_and_get_token(
+        email="11a4huynhphihoang06@gmail.com",
+        password="12345678910"
+    )
 
     SUPABASE_CLIENT_ANON = get_supabase_anon(token)
 

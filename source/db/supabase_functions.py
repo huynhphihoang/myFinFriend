@@ -4,6 +4,8 @@
 # Imports for specifying the return types
 from typing import List, Dict, Any
 from flask import jsonify
+import os
+import requests
 
 # USE SUPABASE_CLIENT_SERVICE from supabase_client_service.py for this function 
 def get_transaction_categories_with_ids(SUPABASE_CLIENT_SERVICE) -> list:
@@ -178,3 +180,28 @@ def get_transaction_summary(SUPABASE_CLIENT_ANON):
         "total_expense": 0,
         "balance": 0
         }
+        
+# This function get the access token based on the email and password of the user.
+def login_and_get_token(email, password):
+    # Get the URL and the ANON KEY from .env file
+    SUPABASE_URL = os.getenv("NEXT_PUBLIC_SUPABASE_URL")
+    SUPABASE_ANON_KEY = os.getenv("NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY")
+    
+    # Get the link for storing the token
+    url = f"{SUPABASE_URL}/auth/v1/token?grant_type=password"
+
+    headers = {
+        "apikey": SUPABASE_ANON_KEY,
+        "Content-Type": "application/json",
+    }
+
+    payload = {
+        "email": email,
+        "password": password,
+    }
+
+    # Get the request.
+    res = requests.post(url, json=payload, headers=headers)
+    res.raise_for_status()
+
+    return res.json()["access_token"]
