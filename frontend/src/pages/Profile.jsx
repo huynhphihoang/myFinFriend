@@ -15,6 +15,7 @@ export default function Profile(){
       useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
       setSession(data.session);
+      console.log(data)
     });
 
     const { data: listener } = supabase.auth.onAuthStateChange(
@@ -36,8 +37,10 @@ export default function Profile(){
             <div className="flex justify-center mt-4">
             <RxAvatar className="text-6xl"/>
             </div>
-
-            <div className="flex justify-center mt-8">
+            <div className="text-center mt-2">
+                {session.user.email}
+            </div>
+            <div className="flex justify-center mt-6">
                 <div className="border border-gray-400 rounded-xl w-3/4 h-100">
                     <Link to="/"> 
                         <button className="hover:bg-gray-600 hover:text-white w-full rounded-lg border-b border-gray-400 py-4">
