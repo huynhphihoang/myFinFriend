@@ -29,7 +29,7 @@ def _time_period_validator_(
         raise ValueError("Invalid Frequency")
     
     # Assess if start and end dates satisfy the frequency length
-    min_length = PERIOD_LENGTH(frequency)
+    min_length = PERIOD_LENGTH[frequency]
 
     if isinstance(min_length, pd.Timedelta):
         if end - start < min_length:
@@ -39,7 +39,7 @@ def _time_period_validator_(
             raise ValueError("Date range too short for selected frequency")
     
 def get_expenses_by_frequency(
-    frequency: str, # Weekly, Monthly, Quarterly
+    frequency: str, # Weekly, Monthly, Quarterly, Annually
     data: List[Dict],
     start_date: datetime,
     end_date: datetime
@@ -69,9 +69,6 @@ def get_expenses_by_frequency(
     )
 
     result["period"] = result["period"].astype(str)
-
-    # Drop the transaction_date columns for aggregated data
-    result = result.drop(columns=["transaction_date"])
 
     return result.to_dict(orient="records")
 
@@ -106,9 +103,6 @@ def get_income_by_frequency(
     )
 
     result["period"] = result["period"].astype(str)
-
-    # Drop the transaction_date columns for aggregated data
-    result = result.drop(columns=["transaction_date"])
 
     return result.to_dict(orient="records")
 
