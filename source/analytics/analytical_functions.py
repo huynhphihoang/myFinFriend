@@ -151,6 +151,9 @@ def get_expenses_by_categories(
     # Filters to show only negative transaction amounts
     df = df[df["transaction_amount"] < 0]
 
+    # Get the category name from the category list.
+    df["category_name"] = df["category_list"].str["category_name"]
+    
     result = (
         df
         .groupby("category_name", as_index=False)

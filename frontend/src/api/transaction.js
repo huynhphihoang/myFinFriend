@@ -73,6 +73,13 @@ export async function fetchExpenseCategory() {
     }
   );
 
+  // Verify the response
+  if (!res.ok) {
+    throw new Error("Failed to fetch text");
+  }
+
+  // Return the json of the response
+  return res.json();
 }
 
  /*    This fetch post the information to the api and GET the expense transaction by frequency   */
