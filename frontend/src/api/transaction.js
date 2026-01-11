@@ -73,6 +73,31 @@ export async function fetchExpenseCategory() {
     }
   );
 
+}
+
+ /*   This fetch GET the summary of all transactions.   */
+export async function fetchExpenseFrequency(payload) {
+  if (!session) {
+    throw new Error("User not authenticated");
+  }
+
+  // Send get request to backend to get all text
+  const res = await fetch(
+    `${API_URL}/transactions/expense_frequency`,
+    { 
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${session.access_token}`,
+      },
+      body:  JSON.stringify({
+        frequency: payload.frequency,
+        start_date: payload.start_date,
+        end_date: payload.end_date,
+    }),
+    }
+  );
+
   // Verify the response
   if (!res.ok) {
     throw new Error("Failed to fetch text");

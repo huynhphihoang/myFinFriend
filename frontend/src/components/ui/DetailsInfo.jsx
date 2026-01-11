@@ -4,7 +4,8 @@ import { IoIosArrowDown } from "react-icons/io";
 import { useTransactionSummary } from "../../hooks/useTransactionSummary";
 import { useTransaction } from "../../hooks/useTransactions";
 
-export default function DetailsInfo(){
+export default function DetailsInfo({expenseData, expenseLoading, expenseError}){
+    console.log(expenseData)
     const { transaction, loading, error } = useTransaction();
     const { transactionSummary, loadingSummary, errorSummary } = useTransactionSummary();
 
@@ -12,7 +13,7 @@ export default function DetailsInfo(){
         <div>
             <Allowance transactionSummary={transactionSummary} loadingSummary={loadingSummary} errorSummary={errorSummary} transaction={transaction} loading={loading} error={error}/>
 
-            <Usage transactionSummary={transactionSummary} loadingSummary={loadingSummary} errorSummary={errorSummary} transaction={transaction} loading={loading} error={error}/>
+            <Usage transactionSummary={transactionSummary} loadingSummary={loadingSummary} errorSummary={errorSummary} transaction={expenseData} loading={expenseLoading} error={expenseError}/>
 
             <nav className="flex items-center justify-between shadow-lg font-bold gap-2 mt-3 mx-4 border border-black rounded-lg px-5 py-3 bg-gray-300">
                 <h3 className="px-4"> Previous </h3>

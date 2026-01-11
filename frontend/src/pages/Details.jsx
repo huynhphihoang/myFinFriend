@@ -1,10 +1,11 @@
 import {Link} from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
 import InputDate from "../components/inputs/InputDate";
-import PeriodInput from "../components/inputs/PeriodInput";
 import DetailsInfo from "../components/ui/DetailsInfo";
+import { useExpenseFrequency } from "../hooks/useExpenseFrenquency";
 
 function Details() {
+    const { fetchFrequency, expenseData, loading, error } = useExpenseFrequency();
     return (
         <div className="font-manrope">
             <div className="flex items-center my-5 relative">
@@ -23,18 +24,13 @@ function Details() {
             </div>
 
             <div className="flex justify-center my-4">
-              <div className="flex items-end gap-6">
-                {/* Monthly selector (left) */}
-                <PeriodInput/>
-
                 {/*Date between selectors*/}
-                <InputDate/>
-              </div>
+                <InputDate fetchFrequency={fetchFrequency}/>
             </div>
 
             {/* Details information including total expesne, total income, balance, 
             each transactions with categories and details*/}
-            <DetailsInfo/>
+            <DetailsInfo expenseData={expenseData} expenseLoading={loading} expenseError={error}/>
         </div>
     );
 }

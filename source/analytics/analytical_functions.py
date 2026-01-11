@@ -60,15 +60,15 @@ def get_expenses_by_frequency(
     ]
 
     # Group the transactions by the desired frequency
-    df["period"] = df["transaction_date"].dt.to_period(FREQUENCY_MAP[frequency])
+    df["transaction_date"] = df["transaction_date"].dt.to_period(FREQUENCY_MAP[frequency])
 
     result = (
-        df.groupby("period", as_index=False)["transaction_amount"]
+        df.groupby("transaction_date", as_index=False)["transaction_amount"]
         .sum()
-        .sort_values("period")
+        .sort_values("transaction_date")
     )
 
-    result["period"] = result["period"].astype(str)
+    result["transaction_date"] = result["transaction_date"].astype(str)
 
     return result.to_dict(orient="records")
 

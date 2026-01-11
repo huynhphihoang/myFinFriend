@@ -25,7 +25,6 @@ function Dashboard() {
             <div className="flex justify-start my-4">
               <div className="flex items-end gap-6">
                 {/* Monthly selector (left) */}
-                <PeriodInput/>
 
                 {/*Date between selectors*/}
                 <InputDate/>

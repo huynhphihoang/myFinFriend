@@ -8,7 +8,8 @@ from db.supabase_client import get_supabase_anon
 from ai.gemini_client import extract_transactions
 from flows.file_parser import parse_file
 from flows.ai_parser import parse_ai_json
-from analytics.analytical_functions import get_expenses_by_categories
+from analytics.analytical_functions import get_expenses_by_categories,get_expenses_by_frequency,get_income_by_frequency
+from datetime import datetime
 
 # The URL for the api to connect
 bp = Blueprint("transactions", __name__, url_prefix="/transactions")
@@ -121,3 +122,35 @@ def upload_file():
         return jsonify({
             "error": str(e)
         }), 500
+        
+@bp.post("/expense_frequency")
+def get_expenses_frequency():
+    auth = request.headers.get("Authorization")
+    if not auth:
+        return jsonify({"error": "Missing token"}), 401
+
+    token = auth.split(" ")[1]
+    supabase = get_supabase_anon(token)
+
+    date_time = request.get_json()
+    if not date_time:
+        return jsonify({"error": "Missing request body"}), 400
+
+    start_date = date_time.get("start_date")
+    end_date = date_time.get("end_date")
+    frequency = date_time.get("frequency")
+    
+    if not start_date or not end_date:
+        return jsonify({"error": "Missing start_date or end_date"}), 400
+
+    data = get_transactions_from_supabase(supabase)
+
+    # Convert to datetime
+    start_dt = datetime.fromisoformat(start_date)
+    end_dt = datetime.fromisoformat(end_date)
+    
+    result = get_expenses_by_frequency(frequency,data, start_dt,end_dt)
+    
+    return result
+    
+    
