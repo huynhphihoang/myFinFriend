@@ -1,17 +1,21 @@
 import { useState } from "react";
 
 import { fetchExpenseFrequency } from "../api/transaction";
+import { fetchIncomeFrequency } from "../api/transaction";
 
 export function useExpenseFrequency() {
-  const [expenseData, setTransaction] = useState([]);
+  const [expenseData, setExpenseData] = useState([]);
+  const [incomeData, setIncomeData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   async function fetchFrequency(payload) {
     setLoading(true);
     try {
-      const res = await fetchExpenseFrequency(payload);
-      setTransaction(res);
+      const resExpense = await fetchExpenseFrequency(payload);
+      const resIncome = await fetchIncomeFrequency(payload);
+      setExpenseData(resExpense);
+      setIncomeData(resIncome)
       setError(null);
     } catch (err) {
       setError(err);
@@ -20,5 +24,5 @@ export function useExpenseFrequency() {
     }
   }
 
-  return { fetchFrequency, expenseData, loading, error };
+  return { fetchFrequency, expenseData, incomeData, loading, error };
 }

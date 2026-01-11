@@ -52,7 +52,7 @@ function Allowance({transactionSummary, loadingSummary, errorSummary, transactio
                         
                         <tr key={cat["transaction_id"]} className="border-b border-gray-400 hover:bg-gray-50">
                             <td className="px-4 py-3">{cat['transaction_date']}</td>
-                            <td className="px-4 py-3">{cat['category_list']['category_name'] || "Uncategorized"}</td>
+                            <td className="px-4 py-3">{cat['transaction_category']  || "Uncategorized"}</td>
                             <td className="px-4 py-3">{cat['transaction_details']}</td>
                             <td className="px-4 py-3 text-green-600 font-bold text-right">
                                 +{cat['transaction_amount']}

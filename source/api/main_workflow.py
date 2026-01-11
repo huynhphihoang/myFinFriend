@@ -153,4 +153,34 @@ def get_expenses_frequency():
     
     return result
     
+@bp.post("/income_frequency")
+def get_income_frequency():
+    auth = request.headers.get("Authorization")
+    if not auth:
+        return jsonify({"error": "Missing token"}), 401
+
+    token = auth.split(" ")[1]
+    supabase = get_supabase_anon(token)
+
+    date_time = request.get_json()
+    if not date_time:
+        return jsonify({"error": "Missing request body"}), 400
+
+    start_date = date_time.get("start_date")
+    end_date = date_time.get("end_date")
+    frequency = date_time.get("frequency")
+    
+    if not start_date or not end_date:
+        return jsonify({"error": "Missing start_date or end_date"}), 400
+
+    data = get_transactions_from_supabase(supabase)
+
+    # Convert to datetime
+    start_dt = datetime.fromisoformat(start_date)
+    end_dt = datetime.fromisoformat(end_date)
+    
+    result = get_income_by_frequency(frequency,data, start_dt,end_dt)
+    
+    return result
+    
     

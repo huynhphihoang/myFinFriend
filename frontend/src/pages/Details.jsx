@@ -5,7 +5,7 @@ import DetailsInfo from "../components/ui/DetailsInfo";
 import { useExpenseFrequency } from "../hooks/useExpenseFrenquency";
 
 function Details() {
-    const { fetchFrequency, expenseData, loading, error } = useExpenseFrequency();
+    const { fetchFrequency, expenseData, incomeData, loading, error } = useExpenseFrequency();
     return (
         <div className="font-manrope">
             <div className="flex items-center my-5 relative">
@@ -30,7 +30,7 @@ function Details() {
 
             {/* Details information including total expesne, total income, balance, 
             each transactions with categories and details*/}
-            <DetailsInfo expenseData={expenseData} expenseLoading={loading} expenseError={error}/>
+            <DetailsInfo expenseData={expenseData} incomeData={incomeData}/>
         </div>
     );
 }
