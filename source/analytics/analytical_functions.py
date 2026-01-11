@@ -37,13 +37,31 @@ def _time_period_validator_(
     else:
         if start + min_length > end:
             raise ValueError("Date range too short for selected frequency")
-    
+
+# Function to return aggregated data by chosen frequency and customizable time period
 def get_expenses_by_frequency(
     frequency: str, # Weekly, Monthly, Quarterly, Annually
     data: List[Dict],
     start_date: datetime,
     end_date: datetime
 ) -> List[Dict]:
+    # If only frequency is provided, assume a chronological order of frequencies of the current calendar year
+    if start_date is None and end_date is None:
+        start_date = (datetime.now()).replace(
+            month = 1,
+            day =1,
+            hour=0, minute=0, second=0, microsecond=0
+        )
+        end_date = start_date + pd.DateOffset(years=1)
+        
+    # If not start_date is provided, it is set to current time
+    elif start_date is None and end_date is not None: 
+        start_date = datetime.now()
+    
+    # If end_date is not provided, it would be set as 1 year from now
+    elif start_date is not None and end_date is None:
+        end_date = start_date + pd.DateOffset(years=1)
+
     # Turn data into a pandas DataFrame
     df = pd.DataFrame(data)
 
@@ -78,6 +96,23 @@ def get_income_by_frequency(
     start_date: datetime,
     end_date: datetime
 ) -> List[Dict]:
+    # If only frequency is provided, assume a chronological order of frequencies of the current calendar year
+    if start_date is None and end_date is None:
+        start_date = (datetime.now()).replace(
+            month = 1,
+            day =1,
+            hour=0, minute=0, second=0, microsecond=0
+        )
+        end_date = start_date + pd.DateOffset(years=1)
+        
+    # If not start_date is provided, it is set to current time
+    elif start_date is None and end_date is not None: 
+        start_date = datetime.now()
+    
+    # If end_date is not provided, it would be set as 1 year from now
+    elif start_date is not None and end_date is None:
+        end_date = start_date + pd.DateOffset(years=1)
+
     # Turn data into a pandas DataFrame
     df = pd.DataFrame(data)
 

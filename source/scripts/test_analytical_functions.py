@@ -40,7 +40,7 @@ if __name__ == "__main__":
     quarterly_expenses = get_expenses_by_frequency('Quarterly',data,datetime(2025, 1, 1),datetime(2025,12,30))
 
     # Run get_income_by_frequency with monthly period
-    monthly_income = get_income_by_frequency('Monthly',data,datetime(2025, 1, 1),datetime(2025,12,30))
+    monthly_income = get_income_by_frequency('Monthly',data,datetime(2025,1,30),None)
     
     # Output result to terminal
     result = monthly_income
