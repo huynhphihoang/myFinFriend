@@ -5,7 +5,6 @@ import {
   Legend,
 } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
-import { useTransactionSummary } from "../../hooks/useTransactionSummary";
 
 
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -25,13 +24,12 @@ const shadowPlugin = {
   },
 };
 
-function CircleChart() {
-  const { transactionSummary, loadingSummary, errorSummary } = useTransactionSummary();
+function CircleChart({dataToRenderIncome, dataToRenderExpense, balance}) {
   const data = {
     labels: ["Income", "Usage", "Remaining"],
     datasets: [
       {
-        data: [transactionSummary["total_income"],transactionSummary['total_expense'],transactionSummary['balance']],
+        data: [dataToRenderIncome.total_income,dataToRenderExpense.total_expense,balance],
         backgroundColor: [
           "#34d399", // emerald-400
           "#fb7185", // rose-400
@@ -68,7 +66,7 @@ function CircleChart() {
       </h3>
 
       <div className="w-64 mx-auto">
-        {transactionSummary!==null ? (<Doughnut data={data} options={options} plugins={[shadowPlugin]} />) 
+        {dataToRenderIncome!==null && dataToRenderExpense!==null ? (<Doughnut data={data} options={options} plugins={[shadowPlugin]} />) 
         : (
           <div className="text-rose-500 text-center mt-8"> There is no data to show </div>
         )}

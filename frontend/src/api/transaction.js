@@ -146,6 +146,68 @@ export async function fetchIncomeFrequency(payload) {
   return res.json();
 }
 
+ /*   This fetch post the start date and end date to the api and GET the total income by date range   */
+export async function fetchIncomeDateRange(payload) {
+  if (!session) {
+    throw new Error("User not authenticated");
+  }
+
+  // Send get request to backend to get all text
+  const res = await fetch(
+    `${API_URL}/transactions/income_date_range`,
+    { 
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${session.access_token}`,
+      },
+      body:  JSON.stringify({
+        start_date: payload.start_date,
+        end_date: payload.end_date,
+    }),
+    }
+  );
+
+  // Verify the response
+  if (!res.ok) {
+    throw new Error("Failed to fetch text");
+  }
+
+  // Return the json of the response
+  return res.json();
+}
+
+ /*   This fetch post the start date and end date to the api and GET the total expense by date range   */
+export async function fetchExpenseDateRange(payload) {
+  if (!session) {
+    throw new Error("User not authenticated");
+  }
+
+  // Send get request to backend to get all text
+  const res = await fetch(
+    `${API_URL}/transactions/expense_date_range`,
+    { 
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${session.access_token}`,
+      },
+      body:  JSON.stringify({
+        start_date: payload.start_date,
+        end_date: payload.end_date,
+    }),
+    }
+  );
+
+  // Verify the response
+  if (!res.ok) {
+    throw new Error("Failed to fetch text");
+  }
+
+  // Return the json of the response
+  return res.json();
+}
+
 /*   This fetch UPLOAD the given file into the storage.   */
 export async function uploadTransaction(file) {
   if (!session) {
