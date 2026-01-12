@@ -1,4 +1,4 @@
-from analytics.analytical_functions import get_expenses_by_categories, get_expenses_by_frequency, get_income_by_frequency, get_total_expense_by_date_range,get_total_income_by_date_range
+from analytics.analytical_functions import get_expenses_by_categories, get_expenses_by_frequency, get_income_by_frequency, get_total_expense_by_date_range,get_total_income_by_date_range,get_transactions_by_date_range
 from db.supabase_client import get_supabase_anon
 from db.supabase_functions import get_transactions_from_supabase
 from db.supabase_functions import login_and_get_token
@@ -37,7 +37,12 @@ if __name__ == "__main__":
 
     # Run get_total_income_by_date_range
     total_income_from_20250102_to_20250228 = get_total_income_by_date_range(data,datetime(2025,1,2),datetime(2025,2,28)) # Expects 522.5
+
+    # Filter data by date range 20250101 to 20250201 and group by categories
+    filtered_data = get_transactions_by_date_range(data,datetime(2025,1,1),datetime(2025,8,1))
+
+    filtered_data_by_categories = get_expenses_by_categories(filtered_data)
     
     # Output result to terminal
-    result = total_income_from_20250102_to_20250228
+    result = filtered_data_by_categories
     print(result)
