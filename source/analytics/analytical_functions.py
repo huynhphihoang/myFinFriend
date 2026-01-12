@@ -34,9 +34,10 @@ def _time_period_validator_(
     if isinstance(min_length, pd.Timedelta):
         if end - start < min_length:
             raise ValueError("Date range too short for selected frequency")
-    else:
-        if start + min_length > end:
+    elif start + min_length > end:
             raise ValueError("Date range too short for selected frequency")
+    elif start > end :
+            raise ValueError("Date range is invalid; Edge case of start_date > end_date reached")
 
 # Function to return aggregated data by chosen frequency and customizable time period
 def get_expenses_by_frequency(
@@ -150,9 +151,6 @@ def get_expenses_by_categories(
     
     # Filters to show only negative transaction amounts
     df = df[df["transaction_amount"] < 0]
-
-    # Get the category name from the category list.
-    df["category_name"] = df["category_list"].str["category_name"]
     
     result = (
         df
@@ -162,3 +160,92 @@ def get_expenses_by_categories(
     )
 
     return result.to_dict(orient="records")
+
+# This function calculates total expenses from date DD/MM/YYYY to DD/MM/YYYY
+def get_total_expense_by_date_range(
+    data: List[Dict],
+    start_date: datetime,
+    end_date: datetime
+) -> List[Dict]:
+    # Turn data into a pandas DataFrame
+    df = pd.DataFrame(data)
+
+    # Convert into datetime format
+    df["transaction_date"] = pd.to_datetime(df["transaction_date"])
+
+    # Validates if data range if valid, if neither start and end date is provided, return total of the old data range
+    if start_date is None and end_date is None:
+        result = pd.DataFrame([{
+            "total_expense": df[df["transaction_amount"] < 0]["transaction_amount"].sum()
+        }])
+
+        return result.to_dict(orient="records")
+    
+    # If not start_date is provided, it is set to current time
+    elif start_date is None and end_date is not None: 
+        start_date = datetime.now()
+
+        # See if the date ranges is invalid
+        if start_date > end_date:
+            raise ValueError("The end date provided is before today's time; Current edge case reached of start_date None and end_date is not None")
+    
+    # If end_date is not provided, it would be set as 1 year from now
+    elif start_date is not None and end_date is None:
+        end_date = start_date + pd.DateOffset(years=1)
+
+    # Calculates total expense in between start_date and end_date
+    total = df[
+        (df["transaction_amount"] < 0) &
+        (df["transaction_date"].between(start_date, end_date))
+    ]["transaction_amount"].sum()
+
+    result = pd.DataFrame([{
+        "total_expense": total
+    }])
+
+    return result.to_dict(orient="records")
+
+# This function calculates total income from date DD/MM/YYYY to DD/MM/YYYY
+def get_total_income_by_date_range(
+    data: List[Dict],
+    start_date: datetime,
+    end_date: datetime
+) -> List[Dict]:
+    # Turn data into a pandas DataFrame
+    df = pd.DataFrame(data)
+
+    # Convert into datetime format
+    df["transaction_date"] = pd.to_datetime(df["transaction_date"])
+
+    # Validates if data range if valid, if neither start and end date is provided, return total of the old data range
+    if start_date is None and end_date is None:
+        result = pd.DataFrame([{
+            "total_expense": df[df["transaction_amount"] > 0]["transaction_amount"].sum()
+        }])
+
+        return result.to_dict(orient="records")
+    
+    # If not start_date is provided, it is set to current time
+    elif start_date is None and end_date is not None: 
+        start_date = datetime.now()
+
+        # See if the date ranges is invalid
+        if start_date > end_date:
+            raise ValueError("The end date provided is before today's time; Current edge case reached of start_date None and end_date is not None")
+    
+    # If end_date is not provided, it would be set as 1 year from now
+    elif start_date is not None and end_date is None:
+        end_date = start_date + pd.DateOffset(years=1)
+
+    # Calculates total expense in between start_date and end_date
+    total = df[
+        (df["transaction_amount"] > 0) &
+        (df["transaction_date"].between(start_date, end_date))
+    ]["transaction_amount"].sum()
+
+    result = pd.DataFrame([{
+        "total_income": total
+    }])
+
+    return result.to_dict(orient="records")
+
