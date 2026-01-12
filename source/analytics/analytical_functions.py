@@ -249,3 +249,36 @@ def get_total_income_by_date_range(
 
     return result.to_dict(orient="records")
 
+# This functions returns the transaction_history data in a selected date range
+def get_transactions_by_date_range(
+    data: List[Dict],
+    start_date: datetime,
+    end_date: datetime
+) -> List[Dict]:
+        # Turn data into a pandas DataFrame
+    df = pd.DataFrame(data)
+
+    # Convert into datetime format
+    df["transaction_date"] = pd.to_datetime(df["transaction_date"])
+
+    # Validates if data range if valid, if neither start and end date is provided, return the data
+    if start_date is None and end_date is None:
+        return df.to_dict(orient="records")
+    
+    # If not start_date is provided, it is set to current time
+    elif start_date is None and end_date is not None: 
+        start_date = datetime.now()
+
+        # See if the date ranges is invalid
+        if start_date > end_date:
+            raise ValueError("The end date provided is before today's time; Current edge case reached of start_date None and end_date is not None")
+    
+    # If end_date is not provided, it would be set as 1 year from now
+    elif start_date is not None and end_date is None:
+        end_date = start_date + pd.DateOffset(years=1)
+    
+    filtered_data = (
+        df[(df["transaction_date"].between(start_date,end_date))]
+    )
+
+    return filtered_data.to_dict(orient="records")
