@@ -143,7 +143,17 @@ def get_transactions_from_supabase(SUPABASE_CLIENT_ANON) ->  List[Dict[str, Any]
             .order("transaction_date",desc=False)
             .execute()
         )
-        return transactions.data
+
+        # Reformatting category_list(category_name) into categroy_name
+        data = transactions.data
+
+        for row in data:
+            row["category_name"] = (
+                row.get("category_list", {}).get("category_name")
+            )
+            row.pop("category_list", None)
+
+        return data
 
     except Exception as e:
         raise RuntimeError(f"Get transactions from supabase failed: {e}")
