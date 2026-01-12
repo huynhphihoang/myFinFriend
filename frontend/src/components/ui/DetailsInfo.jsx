@@ -1,53 +1,30 @@
 import Income from "../toggle/Income";
 import Usage from "../toggle/Usage";
-import { useTransaction } from "../../hooks/useTransactions";
 import AllTransaction from "../toggle/AllTransaction";
+import Loading from "../animations/Loading";
 
-export default function DetailsInfo({expenseData, incomeData, active}){
-    console.log(incomeData)
-    const { transaction, loading, error } = useTransaction();
-    const hasIncomeFilter = incomeData?.length > 0;
-    const hasExpenseFilter = expenseData?.length > 0;
+export default function DetailsInfo({dataToRenderExpense, dataToRenderIncome, dataToRenderAll, active, loadingRender, errorRender, hasIncomeFilter,hasExpenseFilter}){
 
-    // Determine which data to get the expense transactions
-    const dataToRenderExpense =
-    expenseData && expenseData.length > 0
-        ? expenseData     
-        : transaction
-    
-    // Determine which data to get the income transactions
-    const dataToRenderIncome =
-    incomeData && incomeData.length > 0
-        ? incomeData     
-        : transaction
-
-    // Determine which data to get the all transactions if the filter is using.
-    let dataToRenderAll;
-
-    // If Income and expense is filtering, then use the combined data from those dataToRender, 
-    // otherwise, use the all transactions data.
-    if (hasIncomeFilter || hasExpenseFilter) {
-        // backend returned filtered data
-        dataToRenderAll = [
-            ...(dataToRenderIncome || []),
-            ...(dataToRenderExpense || []),
-    ];
-    } else {
-        // fallback: already full dataset
-        dataToRenderAll = transaction;
-    }
     return(
         <div>
-            {active == "income" && (
-                <Income transaction={dataToRenderIncome} loading={loading} error={error} hasExpenseFilter={hasExpenseFilter} hasIncomeFilter={hasIncomeFilter}/>
-            )} 
-            
-            {active == "expense" && (                 
-                <Usage transaction={dataToRenderExpense} loading={loading} error={error}  hasExpenseFilter={hasExpenseFilter} hasIncomeFilter={hasIncomeFilter}/>
-            )}
-           {active == "all" && (                 
-                <AllTransaction transaction={dataToRenderAll} loading={loading} error={error}  hasExpenseFilter={hasExpenseFilter} hasIncomeFilter={hasIncomeFilter}/>
-            )}
+            {errorRender ? (<div className="text-rose-700 text-xl mt-4">There is an error. Please contact to IT support.</div>) : (    
+            <div> 
+                {loadingRender ? (<Loading/>) : (
+                        <div> 
+                            {active == "income" && (
+                        <Income transaction={dataToRenderIncome} hasExpenseFilter={hasExpenseFilter} hasIncomeFilter={hasIncomeFilter}/>
+                    )} 
+                    
+                    {active == "expense" && (                 
+                        <Usage transaction={dataToRenderExpense} hasExpenseFilter={hasExpenseFilter} hasIncomeFilter={hasIncomeFilter}/>
+                    )}
+                {active == "all" && (                 
+                        <AllTransaction transaction={dataToRenderAll} hasExpenseFilter={hasExpenseFilter} hasIncomeFilter={hasIncomeFilter}/>
+                    )}
+                        </div>)}
+                
+            </div>)}
+           
         </div>
     );
 }

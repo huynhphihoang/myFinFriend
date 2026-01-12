@@ -1,17 +1,9 @@
 import { BsThreeDotsVertical } from "react-icons/bs";
 
-export default function AllTransaction({transaction, loading, error,  hasExpenseFilter, hasIncomeFilter}) {
-    if (error) {
-        return <div className="text-center mt-5 text-red-500">Error: {error}</div>;
-    }
-
+export default function AllTransaction({transaction, hasExpenseFilter, hasIncomeFilter}) {
     return(
         <div>
             <div className="flex justify-center">
-            {loading ? (
-                <div className="text-rose-700 text-xl mt-4"> Loading the transactions...</div>
-                ) 
-                : (
                 <table className="w-full mt-4 border border-black border-black font-manrope rounded-xl overflow-hidden text-center text-white table-fixed bg-gray-500">
                     <thead className="border-b border-gray-400 bg-gray-700">
                         <tr>
@@ -42,7 +34,6 @@ export default function AllTransaction({transaction, loading, error,  hasExpense
                     ))}
                     </tbody>
                 </table>
-            )}
             </div>
         </div>
     );

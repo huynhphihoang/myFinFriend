@@ -36,6 +36,19 @@ const shadowPlugin = {
 function BarChart({categories}) {
   const { transaction, loading, error } = useExpenseCategories();
   const dataToRender = categories && categories.length == 0 ? transaction : categories 
+
+  // Handle the bar chart if the dataToRender is null or undefined
+  if (dataToRender ===null || dataToRender === undefined) {
+    return (
+    <div className="flex-1 bg-white font-manrope rounded-2xl shadow-xl p-4">
+      <h3 className="text-center font-bold text-sm opacity-80 mb-2">
+        Categories
+      </h3>
+
+      <div className="text-rose-500 text-center mt-8"> There is no data to show </div>
+    </div>)
+  }
+  
   const labelValues = dataToRender.map(item => item['category_name']);
   const dataValues = dataToRender.map(item => Math.abs(item['total_expense']));
   const data = {

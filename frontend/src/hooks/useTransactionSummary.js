@@ -3,8 +3,8 @@ import {useState, useEffect} from "react";
 
 export function useTransactionSummary() {
   const [transactionSummary, setTransactionSummary] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [loadingSummary, setLoading] = useState(true);
+  const [errorSummary, setError] = useState(null);
 
   useEffect(() => {
     async function load() {
@@ -23,5 +23,5 @@ export function useTransactionSummary() {
     load();
   }, []);
 
-  return { transactionSummary, loading, error };
+  return { transactionSummary, loadingSummary, errorSummary };
 }

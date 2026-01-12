@@ -4,8 +4,8 @@ import { fetchTransactions } from "../api/transaction";
 
 export function useTransaction() {
   const [transaction, setTransaction] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [loadingTransaction, setLoading] = useState(true);
+  const [errorTransaction, setError] = useState(null);
 
   useEffect(() => {
     async function load() {
@@ -24,5 +24,5 @@ export function useTransaction() {
     load();
   }, []);
 
-  return { transaction, loading, error };
+  return { transaction, loadingTransaction, errorTransaction };
 }

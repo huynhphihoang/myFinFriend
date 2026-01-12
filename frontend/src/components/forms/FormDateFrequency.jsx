@@ -3,7 +3,7 @@ import InputPeriod from "../inputs/InputPeriod";
 import InputDateBetween from "../inputs/InputDateBetween";
 import SubmitButton from "../buttons/SubmitButton";
 
-function FormDateFrequency({fetchFrequency}){
+function FormDateFrequency({fetchFrequency, onSubmitStart, loading}){
     const [frequency, setFrequency] = useState("");
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
@@ -25,7 +25,7 @@ function FormDateFrequency({fetchFrequency}){
             start_date: startDate,
             end_date: endDate,
             };
-
+        onSubmitStart();
         try {
             fetchFrequency(payload)
         } catch (error) {
@@ -37,7 +37,7 @@ function FormDateFrequency({fetchFrequency}){
         <form onSubmit={handleSubmit} className="flex items-end gap-6">
             <InputPeriod frequency={frequency} setFrequency={setFrequency}/>
             <InputDateBetween startDate={startDate} endDate={endDate} setStartDate={setStartDate} setEndDate={setEndDate}/>
-            <SubmitButton/>
+            <SubmitButton loading={loading}/>
         </form> 
     );
 }

@@ -7,10 +7,23 @@ import InsightAI from "../components/ui/InsightAi";
 import FormDateBetween from "../components/forms/FormDateBetween";
 import {useDateRange} from "../hooks/useDateRange"
 import { useTransactionSummary } from "../hooks/useTransactionSummary";
+import Loading from "../components/animations/Loading";
+import {useState, useEffect} from "react";
 
 function Dashboard() {
     const { fetchTotalDateRange, totalIncome, totalExpense, categories, loading, error } = useDateRange();
     const { transactionSummary, loadingSummary, errorSummary } = useTransactionSummary();
+    const [hasSubmitted, setHasSubmitted] = useState(false);
+
+    const loadingRender = hasSubmitted ? loading : loadingSummary;
+    const errorRender = hasSubmitted ? error : errorSummary;
+
+    // Revert back after submit completes
+    useEffect(() => {
+      if (!loading && hasSubmitted) {
+        setHasSubmitted(false);
+      }
+    }, [loading]);
 
     // Determine which data to show the total expense
     const dataToRenderExpense =
@@ -38,30 +51,42 @@ function Dashboard() {
             <UploadFile/>
             <ViewTransactions/>
           </div>
-
-          {/* Information demonstration */}
           <div className="max-w-5xl mx-auto">
             <div className="flex justify-start my-4">
               <div className="flex items-end gap-6">
-                <FormDateBetween fetchTotalDateRange={fetchTotalDateRange}/>
+                <FormDateBetween fetchTotalDateRange={fetchTotalDateRange} onSubmitStart={() => setHasSubmitted(true)} loading={loadingRender}/>
               </div>
             </div>
+          {errorRender ? (<div className="text-rose-700 text-xl mt-4"> 
+            There is an error. Please contact to IT support.
+          </div>) : (
+            <div>
+              {loadingRender ? (<Loading/>) : (
+                <div>
+                <div>
+                {/* Information demonstration */}
 
-            {/* Info boxes */}
-            <InfoBoxes dataToRenderIncome={dataToRenderIncome} dataToRenderExpense={dataToRenderExpense} balance={balance}/>
 
-            {/*Insights | Advices from AI */}
-            <InsightAI/>
+                {/* Info boxes */}
+                <InfoBoxes dataToRenderIncome={dataToRenderIncome} dataToRenderExpense={dataToRenderExpense} balance={balance}/>
 
-          </div>
+                {/*Insights | Advices from AI */}
+                <InsightAI/>
 
-          {/* Charts */}
-          <div className="flex justify-center gap-4 max-w-5xl mx-auto mt-4">
-            {/* Bar chart → 1/3 */}
-            <BarChart categories={categories}/>
-            {/* Circle chart → 2/3 */}
-            <CircleChart dataToRenderIncome={dataToRenderIncome} dataToRenderExpense={dataToRenderExpense} balance={balance}/>
-          </div>
+              </div>
+
+              {/* Charts */}
+              <div className="flex justify-center gap-4 max-w-5xl mx-auto mt-4">
+                {/* Bar chart → 1/3 */}
+                <BarChart categories={categories}/>
+                {/* Circle chart → 2/3 */}
+                <CircleChart dataToRenderIncome={dataToRenderIncome} dataToRenderExpense={dataToRenderExpense} balance={balance}/>
+              </div>
+              </div>
+              )}
+                </div>
+              )}
+         </div>
       </nav>
     );
 }

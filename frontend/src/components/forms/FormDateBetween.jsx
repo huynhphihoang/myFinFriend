@@ -2,7 +2,7 @@ import { useState } from "react";
 import DateBetween from "../inputs/InputDateBetween";
 import SubmitButton from "../buttons/SubmitButton";
 
-function FormDateBetween({fetchTotalDateRange}){
+function FormDateBetween({fetchTotalDateRange, onSubmitStart, loading}){
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
 
@@ -22,6 +22,8 @@ function FormDateBetween({fetchTotalDateRange}){
             start_date: startDate,
             end_date: endDate,
             };
+            
+        onSubmitStart()
 
         try {
             await fetchTotalDateRange(payload);
@@ -32,7 +34,7 @@ function FormDateBetween({fetchTotalDateRange}){
     return(
         <form onSubmit={handleSubmit} className="flex items-end gap-6">
             <DateBetween startDate={startDate} endDate={endDate} setStartDate={setStartDate} setEndDate={setEndDate}/>
-            <SubmitButton/>
+            <SubmitButton loading={loading}/>
         </form>
       
     );

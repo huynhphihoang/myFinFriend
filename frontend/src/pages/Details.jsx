@@ -4,11 +4,56 @@ import FormDateFrequency from "../components/forms/FormDateFrequency";
 import DetailsInfo from "../components/ui/DetailsInfo";
 import ToggleChange from "../components/toggle/ToggleChange";
 import { useExpenseFrequency } from "../hooks/useExpenseFrenquency";
-import {useState} from "react";
+import { useTransaction } from "../hooks/useTransactions";
+import {useState, useEffect} from "react";
+
 function Details() {
     const { fetchFrequency, expenseData, incomeData, loading, error } = useExpenseFrequency();
+    const { transaction, loadingTransaction, errorTransaction } = useTransaction();
     const [active, setActive] = useState("all");
-    console.log(active)
+    const [hasSubmitted, setHasSubmitted] = useState(false);
+
+    const hasIncomeFilter = incomeData?.length > 0;
+    const hasExpenseFilter = expenseData?.length > 0;
+
+    const loadingRender = hasSubmitted ? loading : loadingTransaction;
+    const errorRender = hasSubmitted ? error : errorTransaction ;
+    
+    // Determine which data to get the expense transactions
+    const dataToRenderExpense =
+    expenseData && expenseData.length > 0
+        ? expenseData     
+        : transaction
+    
+    // Determine which data to get the income transactions
+    const dataToRenderIncome =
+    incomeData && incomeData.length > 0
+        ? incomeData     
+        : transaction
+
+    // Determine which data to get the all transactions if the filter is using.
+    let dataToRenderAll;
+
+    // If Income and expense is filtering, then use the combined data from those dataToRender, 
+    // otherwise, use the all transactions data.
+    if (hasIncomeFilter || hasExpenseFilter) {
+        // backend returned filtered data
+        dataToRenderAll = [
+            ...(dataToRenderIncome || []),
+            ...(dataToRenderExpense || []),
+    ];
+    } else {
+        // fallback: already full dataset
+        dataToRenderAll = transaction;
+    }
+
+    // Revert back after submit completes
+    useEffect(() => {
+        if (!loading && hasSubmitted) {
+        setHasSubmitted(false);
+        }
+    }, [loading]);
+
     return (
         <div className="font-manrope">
             <div className="flex items-center my-5 relative">
@@ -28,7 +73,7 @@ function Details() {
 
             <div className="flex justify-center my-4">
                 {/*Date between selectors*/}
-                <FormDateFrequency fetchFrequency={fetchFrequency}/>
+                <FormDateFrequency fetchFrequency={fetchFrequency} onSubmitStart={() => setHasSubmitted(true)} loading={loadingRender}/>
             </div>
 
             <nav className="w-5/6 mx-auto">
@@ -36,7 +81,7 @@ function Details() {
                 
                 {/* Details information including total expesne, total income, balance, 
                 each transactions with categories and details*/}
-                <DetailsInfo expenseData={expenseData} incomeData={incomeData} active={active}/>
+                <DetailsInfo dataToRenderExpense={dataToRenderExpense} dataToRenderIncome={dataToRenderIncome} dataToRenderAll={dataToRenderAll} active={active} loadingRender={loadingRender} errorRender={errorRender} hasIncomeFilter={hasIncomeFilter} hasExpenseFilter = {hasExpenseFilter}/> 
             </nav>
         </div>
     );
