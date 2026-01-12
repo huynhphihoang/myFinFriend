@@ -4,9 +4,11 @@ import FormDateFrequency from "../components/forms/FormDateFrequency";
 import DetailsInfo from "../components/ui/DetailsInfo";
 import ToggleChange from "../components/toggle/ToggleChange";
 import { useExpenseFrequency } from "../hooks/useExpenseFrenquency";
-
+import {useState} from "react";
 function Details() {
     const { fetchFrequency, expenseData, incomeData, loading, error } = useExpenseFrequency();
+    const [active, setActive] = useState("all");
+    console.log(active)
     return (
         <div className="font-manrope">
             <div className="flex items-center my-5 relative">
@@ -28,11 +30,14 @@ function Details() {
                 {/*Date between selectors*/}
                 <FormDateFrequency fetchFrequency={fetchFrequency}/>
             </div>
-            <ToggleChange/>
-            
-            {/* Details information including total expesne, total income, balance, 
-            each transactions with categories and details*/}
-            <DetailsInfo expenseData={expenseData} incomeData={incomeData}/>
+
+            <nav className="w-5/6 mx-auto">
+                <ToggleChange active={active} setActive={setActive}/>
+                
+                {/* Details information including total expesne, total income, balance, 
+                each transactions with categories and details*/}
+                <DetailsInfo expenseData={expenseData} incomeData={incomeData} active={active}/>
+            </nav>
         </div>
     );
 }

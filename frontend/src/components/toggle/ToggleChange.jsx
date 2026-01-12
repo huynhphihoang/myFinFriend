@@ -1,14 +1,11 @@
-import { useState } from "react";
 
-function ToggleChange() {
-    const [active, setActive] = useState("all");
+function ToggleChange({active, setActive}) {
 
     const base =
     "flex-1 text-center py-2 rounded-md cursor-pointer transition duration-300";
     
     return(
-    <div className="flex justify-end mx-4">
-    <div className="flex w-2/6 border border-black rounded-lg p-1 gap-1">
+    <div className="w-2/6 border border-black rounded-lg p-1 flex gap-1">
         
         <button
         onClick={() => setActive("income")}
@@ -43,7 +40,6 @@ function ToggleChange() {
         All
         </button>
 
-    </div>
     </div>
     );
 }
