@@ -2,10 +2,12 @@ import { useState } from "react";
 
 import { fetchIncomeDateRange } from "../api/transaction";
 import { fetchExpenseDateRange } from "../api/transaction";
+import { fetchCategoriesDateRange } from "../api/transaction";
 
 export function useDateRange() {
   const [totalIncome, setTotalIncome] = useState([]);
   const [totalExpense, setTotalExpense] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -14,8 +16,10 @@ export function useDateRange() {
     try {
       const resIncome = await fetchIncomeDateRange(payload);
       const resExpense = await fetchExpenseDateRange(payload);
+      const resCategories = await fetchCategoriesDateRange(payload);
       setTotalIncome(resIncome);
       setTotalExpense(resExpense);
+      setCategories(resCategories)
       setError(null);
     } catch (err) {
       setError(err);
@@ -24,5 +28,5 @@ export function useDateRange() {
     }
   }
 
-  return { fetchTotalDateRange, totalIncome, totalExpense, loading, error };
+  return { fetchTotalDateRange, totalIncome, totalExpense, categories, loading, error };
 }

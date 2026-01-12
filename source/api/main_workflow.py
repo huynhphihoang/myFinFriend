@@ -8,7 +8,7 @@ from db.supabase_client import get_supabase_anon
 from ai.gemini_client import extract_transactions
 from flows.file_parser import parse_file
 from flows.ai_parser import parse_ai_json
-from analytics.analytical_functions import get_expenses_by_categories,get_expenses_by_frequency,get_income_by_frequency, get_total_expense_by_date_range, get_total_income_by_date_range
+from analytics.analytical_functions import get_expenses_by_categories,get_expenses_by_frequency,get_income_by_frequency, get_total_expense_by_date_range, get_total_income_by_date_range, get_transactions_by_date_range
 from datetime import datetime
 
 # The URL for the api to connect
@@ -213,7 +213,7 @@ def get_income_date_range():
     return jsonify({"total_income": result[0]["total_income"]})
 
 @bp.post("/expense_date_range")
-def get_expesne_date_range():
+def get_expense_date_range():
     auth = request.headers.get("Authorization")
     if not auth:
         return jsonify({"error": "Missing token"}), 401
@@ -240,3 +240,36 @@ def get_expesne_date_range():
     result = get_total_expense_by_date_range(data, start_dt,end_dt)
     
     return jsonify({"total_expense": result[0]["total_expense"]})
+
+
+@bp.post("/categories_date_range")
+def get_categories_date_range():
+    auth = request.headers.get("Authorization")
+    if not auth:
+        return jsonify({"error": "Missing token"}), 401
+
+    token = auth.split(" ")[1]
+    supabase = get_supabase_anon(token)
+
+    date_time = request.get_json()
+    if not date_time:
+        return jsonify({"error": "Missing request body"}), 400
+
+    start_date = date_time.get("start_date")
+    end_date = date_time.get("end_date")
+    
+    if not start_date or not end_date:
+        return jsonify({"error": "Missing start_date or end_date"}), 400
+
+    data = get_transactions_from_supabase(supabase)
+
+    # Convert to datetime
+    start_dt = datetime.fromisoformat(start_date)
+    end_dt = datetime.fromisoformat(end_date)
+    
+    # Filter data by date range start date to end date and group by categories.
+    filtered_data = get_transactions_by_date_range(data,start_dt, end_dt)
+
+    filtered_data_by_categories = get_expenses_by_categories(filtered_data)
+    print(filtered_data_by_categories)
+    return filtered_data_by_categories

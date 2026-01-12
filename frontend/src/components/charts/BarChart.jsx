@@ -33,11 +33,11 @@ const shadowPlugin = {
   },
 };
 
-function BarChart() {
+function BarChart({categories}) {
   const { transaction, loading, error } = useExpenseCategories();
-  console.log(transaction)
-  const labelValues = transaction.map(item => item['category_name']);
-  const dataValues = transaction.map(item => Math.abs(item['total_expense']));
+  const dataToRender = categories && categories.length == 0 ? transaction : categories 
+  const labelValues = dataToRender.map(item => item['category_name']);
+  const dataValues = dataToRender.map(item => Math.abs(item['total_expense']));
   const data = {
     labels: labelValues,
     datasets: [

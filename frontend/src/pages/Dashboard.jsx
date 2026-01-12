@@ -9,7 +9,7 @@ import {useDateRange} from "../hooks/useDateRange"
 import { useTransactionSummary } from "../hooks/useTransactionSummary";
 
 function Dashboard() {
-    const { fetchTotalDateRange, totalIncome, totalExpense, loading, error } = useDateRange();
+    const { fetchTotalDateRange, totalIncome, totalExpense, categories, loading, error } = useDateRange();
     const { transactionSummary, loadingSummary, errorSummary } = useTransactionSummary();
 
     // Determine which data to show the total expense
@@ -58,7 +58,7 @@ function Dashboard() {
           {/* Charts */}
           <div className="flex justify-center gap-4 max-w-5xl mx-auto mt-4">
             {/* Bar chart → 1/3 */}
-            <BarChart/>
+            <BarChart categories={categories}/>
             {/* Circle chart → 2/3 */}
             <CircleChart dataToRenderIncome={dataToRenderIncome} dataToRenderExpense={dataToRenderExpense} balance={balance}/>
           </div>
