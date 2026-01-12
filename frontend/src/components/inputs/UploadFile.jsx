@@ -29,8 +29,8 @@ function UploadFile() {
         type="button"
         disabled={uploading}
         onClick={() => fileInputRef.current?.click()}
-        className="flex items-center shadow-lg font-manrope font-bold gap-2 border border-black 
-        rounded-full px-5 py-3 hover:bg-black hover:text-white hover:-translate-y-0.5 duration-500 disabled:opacity-60"
+        className={`flex items-center shadow-lg font-manrope font-bold gap-2 border border-black 
+        rounded-full px-5 py-3 hover:bg-black hover:text-white hover:-translate-y-0.5 duration-500 disabled:opacity-60 ${uploading ? "cursor-progress" : ""}`}
       >
         {uploading ? "Uploading..." : "Upload file"}
         <MdOutlineFileUpload className="text-xl" />

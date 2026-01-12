@@ -3,9 +3,8 @@ import ViewTransactions from "../components/buttons/ViewTransactions";
 import BarChart from "../components/charts/BarChart";
 import CircleChart from "../components/charts/CircleChart";
 import InfoBoxes from "../components/ui/InfoBoxes";
-import PeriodInput from "../components/inputs/PeriodInput";
-import InputDate from "../components/inputs/InputDate";
 import InsightAI from "../components/ui/InsightAi";
+import FormDateBetween from "../components/forms/FormDateBetween";
 
 function Dashboard() {
     return (
@@ -24,10 +23,7 @@ function Dashboard() {
           <div className="max-w-5xl mx-auto">
             <div className="flex justify-start my-4">
               <div className="flex items-end gap-6">
-                {/* Monthly selector (left) */}
-
-                {/*Date between selectors*/}
-                <InputDate/>
+                <FormDateBetween/>
               </div>
             </div>
 

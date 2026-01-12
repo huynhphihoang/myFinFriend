@@ -1,7 +1,8 @@
 import {Link} from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
-import InputDate from "../components/inputs/InputDate";
+import FormDateFrequency from "../components/forms/FormDateFrequency";
 import DetailsInfo from "../components/ui/DetailsInfo";
+import ToggleChange from "../components/toggle/ToggleChange";
 import { useExpenseFrequency } from "../hooks/useExpenseFrenquency";
 
 function Details() {
@@ -25,9 +26,10 @@ function Details() {
 
             <div className="flex justify-center my-4">
                 {/*Date between selectors*/}
-                <InputDate fetchFrequency={fetchFrequency}/>
+                <FormDateFrequency fetchFrequency={fetchFrequency}/>
             </div>
-
+            <ToggleChange/>
+            
             {/* Details information including total expesne, total income, balance, 
             each transactions with categories and details*/}
             <DetailsInfo expenseData={expenseData} incomeData={incomeData}/>
