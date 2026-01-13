@@ -1,11 +1,10 @@
 import { IoNotificationsOutline } from "react-icons/io5";
 import { RxAvatar } from "react-icons/rx";
-import { useAuth } from "../../hooks/useAuth";
 import LogInButton from "../buttons/LogInButton";
 import {Link} from "react-router-dom"
 
-function LogoBar () {
-    const { user, loading } = useAuth();
+function LogoBar ({user,loading}) {
+
 
     return(
         <div>

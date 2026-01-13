@@ -3,6 +3,7 @@ import Dashboard from "./pages/Dashboard"
 import Details from "./pages/Details"
 import SignUp from "./pages/SignUp"
 import Profile from "./pages/Profile"
+import { useAuth } from "./hooks/useAuth";
 
 import {
   BrowserRouter as Router,
@@ -12,10 +13,11 @@ import {
 import './index.css';
 
 function App() {
+  const { user, loading } = useAuth();
   return (
     <div>
      <Router>
-      <LogoBar/>
+      <LogoBar user={user} loading={loading}/>
       <Routes>
           <Route
             path="/"
@@ -41,7 +43,7 @@ function App() {
           <Route
             path="/profile"
             element={
-            <Profile/>
+            <Profile user={user} loading={loading}/>
             }>
           </Route>
       </Routes>
