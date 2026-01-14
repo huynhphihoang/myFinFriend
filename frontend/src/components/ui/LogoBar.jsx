@@ -14,7 +14,7 @@ function LogoBar ({isLoggingOut}) {
                         myFinFriend
                     </Link>
                 </h1>
-                {!isLoggingOut ? (   
+                {isLoggingOut===true ? (   
                     <div className="flex gap-4 items-center">            
                         <IoNotificationsOutline
                         className="text-xl cursor-pointer hover:text-gray-700
