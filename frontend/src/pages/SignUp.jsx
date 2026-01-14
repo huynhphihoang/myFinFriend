@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { supabase } from "../supabaseClient";
 import { useNavigate } from "react-router-dom";
 
-export default function SignUp() {
+export default function SignUp({setIsLoggingOut}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -35,7 +35,7 @@ export default function SignUp() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-
+    setIsLoggingOut(false);
     const { error } = isSignUp
       ? await supabase.auth.signUp({ email, password })
       : await supabase.auth.signInWithPassword({ email, password });
@@ -47,18 +47,6 @@ export default function SignUp() {
 
   return (
     <div className="relative h-screen flex items-center justify-center font-manrope">
-
-      {/* Back button */}
-      <div className="absolute left-6 top-6">
-        <Link to="/">
-          <button className="flex items-center gap-2 border border-black rounded-full px-5 py-3
-            hover:bg-black hover:text-white transition">
-            <FaArrowLeft />
-            Back to dashboard
-          </button>
-        </Link>
-      </div>
-
       {/* Auth card */}
       <div className="bg-gradient-to-br from-blue-700 to-blue-300 rounded-lg shadow-xl">
         <h1 className="text-3xl text-white font-bold my-6 text-center">

@@ -3,18 +3,23 @@ import {Link} from "react-router-dom";
 import { supabase } from "../supabaseClient";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Loading from "../components/animations/Loading";
-import { useAuth } from "../hooks/useAuth";
+import { toast} from "react-toastify"
 
-export default function Profile({user,loading}){
+export default function Profile({user,loading, isLoggingOut, setIsLoggingOut}){
     const navigate = useNavigate();
+    const handleLogout = async () => {
+        setIsLoggingOut(true);
+        await supabase.auth.signOut();
+    };
+
     useEffect(() => {
     if (loading) return; 
 
-    if (!user) {
+     if (isLoggingOut) {
+        toast("Successfully log out")
         navigate("/signup");
     }
-    }, [user,loading, navigate]);
+    }, [isLoggingOut, loading, navigate]);
 
     return(
         <div className="h-screen">
@@ -38,7 +43,7 @@ export default function Profile({user,loading}){
                         </button>
                     </Link>
 
-                    <button className="hover:bg-rose-600 hover:text-white text-red-600 w-full rounded-lg py-4" > Log out </button>
+                    <button className="hover:bg-rose-600 hover:text-white text-red-600 w-full rounded-lg py-4" onClick={handleLogout}> Log out </button>
                 </div>
             </div>
         </div>

@@ -10,8 +10,9 @@ import { useTransactionSummary } from "../hooks/useTransactionSummary";
 import Loading from "../components/animations/Loading";
 import {useState, useEffect} from "react";
 import InExLineChart from "../components/charts/LineChart";
+import { useNavigate } from "react-router-dom";
 
-function Dashboard() {
+function Dashboard({user}) {
     const { fetchTotalDateRange, totalIncome, totalExpense, categories, loading, error } = useDateRange();
     const { transactionSummary, loadingSummary, errorSummary } = useTransactionSummary();
     const [hasSubmitted, setHasSubmitted] = useState(false);
@@ -19,12 +20,21 @@ function Dashboard() {
     const loadingRender = hasSubmitted ? loading : loadingSummary;
     const errorRender = hasSubmitted ? error : errorSummary;
 
+    const navigate = useNavigate();
+
     // Revert back after submit completes
     useEffect(() => {
       if (!loading && hasSubmitted) {
         setHasSubmitted(false);
       }
     }, [loading]);
+
+    
+    useEffect(() => {
+    if (user === null) {
+      navigate("/signup"); 
+    }
+  }, [user, navigate]);
 
     // Determine which data to show the total expense
     const dataToRenderExpense =

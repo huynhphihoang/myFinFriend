@@ -4,6 +4,9 @@ import Details from "./pages/Details"
 import SignUp from "./pages/SignUp"
 import Profile from "./pages/Profile"
 import { useAuth } from "./hooks/useAuth";
+import { useState } from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import {
   BrowserRouter as Router,
@@ -14,15 +17,17 @@ import './index.css';
 
 function App() {
   const { user, loading } = useAuth();
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+
   return (
     <div>
      <Router>
-      <LogoBar user={user} loading={loading}/>
+      <LogoBar user={user} loading={loading} isLoggingOut={isLoggingOut}/>
       <Routes>
           <Route
             path="/"
             element={
-            <Dashboard/>
+            <Dashboard user={user}/>
             }>
           </Route>
           
@@ -36,17 +41,18 @@ function App() {
           <Route
             path="/signup"
             element={
-            <SignUp/>
+            <SignUp setIsLoggingOut={setIsLoggingOut}/>
             }>
           </Route>
 
           <Route
             path="/profile"
             element={
-            <Profile user={user} loading={loading}/>
+            <Profile user={user} loading={loading} isLoggingOut={isLoggingOut} setIsLoggingOut={setIsLoggingOut}/>
             }>
           </Route>
       </Routes>
+       <ToastContainer position="top-right" autoClose={2000} />
      </Router>
     </div>
   );
