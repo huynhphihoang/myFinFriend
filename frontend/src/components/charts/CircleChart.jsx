@@ -24,12 +24,12 @@ const shadowPlugin = {
   },
 };
 
-function CircleChart({dataToRenderIncome, dataToRenderExpense, balance}) {
+function CircleChart({dataToRenderIncome, dataToRenderExpense}) {
   const data = {
-    labels: ["Income", "Usage", "Remaining"],
+    labels: ["Income", "Usage"],
     datasets: [
       {
-        data: [dataToRenderIncome.total_income,dataToRenderExpense.total_expense,balance],
+        data: [dataToRenderIncome.total_income,dataToRenderExpense.total_expense],
         backgroundColor: [
           "#34d399", // emerald-400
           "#fb7185", // rose-400
@@ -62,7 +62,7 @@ function CircleChart({dataToRenderIncome, dataToRenderExpense, balance}) {
   return (
     <div className="flex-1 bg-white font-manrope rounded-2xl shadow-xl p-4">
       <h3 className="text-center font-bold text-sm opacity-80 mb-2">
-        Cash Overview
+        Income vs expense
       </h3>
 
       <div className="w-64 mx-auto">

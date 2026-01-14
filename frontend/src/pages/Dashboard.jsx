@@ -9,6 +9,7 @@ import {useDateRange} from "../hooks/useDateRange"
 import { useTransactionSummary } from "../hooks/useTransactionSummary";
 import Loading from "../components/animations/Loading";
 import {useState, useEffect} from "react";
+import InExLineChart from "../components/charts/LineChart";
 
 function Dashboard() {
     const { fetchTotalDateRange, totalIncome, totalExpense, categories, loading, error } = useDateRange();
@@ -71,7 +72,7 @@ function Dashboard() {
                 <InfoBoxes dataToRenderIncome={dataToRenderIncome} dataToRenderExpense={dataToRenderExpense} balance={balance}/>
 
                 {/*Insights | Advices from AI */}
-                <InsightAI/>
+                {/*<InsightAI/> - consider to use in the future*/}
 
               </div>
 
@@ -80,7 +81,8 @@ function Dashboard() {
                 {/* Bar chart → 1/3 */}
                 <BarChart categories={categories}/>
                 {/* Circle chart → 2/3 */}
-                <CircleChart dataToRenderIncome={dataToRenderIncome} dataToRenderExpense={dataToRenderExpense} balance={balance}/>
+                <CircleChart dataToRenderIncome={dataToRenderIncome} dataToRenderExpense={dataToRenderExpense}/>
+                {/*<InExLineChart/> - consider to use it in the future*/}
               </div>
               </div>
               )}
