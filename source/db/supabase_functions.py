@@ -278,3 +278,43 @@ def update_transaction(
 
     except Exception as e:
         raise RuntimeError(f"Get transactions from supabase failed: {e}")
+    
+# This function DELETES a transaction record from supabase "transaction_history" based on transaction_id
+def delete_transaction(
+        SUPABASE_CLIENT_ANON,
+        transaction_id: int
+):
+    # Check if there is a matching record using transaction_id
+    check_record = (
+        SUPABASE_CLIENT_ANON
+        .table("transaction_history")
+        .select("transaction_id")
+        .eq("transaction_id",transaction_id)
+        .execute()
+    )
+
+    if not check_record.data:
+        print("The record doesn't exist in the database")
+        return
+    
+    # Delete the desired record
+    SUPABASE_CLIENT_ANON \
+        .table("transaction_history") \
+        .delete() \
+        .eq("transaction_id", transaction_id) \
+        .execute()
+    
+    # Verify if it's deleted
+    verify = (
+        SUPABASE_CLIENT_ANON
+        .table("transaction_history")
+        .select("transaction_id")
+        .eq("transaction_id", transaction_id)
+        .execute()
+    )
+
+    if not verify.data:
+        print("Transaction is successfully deleted")
+        return
+    else:
+        raise ValueError("Delete operation failed: transaction still exists")
