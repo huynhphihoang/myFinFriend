@@ -7,6 +7,29 @@ from flask import jsonify
 import os
 import requests
 
+# Category_id mapping for UPDATE functions
+CATEGORY_NAME_TO_ID = {
+    "Groceries": 1,
+    "Utilities": 2,
+    "Cash": 3,
+    "Eating out & Takeaway": 4,
+    "Shopping": 5,
+    "Entertainment": 6,
+    "Health & Medical": 7,
+    "Rent": 8,
+    "Mortgage": 9,
+    "Insurance": 10,
+    "Travel & Holidays": 11,
+    "Vehicle & Transport": 12,
+    "Other": 13,
+    "Fees & Interest": 14,
+    "Subscriptions": 15,
+    "Sport & Fitness": 16,
+    "Super Contributions": 17,
+    "Income": 18,
+}
+
+
 # USE SUPABASE_CLIENT_SERVICE from supabase_client_service.py for this function 
 def get_transaction_categories_with_ids(SUPABASE_CLIENT_SERVICE) -> list:
     """
@@ -144,7 +167,7 @@ def get_transactions_from_supabase(SUPABASE_CLIENT_ANON) ->  List[Dict[str, Any]
             .execute()
         )
 
-        # Reformatting category_list(category_name) into categroy_name
+        # Reformatting category_list(category_name) into category_name
         data = transactions.data
 
         for row in data:
@@ -216,3 +239,42 @@ def login_and_get_token(email, password):
     res.raise_for_status()
 
     return res.json()["access_token"]
+
+# This function UPDATES a CURRENT transaction inside SUPABASE and returns the UPDATED record
+def update_transaction(
+        SUPABASE_CLIENT_ANON,
+        transaction: Dict[str, Any]
+):
+    # Convert the category_name back into transaction_Category_id
+    transaction_category_id = CATEGORY_NAME_TO_ID[transaction["category_name"]]
+
+    if transaction_category_id is None:
+        raise ValueError("Invalid category_name provided")
+
+    try:
+        update = (
+            SUPABASE_CLIENT_ANON
+            .table("transaction_history")
+            .update({
+                "transaction_date": transaction["transaction_date"],
+                "transaction_details": transaction["transaction_details"],
+                "transaction_amount": float(transaction["transaction_amount"]),
+                "transaction_category_id": transaction_category_id,
+                })
+                .eq("transaction_id", transaction["transaction_id"])
+                .execute()
+            )
+
+        # Reformatting category_list(category_name) into category_name
+        data = update.data
+
+        for row in data:
+            row["category_name"] = (
+                row.get("category_list", {}).get("category_name")
+            )
+            row.pop("category_list", None)
+
+        return data
+
+    except Exception as e:
+        raise RuntimeError(f"Get transactions from supabase failed: {e}")
