@@ -5,15 +5,16 @@ A personal financial management web-app that integrates AI-powered tools to keep
 - Backend: Python (flask)
 - Frontend: ReactJS, TailwindCSS, Toastify.
 - Database: Supabase.
+- Analytics: pandas
 
-# How to download
+# How to run
 ## Frontend
-- Go to the folder "frontend" and then type `npm install`
-- Wait until the system is done download.
+- Navigate to the folder "frontend" and then type `npm install`
+- Wait until the system is done downloading.
 - Finally, type `npm start` to start the website.
 
 ## Backend
-- Go to the folder "source" and then type `pip install -r requirements.txt` to download the requirements
+- Navigate to the folder "source" and then type `pip install -r requirements.txt` to download the requirements
 - Then, type `python main` to run the backend while running the frontend.
 
 # UI/UX website
@@ -40,14 +41,16 @@ A personal financial management web-app that integrates AI-powered tools to keep
 - Allow to go to dashboard and details transaction
 - Allow the user to log out the account with the notification "Successfully log out"
 
-# Supabase Schemas
+# Data Schemas and Backend Configuration
+## Supabase Schemas
 
 
-# Supabase RSL Policy
+## Supabase RSL Policy
 - Users can **only read their own rows**
 - Users can **insert new rows for themselves**
 - Users can **update their own rows** (unfinished)
 - Users *cannot* access/read/update other users' rows
 - Backend (server) has access to every users' rows.
+
 
 
