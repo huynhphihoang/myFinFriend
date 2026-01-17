@@ -4,7 +4,7 @@ import Details from "./pages/Details"
 import SignUp from "./pages/SignUp"
 import Profile from "./pages/Profile"
 import { useAuth } from "./hooks/useAuth";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -19,6 +19,11 @@ function App() {
   const { user, loading } = useAuth();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
+  useEffect(() => {
+    if (user) {
+      setIsLoggingOut(true);
+    }
+  }) 
   return (
     <div>
      <Router>

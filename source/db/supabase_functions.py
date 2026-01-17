@@ -267,7 +267,7 @@ def update_transaction(
 
         # Reformatting category_list(category_name) into category_name
         data = update.data
-
+        print(update)
         for row in data:
             row["category_name"] = (
                 row.get("category_list", {}).get("category_name")
@@ -295,7 +295,7 @@ def delete_transaction(
 
     if not check_record.data:
         print("The record doesn't exist in the database")
-        return
+        return False
     
     # Delete the desired record
     SUPABASE_CLIENT_ANON \
@@ -315,6 +315,6 @@ def delete_transaction(
 
     if not verify.data:
         print("Transaction is successfully deleted")
-        return
+        return True
     else:
         raise ValueError("Delete operation failed: transaction still exists")

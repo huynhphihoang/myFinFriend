@@ -45,7 +45,7 @@ app = Flask(__name__)
 
 CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}},
     allow_headers=["Authorization", "Content-Type"],
-    methods=["GET", "POST", "OPTIONS"],)
+    methods=["GET", "POST", "OPTIONS","DELETE","PUT"],)
 
 register_blueprints(app)
 
