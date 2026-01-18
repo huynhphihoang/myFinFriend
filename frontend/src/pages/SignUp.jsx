@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { supabase } from "../supabaseClient";
 import { useNavigate } from "react-router-dom";
 
-export default function SignUp({setIsLoggingOut}) {
+export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -35,7 +35,6 @@ export default function SignUp({setIsLoggingOut}) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setIsLoggingOut(false);
     const { error } = isSignUp
       ? await supabase.auth.signUp({ email, password })
       : await supabase.auth.signInWithPassword({ email, password });

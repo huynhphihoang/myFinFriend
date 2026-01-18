@@ -3,7 +3,7 @@ import { RxAvatar } from "react-icons/rx";
 import LogInButton from "../buttons/LogInButton";
 import {Link} from "react-router-dom"
 
-function LogoBar ({isLoggingOut}) {
+function LogoBar ({isLoggingIn}) {
     return(
         <div>
             <div className='flex justify-between m-4'>
@@ -12,7 +12,7 @@ function LogoBar ({isLoggingOut}) {
                         myFinFriend
                     </Link>
                 </h1>
-                {isLoggingOut===true ? (   
+                {isLoggingIn===true ? (   
                     <div className="flex gap-4 items-center">            
                         <IoNotificationsOutline
                         className="text-xl cursor-pointer hover:text-gray-700

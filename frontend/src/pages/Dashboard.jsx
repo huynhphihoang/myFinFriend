@@ -12,7 +12,7 @@ import { useTransactionSummary } from "../hooks/useTransactionSummary";
 import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 
-function Dashboard({ user }) {
+function Dashboard({ user, authReady }) {
   /* -------------------- hooks -------------------- */
   const {
     fetchTotalDateRange,
@@ -41,10 +41,11 @@ function Dashboard({ user }) {
   const [loadingState, setLoadingState] = useState(true);
   const [errorState, setErrorState] = useState(null);
   const [isFiltered, setIsFiltered] = useState(false);
-  console.log(loadingState)
 
   /* -------------------- auth guard -------------------- */
+  
   useEffect(() => {
+    if (!authReady) return
     if (!user) navigate("/signup");
   }, [user, navigate]);
 

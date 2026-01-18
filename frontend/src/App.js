@@ -16,23 +16,17 @@ import {
 import './index.css';
 
 function App() {
-  const { user, loading } = useAuth();
-  const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const { user, loading, isLoggingIn, authReady } = useAuth();
 
-  useEffect(() => {
-    if (user) {
-      setIsLoggingOut(true);
-    }
-  }) 
   return (
     <div>
      <Router>
-      <LogoBar user={user} loading={loading} isLoggingOut={isLoggingOut}/>
+      <LogoBar user={user} loading={loading} isLoggingIn={isLoggingIn}/>
       <Routes>
           <Route
             path="/"
             element={
-            <Dashboard user={user}/>
+            <Dashboard user={user} authReady={authReady}/>
             }>
           </Route>
           
@@ -46,14 +40,14 @@ function App() {
           <Route
             path="/signup"
             element={
-            <SignUp setIsLoggingOut={setIsLoggingOut}/>
+            <SignUp/>
             }>
           </Route>
 
           <Route
             path="/profile"
             element={
-            <Profile user={user} loading={loading} isLoggingOut={isLoggingOut} setIsLoggingOut={setIsLoggingOut}/>
+            <Profile user={user} loading={loading}/>
             }>
           </Route>
       </Routes>
