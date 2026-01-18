@@ -13,3 +13,6 @@ supabase>=2.0.0
 # Note: google-generativeai is deprecated, using google-genai instead
 # download: pip install google-genai
 google-genai>=1.0.0
+
+#pandas for analytical functions
+pandas>=2.3.3
