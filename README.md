@@ -7,6 +7,19 @@ A personal financial management web-app that integrates AI-powered tools to keep
 - Database: Supabase.
 - Analytics: pandas
 
+## Technologies Used
+
+[![Python](https://img.shields.io/badge/Python-Latest-red)](https://docs.python.org/3/)
+[![Flask](https://img.shields.io/badge/Flask-Latest-red)](https://flask.palletsprojects.com/)
+
+[![React](https://img.shields.io/badge/ReactJS-Latest-blue)](https://react.dev/)
+[![TailwindCSS](https://img.shields.io/badge/TailwindCSS-Latest-yellow)](https://tailwindcss.com/docs)
+[![Toastify](https://img.shields.io/badge/Toastify-Latest-purple)](https://fkhadra.github.io/react-toastify/introduction)
+
+[![Supabase](https://img.shields.io/badge/Supabase-Latest-brightgreen)](https://supabase.com/docs)
+
+[![pandas](https://img.shields.io/badge/pandas-Latest-darkblue)](https://pandas.pydata.org/docs/)
+
 # How to run
 ## Frontend
 - Navigate to the folder "frontend" and then type `npm install`
@@ -91,6 +104,7 @@ The following RLS policies have been set using PostgreSQL:
 - Users can **delete their own rows**
 - Users *cannot* access/read/update other users' rows
 - Backend (server) has access to every users' rows.
+
 
 
 
