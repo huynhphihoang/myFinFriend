@@ -1,24 +1,22 @@
 # myFinFriend
 A personal financial management web-app that integrates AI-powered tools to keep on track of your spending and budget
 
-# Technologies
-- Backend: Python (flask)
-- Frontend: ReactJS, TailwindCSS, Toastify.
-- Database: Supabase.
-- Analytics: pandas
+---
 
-## Technologies Used
+# Technologies Used
 
-[![Python](https://img.shields.io/badge/Python-Latest-red)](https://docs.python.org/3/)
-[![Flask](https://img.shields.io/badge/Flask-Latest-red)](https://flask.palletsprojects.com/)
+[![Python](https://img.shields.io/badge/Python-3.10.2-red)](https://docs.python.org/3/)
+[![Flask](https://img.shields.io/badge/Flask-3.1.2-red)](https://flask.palletsprojects.com/)
 
 [![React](https://img.shields.io/badge/ReactJS-Latest-blue)](https://react.dev/)
 [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-Latest-yellow)](https://tailwindcss.com/docs)
 [![Toastify](https://img.shields.io/badge/Toastify-Latest-purple)](https://fkhadra.github.io/react-toastify/introduction)
 
-[![Supabase](https://img.shields.io/badge/Supabase-Latest-brightgreen)](https://supabase.com/docs)
+[![Supabase](https://img.shields.io/badge/Supabase-2.27.1-brightgreen)](https://supabase.com/docs)
 
-[![pandas](https://img.shields.io/badge/pandas-Latest-darkblue)](https://pandas.pydata.org/docs/)
+[![pandas](https://img.shields.io/badge/pandas-2.3.3-darkblue)](https://pandas.pydata.org/docs/)
+
+[![Google Gen-Ai](https://img.shields.io/badge/GoogleGenAI-1.57.0-darkblue)](https://ai.google.dev/gemini-api/docs/models#gemini-3-flash)
 
 # How to run
 ## Frontend
@@ -104,6 +102,7 @@ The following RLS policies have been set using PostgreSQL:
 - Users can **delete their own rows**
 - Users *cannot* access/read/update other users' rows
 - Backend (server) has access to every users' rows.
+
 
 
 
