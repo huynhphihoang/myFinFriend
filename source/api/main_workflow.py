@@ -91,7 +91,6 @@ def upload_file():
         # Connect with the SUPABASE
         SUPABASE_CLIENT_ANON = get_supabase_anon(token)
         
-
         pdf_text = parse_file(file_bytes, mime_type)
         
         # Refresh the Supabase Client Anon
@@ -110,7 +109,7 @@ def upload_file():
         
         # Take the JSON object.
         parse_ai = parse_ai_json(result)
-        print(parse_ai)
+        upload_file_supabase(SUPABASE_CLIENT_ANON,file_bytes,file.filename,mime_type)
         insert_transaction_supabase(SUPABASE_CLIENT_ANON, parse_ai)
         
         return jsonify({

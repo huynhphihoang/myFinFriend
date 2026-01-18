@@ -64,7 +64,10 @@ def upload_file_supabase(SUPABASE_CLIENT_ANON, file_bytes: bytes, filename: str,
     
     # Upload to supabase storage bucket
     storage_path = f"{current_uid}/{filename}"
-
+    
+    if isExist(SUPABASE_CLIENT_ANON, storage_path):
+        return
+    
     upload_request = (
         SUPABASE_CLIENT_ANON
         .storage
@@ -93,8 +96,22 @@ def upload_file_supabase(SUPABASE_CLIENT_ANON, file_bytes: bytes, filename: str,
     return {
         "storage_path": storage_path
     }
-    
 
+# This function helps check if the filename is existed in the upload storage
+def isExist(supabase, path: str) -> bool:
+    try:
+        # Split folder & filename
+        if "/" in path:
+            folder, filename = path.rsplit("/", 1)
+        else:
+            folder, filename = "", path
+
+        files = supabase.storage.from_("Upload Storage").list(folder)
+
+        return any(f["name"] == filename for f in files)
+    except Exception:
+        return False
+    
 # This function is used to verify the upload_status of a file based on its file_name
 def verify_upload_status(
         filename: str,
@@ -273,7 +290,7 @@ def update_transaction(
 
         # Reformatting category_list(category_name) into category_name
         data = update.data
-        print(update)
+
         for row in data:
             row["category_name"] = (
                 row.get("category_list", {}).get("category_name")
