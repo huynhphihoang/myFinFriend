@@ -1,6 +1,8 @@
-import { BsThreeDotsVertical } from "react-icons/bs";
+import { MdDelete } from "react-icons/md";
+import { FaEdit } from "react-icons/fa";
+import { deleteTransaction } from "../../api/transaction";
 
-function Income({transaction, hasExpenseFilter, hasIncomeFilter}) {
+function Income({transaction, hasExpenseFilter, hasIncomeFilter, handleDelete, handleEdit}) {
     return(
         <div>
             <div className="flex justify-center">
@@ -25,8 +27,13 @@ function Income({transaction, hasExpenseFilter, hasIncomeFilter}) {
                                 +{cat['transaction_amount']}
                             </td>
                             <td className="px-4 py-3">
-                                <div className="flex justify-end">
-                                <BsThreeDotsVertical className="text-gray-700 hover:text-black cursor-pointer" />
+                                <div className="flex justify-end gap-3">
+                                <button onClick={() => handleDelete(cat.transaction_id)}>
+                                    <MdDelete className="text-rose-400 hover:text-rose-700 cursor-pointer"/>
+                                </button>
+                                <button onClick={() => handleEdit(cat)}>
+                                    <FaEdit className="text-blue-400 hover:text-blue-700 cursor-pointer" />
+                                </button>
                                 </div>
                             </td>
                         </tr>

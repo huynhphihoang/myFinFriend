@@ -3,7 +3,7 @@ import InputPeriod from "../inputs/InputPeriod";
 import InputDateBetween from "../inputs/InputDateBetween";
 import SubmitButton from "../buttons/SubmitButton";
 
-function FormDateFrequency({fetchFrequency, onSubmitStart, loading}){
+function FormDateFrequency({fetchFrequency, setFrequencyPayLoad, onSubmitStart, loading}){
     const [frequency, setFrequency] = useState("");
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
@@ -28,6 +28,7 @@ function FormDateFrequency({fetchFrequency, onSubmitStart, loading}){
         onSubmitStart();
         try {
             fetchFrequency(payload)
+            setFrequencyPayLoad(payload)
         } catch (error) {
         console.error("Error fetch the frequency:", error);
         }

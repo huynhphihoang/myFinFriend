@@ -6,10 +6,15 @@ import ToggleChange from "../components/toggle/ToggleChange";
 import { useExpenseFrequency } from "../hooks/useExpenseFrenquency";
 import { useTransaction } from "../hooks/useTransactions";
 import {useState, useEffect} from "react";
+import { IoMdAdd } from "react-icons/io";
+import CreateTransactionModal from "../components/ui/CreateModal";
+import {createTransaction} from "../api/transaction";
+import { toast } from "react-toastify";
 
 function Details() {
     const { fetchFrequency, expenseData, incomeData, loading, error } = useExpenseFrequency();
     const { transaction, loadingTransaction, errorTransaction } = useTransaction();
+    const [openCreate, setOpenCreate] = useState(false);
     const [active, setActive] = useState("all");
     const [hasSubmitted, setHasSubmitted] = useState(false);
 
@@ -47,6 +52,19 @@ function Details() {
         dataToRenderAll = transaction;
     }
 
+    const handleUpdate = async (updatedTransaction) => {
+        try {
+            await createTransaction(updatedTransaction);
+            toast.success("Successullt Create")
+            setOpenCreate(false);
+            setTimeout(() => {
+                window.location.reload();
+            }, 500); 
+        } catch (err) {
+            alert(err.message);
+        }
+        };
+
     // Revert back after submit completes
     useEffect(() => {
         if (!loading && hasSubmitted) {
@@ -77,12 +95,21 @@ function Details() {
             </div>
 
             <nav className="w-5/6 mx-auto">
-                <ToggleChange active={active} setActive={setActive}/>
-                
+                <div className="flex">
+                    <ToggleChange active={active} setActive={setActive}/>
+                    <button className="flex items-center mx-6 border border-black px-6 rounded-full gap-1 bg-green-500 hover:bg-green-700 text-white transition duration-500" onClick={() => setOpenCreate(true)}> <IoMdAdd/> Add </button>
+                </div>
                 {/* Details information including total expesne, total income, balance, 
                 each transactions with categories and details*/}
                 <DetailsInfo dataToRenderExpense={dataToRenderExpense} dataToRenderIncome={dataToRenderIncome} dataToRenderAll={dataToRenderAll} active={active} loadingRender={loadingRender} errorRender={errorRender} hasIncomeFilter={hasIncomeFilter} hasExpenseFilter = {hasExpenseFilter}/> 
             </nav>
+
+            {openCreate && (
+            <CreateTransactionModal
+                onClose={() => setOpenCreate(false)}
+                onSave={handleUpdate}
+            />
+            )}
         </div>
     );
 }

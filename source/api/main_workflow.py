@@ -3,7 +3,7 @@
 # Necessary imports.
 from flask import Blueprint
 from flask import request, jsonify
-from db.supabase_functions import get_transactions_from_supabase, get_transaction_summary, insert_transaction_supabase, upload_file_supabase, verify_upload_status
+from db.supabase_functions import get_transactions_from_supabase, get_transaction_summary, insert_transaction_supabase, upload_file_supabase, verify_upload_status, delete_transaction,update_transaction
 from db.supabase_client import get_supabase_anon
 from ai.gemini_client import extract_transactions
 from flows.file_parser import parse_file
@@ -273,3 +273,48 @@ def get_categories_date_range():
     filtered_data_by_categories = get_expenses_by_categories(filtered_data)
     print(filtered_data_by_categories)
     return filtered_data_by_categories
+
+
+@bp.delete("/<int:transaction_id>")
+def delete_a_transaction(transaction_id):
+    auth = request.headers.get("Authorization")
+    if not auth:
+        return jsonify({"error": "Missing token"}), 401
+
+    token = auth.split(" ")[1]
+    supabase = get_supabase_anon(token)
+    print(transaction_id)
+    is_delete = delete_transaction(supabase,transaction_id)
+    return   jsonify({"status": is_delete})
+
+@bp.put("/<int:transaction_id>")
+def update_a_transaction(transaction_id):
+    auth = request.headers.get("Authorization")
+    if not auth:
+        return jsonify({"error": "Missing token"}), 401
+
+    
+    token = auth.split(" ")[1]
+    supabase = get_supabase_anon(token)
+    data = request.get_json()  
+    if not data:
+        return jsonify({"error": "Missing body"}), 400
+    
+    updated_data = update_transaction(supabase,data)
+    return   jsonify({"data": updated_data})
+
+@bp.post("/create")
+def create_a_transaction():
+    auth = request.headers.get("Authorization")
+    if not auth:
+        return jsonify({"error": "Missing token"}), 401
+
+    
+    token = auth.split(" ")[1]
+    supabase = get_supabase_anon(token)
+    data = request.get_json()  
+    if not data:
+        return jsonify({"error": "Missing body"}), 400
+    
+    updated_data = insert_transaction_supabase(supabase,data)
+    return   jsonify({"data": updated_data})

@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { MdOutlineFileUpload } from "react-icons/md";
 import { uploadTransaction } from "../../api/transaction";
+import { toast } from "react-toastify";
 
 function UploadFile() {
   const fileInputRef = useRef(null);
@@ -13,8 +14,10 @@ function UploadFile() {
     try {
       setUploading(true);
       await uploadTransaction(selected); 
-      alert("Uploaded!");
-      window.location.reload();
+      toast.success("Uploaded!");
+      setTimeout(() => {
+        window.location.reload();
+      }, 500)
     } catch (err) {
       alert(err.message || "Upload failed");
     } finally {

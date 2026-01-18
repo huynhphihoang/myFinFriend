@@ -135,6 +135,12 @@ def insert_transaction_supabase(
         transaction: Dict[str, Any]
 ):
     try:
+        # Convert the category_name back into transaction_Category_id
+        transaction_category_id = CATEGORY_NAME_TO_ID[transaction["category_name"]]
+
+        if transaction_category_id is None:
+            raise ValueError("Invalid category_name provided")
+        
         response = (
             SUPABASE_CLIENT_ANON
             .table("transaction_history")
@@ -142,7 +148,7 @@ def insert_transaction_supabase(
             "transaction_date": transaction["transaction_date"],
             "transaction_details": transaction["transaction_details"],
             "transaction_amount": float(transaction["transaction_amount"]),
-            "transaction_category_id": int(transaction["transaction_category_id"]),
+            "transaction_category_id": transaction_category_id,
             })
             .execute()
         )
@@ -267,7 +273,7 @@ def update_transaction(
 
         # Reformatting category_list(category_name) into category_name
         data = update.data
-
+        print(update)
         for row in data:
             row["category_name"] = (
                 row.get("category_list", {}).get("category_name")
@@ -295,7 +301,7 @@ def delete_transaction(
 
     if not check_record.data:
         print("The record doesn't exist in the database")
-        return
+        return False
     
     # Delete the desired record
     SUPABASE_CLIENT_ANON \
@@ -315,6 +321,6 @@ def delete_transaction(
 
     if not verify.data:
         print("Transaction is successfully deleted")
-        return
+        return True
     else:
         raise ValueError("Delete operation failed: transaction still exists")
