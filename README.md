@@ -8,9 +8,9 @@ A personal financial management web-app that integrates AI-powered tools to keep
 [![Python](https://img.shields.io/badge/Python-3.10.2-red)](https://docs.python.org/3/)
 [![Flask](https://img.shields.io/badge/Flask-3.1.2-red)](https://flask.palletsprojects.com/)
 
-[![React](https://img.shields.io/badge/ReactJS-Latest-blue)](https://react.dev/)
-[![TailwindCSS](https://img.shields.io/badge/TailwindCSS-Latest-yellow)](https://tailwindcss.com/docs)
-[![Toastify](https://img.shields.io/badge/Toastify-Latest-purple)](https://fkhadra.github.io/react-toastify/introduction)
+[![React](https://img.shields.io/badge/ReactJS-19.2.3-blue)](https://react.dev/)
+[![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.4.19-yellow)](https://tailwindcss.com/docs)
+[![Toastify](https://img.shields.io/badge/Toastify-11.0.5-purple)](https://fkhadra.github.io/react-toastify/introduction)
 
 [![Supabase](https://img.shields.io/badge/Supabase-2.27.1-brightgreen)](https://supabase.com/docs)
 

@@ -1,106 +1,160 @@
-import UploadFile from "../components/inputs/UploadFile"
+import UploadFile from "../components/inputs/UploadFile";
 import ViewTransactions from "../components/buttons/ViewTransactions";
 import BarChart from "../components/charts/BarChart";
 import CircleChart from "../components/charts/CircleChart";
 import InfoBoxes from "../components/ui/InfoBoxes";
-import InsightAI from "../components/ui/InsightAi";
 import FormDateBetween from "../components/forms/FormDateBetween";
-import {useDateRange} from "../hooks/useDateRange"
-import { useTransactionSummary } from "../hooks/useTransactionSummary";
 import Loading from "../components/animations/Loading";
-import {useState, useEffect} from "react";
-import InExLineChart from "../components/charts/LineChart";
+
+import { useDateRange } from "../hooks/useDateRange";
+import { useTransactionSummary } from "../hooks/useTransactionSummary";
+
+import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 
-function Dashboard({user}) {
-    const { fetchTotalDateRange, totalIncome, totalExpense, categories, loading, error } = useDateRange();
-    const { transactionSummary, loadingSummary, errorSummary } = useTransactionSummary();
-    const [hasSubmitted, setHasSubmitted] = useState(false);
+function Dashboard({ user }) {
+  /* -------------------- hooks -------------------- */
+  const {
+    fetchTotalDateRange,
+    totalIncome,
+    totalExpense,
+    categories,
+    loading,
+    error,
+  } = useDateRange();
 
-    const loadingRender = hasSubmitted ? loading : loadingSummary;
-    const errorRender = hasSubmitted ? error : errorSummary;
+  const {
+    transactionSummary,
+    loadingSummary,
+    errorSummary,
+  } = useTransactionSummary();
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    // Revert back after submit completes
-    useEffect(() => {
-      if (!loading && hasSubmitted) {
-        setHasSubmitted(false);
-      }
-    }, [loading]);
+  /* -------------------- state -------------------- */
+  const [dashboardData, setDashboardData] = useState({
+    income: null,
+    expense: null,
+    categories: [],
+  });
+  
+  const [loadingState, setLoadingState] = useState(true);
+  const [errorState, setErrorState] = useState(null);
+  const [isFiltered, setIsFiltered] = useState(false);
+  console.log(loadingState)
 
-    
-    useEffect(() => {
-    if (user === null) {
-      navigate("/signup"); 
-    }
+  /* -------------------- auth guard -------------------- */
+  useEffect(() => {
+    if (!user) navigate("/signup");
   }, [user, navigate]);
 
-    // Determine which data to show the total expense
-    const dataToRenderExpense =
-    totalExpense && totalExpense.length == 0
-        ? transactionSummary  
-        : totalExpense
+  /* -------------------- initial load -------------------- */
+  useEffect(() => {
+    if (transactionSummary) {
+      setDashboardData({
+        income: transactionSummary,
+        expense: transactionSummary,
+        categories,
+      });
+      setLoadingState(false);
+    }
 
-    // Determine which data to show the total total
-    const dataToRenderIncome =
-    totalIncome && totalIncome.length == 0
-        ? transactionSummary
-        : totalIncome
-    
-    // Calculated the total balance.
-    const balance = dataToRenderIncome.total_income + dataToRenderExpense.total_expense;
+    if (errorSummary) {
+      setErrorState(errorSummary);
+      setLoadingState(false);
+    }
+  }, [transactionSummary, errorSummary, categories]);
+  /* -------------------- date filter submit -------------------- */
+  const handleDateSubmit = async (payload) => {
+    try {
+      setLoadingState(true);
+      setIsFiltered(true);
+      await fetchTotalDateRange(payload);
+      setDashboardData({
+        income: totalIncome,
+        expense: totalExpense,
+        categories,
+      });
+    } catch (err) {
+      setErrorState(err.message);
+    } finally {
+      setLoadingState(false);
+    }
+  };
 
+  /* -------------------- reset filter -------------------- */
+  const resetFilter = () => {
+    setIsFiltered(false);
+
+    setDashboardData({
+      income: transactionSummary,
+      expense: transactionSummary,
+      categories,
+    });
+  };
+
+  /* -------------------- derived values -------------------- */
+  const balance = useMemo(() => {
+    if (!dashboardData.income || !dashboardData.expense) return 0;
     return (
-        <nav className="font-manrope">
-          <h2 className="text-center font-bold text-3xl mt-4">
-            Dashboard
-          </h2>
-
-          {/* Buttons */}
-          <div className="flex justify-center gap-3 mt-3">
-            <UploadFile/>
-            <ViewTransactions/>
-          </div>
-          <div className="max-w-5xl mx-auto">
-            <div className="flex justify-start my-4">
-              <div className="flex items-end gap-6">
-                <FormDateBetween fetchTotalDateRange={fetchTotalDateRange} onSubmitStart={() => setHasSubmitted(true)} loading={loadingRender}/>
-              </div>
-            </div>
-          {errorRender ? (<div className="text-rose-700 text-xl mt-4"> 
-            There is an error. Please contact to IT support.
-          </div>) : (
-            <div>
-              {loadingRender ? (<Loading/>) : (
-                <div>
-                <div>
-                {/* Information demonstration */}
-
-
-                {/* Info boxes */}
-                <InfoBoxes dataToRenderIncome={dataToRenderIncome} dataToRenderExpense={dataToRenderExpense} balance={balance}/>
-
-                {/*Insights | Advices from AI */}
-                {/*<InsightAI/> - consider to use in the future*/}
-
-              </div>
-
-              {/* Charts */}
-              <div className="flex justify-center gap-4 max-w-5xl mx-auto mt-4">
-                {/* Bar chart → 1/3 */}
-                <BarChart categories={categories}/>
-                {/* Circle chart → 2/3 */}
-                <CircleChart dataToRenderIncome={dataToRenderIncome} dataToRenderExpense={dataToRenderExpense}/>
-                {/*<InExLineChart/> - consider to use it in the future*/}
-              </div>
-              </div>
-              )}
-                </div>
-              )}
-         </div>
-      </nav>
+      dashboardData.income.total_income +
+      dashboardData.expense.total_expense
     );
+  }, [dashboardData]);
+
+  /* -------------------- render -------------------- */
+  if (errorState) {
+    return (
+      <div className="text-rose-700 text-xl mt-4 text-center">
+        There is an error. Please contact IT support.
+      </div>
+    );
+  }
+
+  return (
+    <nav className="font-manrope">
+      <h2 className="text-center font-bold text-3xl mt-4">
+        Dashboard
+      </h2>
+
+      {/* Buttons */}
+      <div className="flex justify-center gap-3 mt-3">
+        <UploadFile />
+        <ViewTransactions />
+      </div>
+
+      <div className="max-w-5xl mx-auto">
+        {/* Date Filter */}
+        <div className="flex items-end gap-4 my-4">
+          <FormDateBetween
+          onSubmit={handleDateSubmit}
+          onReset={resetFilter}
+          loading={loadingState}
+          isFiltered={isFiltered}
+        />
+        </div>
+
+        {loadingState ? (<Loading/>) : (<div>
+
+ <InfoBoxes
+          dataToRenderIncome={dashboardData.income}
+          dataToRenderExpense={dashboardData.expense}
+          balance={balance}
+        />
+
+        {/* Charts */}
+        <div className="flex justify-center gap-4 mt-4">
+          <BarChart categories={dashboardData.categories} />
+          <CircleChart
+            dataToRenderIncome={dashboardData.income?.total_income}
+            dataToRenderExpense={dashboardData.expense?.total_expense}
+          />
+        </div>
+        </div>)}
+        {/* Info Boxes */}
+      </div>
+    </nav>
+  );
 }
 
 export default Dashboard;

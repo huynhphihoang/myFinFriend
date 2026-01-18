@@ -18,6 +18,7 @@ export function useDateRange() {
       const resExpense = await fetchExpenseDateRange(payload);
       const resCategories = await fetchCategoriesDateRange(payload);
       setTotalIncome(resIncome);
+      console.log(resIncome);
       setTotalExpense(resExpense);
       setCategories(resCategories)
       setError(null);

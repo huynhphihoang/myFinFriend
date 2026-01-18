@@ -59,7 +59,7 @@ def extract_transactions(pdf_text, SUPABASE_CLIENT_ANON, categories=None):
         "transaction_date": "YYYY-MM-DD",
         "transaction_details": "Rent Receipt",
         "transaction_amount": -120,
-        "transaction_category": "Rent",
+        "category_name": "Rent",
         "transaction_category_id": 8,
         "transaction_type": 1,
         "relevant": true
@@ -70,7 +70,7 @@ def extract_transactions(pdf_text, SUPABASE_CLIENT_ANON, categories=None):
         "transaction_date": "NULL",
         "transaction_details": "NULL",
         "transaction_amount": 0,
-        "transaction_category": "NULL",
+        "category_name": "NULL",
         "transaction_category_id": 0,
         "transaction_type": 0,
         "relevant": false

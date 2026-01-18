@@ -4,8 +4,6 @@ import LogInButton from "../buttons/LogInButton";
 import {Link} from "react-router-dom"
 
 function LogoBar ({isLoggingOut}) {
-
-    console.log(isLoggingOut)
     return(
         <div>
             <div className='flex justify-between m-4'>

@@ -7,7 +7,7 @@ function InfoBoxes({dataToRenderIncome, dataToRenderExpense, balance}) {
                     Income
                 </p>
                 <p className="text-center text-2xl font-bold py-4">
-                    ${dataToRenderIncome.total_income || "----"}
+                    ${dataToRenderIncome?.total_income ?? 0}
                 </p>
             </div>
 
@@ -16,7 +16,7 @@ function InfoBoxes({dataToRenderIncome, dataToRenderExpense, balance}) {
                     Usage
                 </p>
                 <p className="text-center text-2xl font-bold py-4">
-                    ${dataToRenderExpense.total_expense || "----"}
+                    ${dataToRenderExpense?.total_expense ?? 0}
                 </p>
             </div>
 
@@ -25,7 +25,7 @@ function InfoBoxes({dataToRenderIncome, dataToRenderExpense, balance}) {
                     Total Cash Balance
                 </p>
                 <p className="text-center text-2xl font-bold py-4">
-                    ${balance|| "----"}
+                    ${balance|| 0}
                 </p>
             </div>
         </div>

@@ -149,6 +149,7 @@ def get_expenses_by_categories(
     # Turn data into a pandas DataFrame
     df = pd.DataFrame(data)
     
+    #TODO: What if the date between doesn't have any data to show.
     # Filters to show only negative transaction amounts
     df = df[df["transaction_amount"] < 0]
     

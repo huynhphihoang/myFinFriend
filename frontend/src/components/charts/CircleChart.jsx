@@ -29,7 +29,7 @@ function CircleChart({dataToRenderIncome, dataToRenderExpense}) {
     labels: ["Income", "Usage"],
     datasets: [
       {
-        data: [dataToRenderIncome.total_income,dataToRenderExpense.total_expense],
+        data: [dataToRenderIncome,dataToRenderExpense],
         backgroundColor: [
           "#34d399", // emerald-400
           "#fb7185", // rose-400
