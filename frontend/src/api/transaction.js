@@ -298,6 +298,34 @@ export async function updateTransaction(id, payload) {
   return res.json();
 }
 
+   /*   This fetch create the transaction   */
+export async function createTransaction(payload) {
+  if (!session) {
+    throw new Error("User not authenticated");
+  }
+
+  // Send get request to backend to get all text
+  const res = await fetch(
+    `${API_URL}/transactions/create`,
+    { 
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${session.access_token}`,
+      },
+      body: JSON.stringify(payload),
+    }
+  );
+
+  // Verify the response
+  if (!res.ok) {
+    throw new Error("Failed to fetch text");
+  }
+
+  // Return the json of the response
+  return res.json();
+}
+
    /*   This fetch delete the transaction   */
 export async function deleteTransaction(transaction_id) {
   if (!session) {

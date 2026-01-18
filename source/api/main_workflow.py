@@ -296,9 +296,25 @@ def update_a_transaction(transaction_id):
     
     token = auth.split(" ")[1]
     supabase = get_supabase_anon(token)
-    data = request.get_json()  # ✅ get payload
+    data = request.get_json()  
     if not data:
         return jsonify({"error": "Missing body"}), 400
     
     updated_data = update_transaction(supabase,data)
+    return   jsonify({"data": updated_data})
+
+@bp.post("/create")
+def create_a_transaction():
+    auth = request.headers.get("Authorization")
+    if not auth:
+        return jsonify({"error": "Missing token"}), 401
+
+    
+    token = auth.split(" ")[1]
+    supabase = get_supabase_anon(token)
+    data = request.get_json()  
+    if not data:
+        return jsonify({"error": "Missing body"}), 400
+    
+    updated_data = insert_transaction_supabase(supabase,data)
     return   jsonify({"data": updated_data})

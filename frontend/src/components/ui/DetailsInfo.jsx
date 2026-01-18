@@ -16,7 +16,9 @@ export default function DetailsInfo({dataToRenderExpense, dataToRenderIncome, da
         await updateTransaction(updatedTransaction.transaction_id,updatedTransaction);
         toast.success("Sucessfully Update Transaction!!")
         setEditOpen(false);
-        window.location.reload()
+        setTimeout(() => {
+        window.location.reload();
+        }, 500); 
     } catch (err) {
         alert(err.message);
     }

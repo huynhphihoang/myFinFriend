@@ -135,6 +135,12 @@ def insert_transaction_supabase(
         transaction: Dict[str, Any]
 ):
     try:
+        # Convert the category_name back into transaction_Category_id
+        transaction_category_id = CATEGORY_NAME_TO_ID[transaction["category_name"]]
+
+        if transaction_category_id is None:
+            raise ValueError("Invalid category_name provided")
+        
         response = (
             SUPABASE_CLIENT_ANON
             .table("transaction_history")
@@ -142,7 +148,7 @@ def insert_transaction_supabase(
             "transaction_date": transaction["transaction_date"],
             "transaction_details": transaction["transaction_details"],
             "transaction_amount": float(transaction["transaction_amount"]),
-            "transaction_category_id": int(transaction["transaction_category_id"]),
+            "transaction_category_id": transaction_category_id,
             })
             .execute()
         )
