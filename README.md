@@ -18,7 +18,7 @@ A personal financial management web-app that integrates AI-powered tools to keep
 
 [![Google Gen-Ai](https://img.shields.io/badge/GoogleGenAI-1.57.0-darkblue)](https://ai.google.dev/gemini-api/docs/models#gemini-3-flash)
 
-# How to run
+# How to run if you fork it.
 ## Frontend
 - Navigate to the folder "frontend" and then type `npm install`
 - Wait until the system is done downloading.
@@ -28,29 +28,44 @@ A personal financial management web-app that integrates AI-powered tools to keep
 - Navigate to the folder "source" and then type `pip install -r requirements.txt` to download the requirements
 - Then, type `python main` to run the backend while running the frontend.
 
-# UI/UX website
+
+# About Website
 ## Dashboard page
 ![App Screenshot](frontend/public/images/dashboard.png)
-- The main page that allow user to upload the file (.csv or .pdf) to the website.
-- The website allow them to put the start date and end date to view the income, expense and balance between the date.
-- There are five information for the user to view: Income box, expense box, balance box, expense categories, and the comparison of income and expense.
-- There are some buttons to route the other pages: `View transactions`, `avatar-icon`
+- The main page where users can upload files (.csv or .pdf) to the website.
+- Users can select a start date and end date to view income, expenses, and balance within a specific time range.
+- A reset filter option is available to clear the selected date range.
+- Five key financial insights are displayed:
+    - Total Income
+    - Total Expense
+    - Balance
+    - Expense Categories
+    - Income vs Expense Comparison
+- Navigation buttons are provided to access other pages, including View Transactions and the Profile (avatar icon)
 
 ## Details page
 ![App Screenshot](frontend/public/images/detail-page.png)
-- The date range function with frequency allows the user to view the finance based on the frequency and the date between so that they can know how much they have spent in each frequency (weekly, monthly, quarterly) between the date.
-- There are toggles that allow user to change three tables (income, expense, and all transactions)
+- Users can analyse their finances using a date range and frequency filter (weekly, monthly, or quarterly).
+- This helps users understand spending patterns over time.
+- A reset filter button allows users to clear all inputs easily.
+- Toggle buttons let users switch between three tables:
+    - Income
+    - Expense
+    - All Transactions
+- Users can create, edit, and delete transactions directly from this page.
+- Each action (create,edit,delate), the user can receive notification to know if the action is successful.
 
 ## SignUp&LogIn page
 ![App Screenshot](frontend/public/images/log-in&sign-up-page.png)
-- Allow the user to sign up their account if they didn't have any account.
-- Allow the user to change to log in page for accessing their account.
+- Allows new users to create an account.
+- Existing users can log in to access their personal finance data.
+- Users can easily switch between the sign-up and log-in pages.
 
 ## Profile page
 ![App Screenshot](frontend/public/images/profile-page.png)
-- Allow the user to know which the account is.
-- Allow to go to dashboard and details transaction
-- Allow the user to log out the account with the notification "Successfully log out"
+- Displays the currently logged-in account information.
+- Provides quick navigation to the Dashboard and Transaction Details pages.
+- Users can log out, with a confirmation notification: “Successfully logged out”.
   
 ---
 
