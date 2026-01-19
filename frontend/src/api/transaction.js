@@ -322,6 +322,7 @@ export async function createTransaction(payload) {
     throw new Error("Failed to fetch text");
   }
 
+  console.log(res)
   // Return the json of the response
   return res.json();
 }

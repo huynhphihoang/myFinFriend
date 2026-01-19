@@ -172,6 +172,48 @@ def insert_transaction_supabase(
 
     except Exception as e:
         raise RuntimeError(f"Insert transaction supabase failed: {e}")
+
+def find_transaction_supabase(
+    SUPABASE_CLIENT_ANON,
+    transaction):
+    
+    try:
+        # Convert the category_name back into transaction_Category_id
+        transaction_category_id = CATEGORY_NAME_TO_ID[transaction["category_name"]]
+
+        if transaction_category_id is None:
+            raise ValueError("Invalid category_name provided")
+        
+        response = (
+            SUPABASE_CLIENT_ANON
+            .table("transaction_history")
+            .select( 
+                "transaction_id, "
+                "transaction_amount, "
+                "transaction_details, "
+                "transaction_date, "
+                "category_list(category_name)"
+                )
+            .eq("transaction_date", transaction["transaction_date"])
+            .eq("transaction_details", transaction["transaction_details"])
+            .eq("transaction_amount", float(transaction["transaction_amount"]))
+            .eq("transaction_category_id", transaction_category_id)
+            .execute()
+        )
+
+        # Reformatting category_list(category_name) into category_name
+        data = response.data
+
+        for row in data:
+            row["category_name"] = (
+                row.get("category_list", {}).get("category_name")
+            )
+            row.pop("category_list", None)
+            
+        return data
+    
+    except Exception as e:
+        raise RuntimeError(f"Insert transaction supabase failed: {e}")
     
 # This function SELECT a list of transactions from supabase, with RLS: Users can read their own rows
 def get_transactions_from_supabase(SUPABASE_CLIENT_ANON) ->  List[Dict[str, Any]]:

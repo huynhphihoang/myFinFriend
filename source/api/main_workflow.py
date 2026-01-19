@@ -3,7 +3,7 @@
 # Necessary imports.
 from flask import Blueprint
 from flask import request, jsonify
-from db.supabase_functions import get_transactions_from_supabase, get_transaction_summary, insert_transaction_supabase, upload_file_supabase, verify_upload_status, delete_transaction,update_transaction
+from db.supabase_functions import get_transactions_from_supabase, get_transaction_summary, insert_transaction_supabase, upload_file_supabase, verify_upload_status, delete_transaction,update_transaction, find_transaction_supabase
 from db.supabase_client import get_supabase_anon
 from ai.gemini_client import extract_transactions
 from flows.file_parser import parse_file
@@ -315,5 +315,7 @@ def create_a_transaction():
     if not data:
         return jsonify({"error": "Missing body"}), 400
     
-    updated_data = insert_transaction_supabase(supabase,data)
-    return   jsonify({"data": updated_data})
+    insert_transaction_supabase(supabase,data)
+    created_data = find_transaction_supabase(supabase,data)
+    print(created_data)
+    return  created_data

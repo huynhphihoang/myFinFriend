@@ -95,8 +95,8 @@ function Details() {
   const handleCreate = async (newTransaction) => {
     try {
       const created = await createTransaction(newTransaction);
-
-      setTransactions(prev => [created, ...prev]);
+      console.log(created[0])
+      setTransactions(prev => [created[0],...prev]);
       toast.success("Successfully created");
       setOpenCreate(false);
     } catch (err) {
