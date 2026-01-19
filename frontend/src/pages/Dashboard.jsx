@@ -43,10 +43,11 @@ function Dashboard({ user, authReady }) {
   const [isFiltered, setIsFiltered] = useState(false);
 
   /* -------------------- auth guard -------------------- */
-  
+  console.log(user)
+  console.log(authReady)
   useEffect(() => {
-    if (!authReady) return
     if (!user) navigate("/signup");
+    if (!authReady) return
   }, [user, navigate]);
 
   /* -------------------- initial load -------------------- */

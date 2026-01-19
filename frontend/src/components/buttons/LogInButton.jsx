@@ -1,11 +1,10 @@
-import {Link} from "react-router-dom"
 
-export default function LogInButton() {
+export default function LogInButton({isSignUp, setIsSignUp}) {
     return(
-        <div className="flex justify-center px-4 py-1 mx-4 rounded-full hover:-translate-y-1 text-white bg-gradient-to-br from-blue-400 to-blue-600 shadow-3xl duration-500 transition-full"> 
-            <Link to="/signup">
-                Log In
-            </Link>
-        </div>
+        <button type="button" onClick={() => setIsSignUp(false)} className={`flex flex-1 justify-center px-4 py-1 rounded-full 
+        ${isSignUp == false && "bg-gradient-to-br from-blue-500 to-blue-600 text-white"} 
+        text-black  shadow-3xl duration-500 transition-full`}> 
+            Log In
+        </button>
     );
 }

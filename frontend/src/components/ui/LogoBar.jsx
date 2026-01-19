@@ -2,8 +2,9 @@ import { IoNotificationsOutline } from "react-icons/io5";
 import { RxAvatar } from "react-icons/rx";
 import LogInButton from "../buttons/LogInButton";
 import {Link} from "react-router-dom"
+import SignUpButton from "../buttons/SignUpButton";
 
-function LogoBar ({isLoggingIn}) {
+function LogoBar ({isLoggingIn, isSignUp, setIsSignUp}) {
     return(
         <div>
             <div className='flex justify-between m-4'>
@@ -26,7 +27,10 @@ function LogoBar ({isLoggingIn}) {
                         </div>
                               
                     </div> ) : (
-                    <LogInButton/>
+                    <div className="flex w-64 rounded-full bg-gray-200 p-1 shadow-inner">
+                        <LogInButton isSignUp={isSignUp} setIsSignUp={setIsSignUp}/> 
+                        <SignUpButton isSignUp={isSignUp} setIsSignUp={setIsSignUp}/> 
+                    </div>
                 )}
             </div>
             <hr className='border-t-2'/>

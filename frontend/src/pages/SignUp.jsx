@@ -4,12 +4,11 @@ import { Link } from "react-router-dom";
 import { supabase } from "../supabaseClient";
 import { useNavigate } from "react-router-dom";
 
-export default function SignUp() {
+export default function SignUp({isSignUp,setIsSignUp}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [session, setSession] = useState(null);
-  const [isSignUp, setIsSignUp] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -47,7 +46,7 @@ export default function SignUp() {
   return (
     <div className="relative h-screen flex items-center justify-center font-manrope">
       {/* Auth card */}
-      <div className="bg-gradient-to-br from-blue-700 to-blue-300 rounded-lg shadow-xl">
+      <div className={`${isSignUp==true ? "bg-gradient-to-br from-blue-700 to-blue-300" : "bg-gradient-to-br from-blue-300 to-blue-700"} rounded-lg shadow-xl duration-500 transition`}>
         <h1 className="text-3xl text-white font-bold my-6 text-center">
           {isSignUp ? "Sign Up" : "Log In"}
         </h1>

@@ -17,11 +17,12 @@ import './index.css';
 
 function App() {
   const { user, loading, isLoggingIn, authReady } = useAuth();
+  const [isSignUp, setIsSignUp] = useState(true);
 
   return (
     <div>
      <Router>
-      <LogoBar user={user} loading={loading} isLoggingIn={isLoggingIn}/>
+      <LogoBar isSignUp={isSignUp} setIsSignUp={setIsSignUp} isLoggingIn={isLoggingIn} />
       <Routes>
           <Route
             path="/"
@@ -40,7 +41,7 @@ function App() {
           <Route
             path="/signup"
             element={
-            <SignUp/>
+            <SignUp isSignUp={isSignUp} setIsSignUp={setIsSignUp}/>
             }>
           </Route>
 
