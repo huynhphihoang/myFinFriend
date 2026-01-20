@@ -6,10 +6,13 @@ import InfoBoxes from "../components/ui/InfoBoxes";
 import FormDateBetween from "../components/forms/FormDateBetween";
 import Loading from "../components/animations/Loading";
 
+import {toast} from "react-toastify"
+
 import { useDateRange } from "../hooks/useDateRange";
 import { useTransactionSummary } from "../hooks/useTransactionSummary";
+import { useTransaction } from "../hooks/useTransactions";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Dashboard({ user, authReady }) {
@@ -29,6 +32,8 @@ function Dashboard({ user, authReady }) {
     errorSummary,
   } = useTransactionSummary();
 
+  const {transaction, loadingTransaction, errorTransaction} = useTransaction();
+
   const navigate = useNavigate();
 
   /* -------------------- state -------------------- */
@@ -41,6 +46,7 @@ function Dashboard({ user, authReady }) {
   const [loadingState, setLoadingState] = useState(true);
   const [errorState, setErrorState] = useState(null);
   const [isFiltered, setIsFiltered] = useState(false);
+  const hasShownToast = useRef(false);
 
   /* -------------------- auth guard -------------------- */
   console.log(user)
@@ -66,6 +72,27 @@ function Dashboard({ user, authReady }) {
       setLoadingState(false);
     }
   }, [transactionSummary, errorSummary, categories]);
+
+  /* -------------------- initial notification -------------------- */
+  useEffect(() => {
+    if (hasShownToast.current) return;
+
+    const count = transaction.filter(
+      t => t.category_name === "Other"
+    ).length;
+
+    if (count > 0) {
+      const timer = setTimeout(() => {
+        toast.warn(
+          `You have ${count} items that marked as "Other" category. Do you want to change the category of the items?`
+        );
+        hasShownToast.current = true;
+      }, 2000); 
+
+      return () => clearTimeout(timer);
+    }
+  }, [transaction]);
+
   /* -------------------- date filter submit -------------------- */
   const handleDateSubmit = async (payload) => {
     try {
