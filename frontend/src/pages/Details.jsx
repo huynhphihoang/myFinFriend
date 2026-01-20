@@ -14,13 +14,12 @@ import { useExpenseFrequency } from "../hooks/useExpenseFrenquency";
 import { useTransaction } from "../hooks/useTransactions";
 import { createTransaction } from "../api/transaction";
 
-function Details() {
+function Details({transactions,setTransactions}) {
   /* -------------------- hooks -------------------- */
   const { fetchFrequency, expenseData, incomeData } = useExpenseFrequency();
   const { transaction, loadingTransaction, errorTransaction } = useTransaction();
 
   /* -------------------- state -------------------- */
-  const [transactions, setTransactions] = useState([]);
   const [loadingState, setLoadingState] = useState(true);
   const [errorState, setErrorState] = useState(null);
 

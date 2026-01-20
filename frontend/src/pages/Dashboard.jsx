@@ -15,7 +15,7 @@ import { useTransaction } from "../hooks/useTransactions";
 import { useState, useEffect, useRef, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 
-function Dashboard({ user, authReady }) {
+function Dashboard({ user, authReady, transactions }) {
   /* -------------------- hooks -------------------- */
   const {
     fetchTotalDateRange,
@@ -31,8 +31,6 @@ function Dashboard({ user, authReady }) {
     loadingSummary,
     errorSummary,
   } = useTransactionSummary();
-
-  const {transaction, loadingTransaction, errorTransaction} = useTransaction();
 
   const navigate = useNavigate();
 
@@ -77,7 +75,7 @@ function Dashboard({ user, authReady }) {
   useEffect(() => {
     if (hasShownToast.current) return;
 
-    const count = transaction.filter(
+    const count = transactions.filter(
       t => t.category_name === "Other"
     ).length;
 
@@ -91,7 +89,7 @@ function Dashboard({ user, authReady }) {
 
       return () => clearTimeout(timer);
     }
-  }, [transaction]);
+  }, [transactions]);
 
   /* -------------------- date filter submit -------------------- */
   const handleDateSubmit = async (payload) => {

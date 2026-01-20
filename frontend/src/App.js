@@ -17,24 +17,25 @@ import './index.css';
 
 function App() {
   const { user, loading, isLoggingIn, authReady } = useAuth();
+  const [transactions, setTransactions] = useState([]);
   const [isSignUp, setIsSignUp] = useState(true);
 
   return (
     <div>
      <Router>
-      <LogoBar isSignUp={isSignUp} setIsSignUp={setIsSignUp} isLoggingIn={isLoggingIn} />
+      <LogoBar isSignUp={isSignUp} setIsSignUp={setIsSignUp} isLoggingIn={isLoggingIn} transactions={transactions}/>
       <Routes>
           <Route
             path="/"
             element={
-            <Dashboard user={user} authReady={authReady}/>
+            <Dashboard user={user} authReady={authReady} transactions={transactions}/>
             }>
           </Route>
           
           <Route
             path="/details"
             element={
-            <Details/>
+            <Details transactions={transactions} setTransactions={setTransactions}/>
             }>
           </Route>
 

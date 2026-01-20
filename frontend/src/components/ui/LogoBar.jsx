@@ -8,18 +8,17 @@ import { GoDotFill } from "react-icons/go";
 import { PiExclamationMarkFill } from "react-icons/pi";
 
 import { useTransaction } from "../../hooks/useTransactions";
-function LogoBar ({isLoggingIn, isSignUp, setIsSignUp}) {
-    const {transaction, loadingTransaction, errorTransaction} = useTransaction();
+function LogoBar ({isLoggingIn, isSignUp, setIsSignUp, transactions}) {
     const [showNotifications, setShowNotifications] = useState(false);
     const [countOther, setCountOther] = useState(0);
 
     useEffect(() => {
-        const count = transaction.filter(
+        const count = transactions.filter(
             t => t.category_name === "Other"
             ).length;
 
         setCountOther(count);
-    },[transaction])
+    },[transactions])
   
     return(
         <div>

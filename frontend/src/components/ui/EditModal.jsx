@@ -87,6 +87,7 @@ export default function EditTransactionModal({ transaction, onClose, onSave }) {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           className="w-full border p-2 mb-4"
+          maxLength="100"
           />
         </div>
 
@@ -95,6 +96,7 @@ export default function EditTransactionModal({ transaction, onClose, onSave }) {
           Amount
           </label>
            <input
+          type="number"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
           className="w-full border p-2 mb-3"
