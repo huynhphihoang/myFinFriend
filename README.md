@@ -66,7 +66,21 @@ A personal financial management web-app that integrates AI-powered tools to keep
 - Displays the currently logged-in account information.
 - Provides quick navigation to the Dashboard and Transaction Details pages.
 - Users can log out, with a confirmation notification: “Successfully logged out”.
-  
+
+## Notification
+![App Screenshot](frontend/public/images/notifications.png)
+- Inform the user about the transactions that marked as "Other" by Google GenAI.
+- Update the notification in the real-time if a transaction marked "Other" is changed, deleted and created.
+- Allow the user the open and close the information box of the notification.
+
+## Pop-up notification
+![App Screenshot](frontend/public/images/pop-up-warning.png)
+![App Screenshot](frontend/public/images/pop-up-success.png)
+- Provides real-time feedback to users when actions are completed successfully or require attention (e.g., create, update, delete operations).
+- Enhances user experience by clearly confirming system responses and reducing uncertainty.
+- Displays contextual notifications, including the number of transactions categorized as “Other”, helping users quickly identify uncategorized or exceptional records.
+
+
 ---
 
 # Data Schemas and Backend Configuration
