@@ -4,6 +4,7 @@ import Details from "./pages/Details"
 import SignUp from "./pages/SignUp"
 import Profile from "./pages/Profile"
 import { useAuth } from "./hooks/useAuth";
+import { useTransaction } from "./hooks/useTransactions"
 import { useEffect, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -16,9 +17,29 @@ import {
 import './index.css';
 
 function App() {
+
+  /* -------------------- hooks -------------------- */
   const { user, loading, isLoggingIn, authReady } = useAuth();
   const [transactions, setTransactions] = useState([]);
+  const { transaction, loadingTransaction, errorTransaction } = useTransaction();
+
+  /* -------------------- state -------------------- */
+  const [loadingState, setLoadingState] = useState(true);
+  const [errorState, setErrorState] = useState(null);
   const [isSignUp, setIsSignUp] = useState(true);
+
+  /* -------------------- sync backend → state -------------------- */
+  useEffect(() => {
+    if (transaction) {
+      setTransactions(transaction);
+      setLoadingState(false);
+    }
+
+    if (errorTransaction) {
+      setErrorState(errorTransaction);
+      setLoadingState(false);
+    }
+  }, [transaction, errorTransaction]);
 
   return (
     <div>
@@ -35,7 +56,7 @@ function App() {
           <Route
             path="/details"
             element={
-            <Details transactions={transactions} setTransactions={setTransactions}/>
+            <Details transactions={transactions} setTransactions={setTransactions} transaction={transaction} errorState={errorState} setErrorState={setErrorState} loadingState={loadingState} setLoadingState={setLoadingState}/>
             }>
           </Route>
 
@@ -53,7 +74,7 @@ function App() {
             }>
           </Route>
       </Routes>
-       <ToastContainer position="top-right" autoClose={2000} />
+       <ToastContainer position="bottom-right" autoClose={2000} />
      </Router>
     </div>
   );

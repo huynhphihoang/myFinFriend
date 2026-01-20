@@ -10,7 +10,6 @@ import {toast} from "react-toastify"
 
 import { useDateRange } from "../hooks/useDateRange";
 import { useTransactionSummary } from "../hooks/useTransactionSummary";
-import { useTransaction } from "../hooks/useTransactions";
 
 import { useState, useEffect, useRef, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
@@ -47,8 +46,6 @@ function Dashboard({ user, authReady, transactions }) {
   const hasShownToast = useRef(false);
 
   /* -------------------- auth guard -------------------- */
-  console.log(user)
-  console.log(authReady)
   useEffect(() => {
     if (!user) navigate("/signup");
     if (!authReady) return
@@ -74,7 +71,7 @@ function Dashboard({ user, authReady, transactions }) {
   /* -------------------- initial notification -------------------- */
   useEffect(() => {
     if (hasShownToast.current) return;
-
+    console.log(transactions)
     const count = transactions.filter(
       t => t.category_name === "Other"
     ).length;

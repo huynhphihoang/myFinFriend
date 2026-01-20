@@ -11,18 +11,13 @@ import CreateTransactionModal from "../components/ui/CreateModal";
 import { deleteTransaction,updateTransaction } from "../api/transaction";
 
 import { useExpenseFrequency } from "../hooks/useExpenseFrenquency";
-import { useTransaction } from "../hooks/useTransactions";
 import { createTransaction } from "../api/transaction";
 
-function Details({transactions,setTransactions}) {
+function Details({transactions,setTransactions, transaction, setLoadingState, loadingState, errorState,setErrorState}) {
   /* -------------------- hooks -------------------- */
   const { fetchFrequency, expenseData, incomeData } = useExpenseFrequency();
-  const { transaction, loadingTransaction, errorTransaction } = useTransaction();
 
   /* -------------------- state -------------------- */
-  const [loadingState, setLoadingState] = useState(true);
-  const [errorState, setErrorState] = useState(null);
-
   const [active, setActive] = useState("all");
   const [isFiltered, setIsFiltered] = useState(false);
   const [openCreate, setOpenCreate] = useState(false);
@@ -41,19 +36,6 @@ function Details({transactions,setTransactions}) {
         )
     );
     };
-
-  /* -------------------- sync backend → state -------------------- */
-  useEffect(() => {
-    if (transaction) {
-      setTransactions(transaction);
-      setLoadingState(false);
-    }
-
-    if (errorTransaction) {
-      setErrorState(errorTransaction);
-      setLoadingState(false);
-    }
-  }, [transaction, errorTransaction]);
 
   /* -------------------- frequency filter -------------------- */
   const handleFrequencySubmit = async (payload) => {
