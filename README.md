@@ -92,6 +92,9 @@ A personal financial management web-app that integrates AI-powered tools to keep
 
 # Data Schemas and Backend Configuration
 ## Supabase Schemas
+
+<img width="1528" height="797" alt="supabase-schema-zrvymzbkwytesurckjhe (1)" src="https://github.com/user-attachments/assets/c3ebe4f9-e428-4e66-b5aa-f7120dfac1bd" />
+
 1. category_list
 
 | Column Name   | Data Type | Notes          |
@@ -138,6 +141,7 @@ The following RLS policies have been set using PostgreSQL:
 - Users can **delete their own rows**
 - Users *cannot* access/read/update other users' rows
 - Backend (server) has access to every users' rows.
+
 
 
 
