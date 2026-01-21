@@ -24,7 +24,7 @@ A personal financial management web-app that integrates AI-powered tools to keep
 
 ## Setting up and downloading dependencies
 - Clone the repository into your local device
-- Install necessary libraries and dependencies: 'pip install -r requirements.txt'
+- Install necessary libraries and dependencies: `pip install -r requirements.txt`
   
 ## Frontend
 - Navigate to the folder "frontend" and then type `npm install` to install required frontend libraries.
@@ -138,6 +138,7 @@ The following RLS policies have been set using PostgreSQL:
 - Users can **delete their own rows**
 - Users *cannot* access/read/update other users' rows
 - Backend (server) has access to every users' rows.
+
 
 
 
