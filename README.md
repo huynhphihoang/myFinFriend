@@ -1,5 +1,6 @@
 # myFinFriend
-A personal financial management web-app that integrates AI-powered tools to keep on track of your spending and budget
+A personal financial management web-app that integrates AI-powered tools to keep on track of your spending and budget.
+Packed with basic analytical tools, this website serves as the fundamental budgetting planner for students and any one wishing to automate and centralize their bills and spending without typing every transaction manually.
 
 ---
 
@@ -141,6 +142,7 @@ The following RLS policies have been set using PostgreSQL:
 - Users can **delete their own rows**
 - Users *cannot* access/read/update other users' rows
 - Backend (server) has access to every users' rows.
+
 
 
 
