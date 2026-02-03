@@ -87,9 +87,9 @@ function Details({transactions,setTransactions, transaction, setLoadingState, lo
 
   /* -------------------- render -------------------- */
   return (
-    <div className="font-manrope">
+    <div className="h-screen font-manrope bg-gray-100">
       {/* Header */}
-      <div className="flex items-center my-5 relative">
+      <div className="flex items-center py-5 relative">
         <Link to="/" className="ml-3">
           <button className="text-sm flex items-center shadow-lg font-bold gap-2 border border-black rounded-full px-5 py-3 hover:bg-black hover:text-white transition">
             <FaArrowLeft />
@@ -112,12 +112,12 @@ function Details({transactions,setTransactions, transaction, setLoadingState, lo
       </div>
 
       {/* Controls */}
-      <nav className="w-5/6 mx-auto">
+      <nav className="w-5/6 mx-auto bg-gray-100">
         <div className="flex items-center gap-4">
           <ToggleChange active={active} setActive={setActive} />
 
           <button
-            className="flex items-center border border-black px-6 py-2 rounded-full gap-1 bg-green-500 hover:bg-green-700 text-white hover:-translate-y-1 transition duration-700"
+            className="flex items-center shadow-lg border border-black px-6 py-2 rounded-full gap-1 bg-emerald-500 hover:bg-emerald-700 text-white transition duration-700"
             onClick={() => setOpenCreate(true)}
           >
             <IoMdAdd /> Add

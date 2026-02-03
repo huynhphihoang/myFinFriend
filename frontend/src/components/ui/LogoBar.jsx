@@ -6,6 +6,7 @@ import SignUpButton from "../buttons/SignUpButton";
 import { useState, useEffect,useRef } from "react";
 import { GoDotFill } from "react-icons/go";
 import { PiExclamationMarkFill } from "react-icons/pi";
+import { RiRobot3Fill } from "react-icons/ri";
 
 import { useTransaction } from "../../hooks/useTransactions";
 function LogoBar ({isLoggingIn, isSignUp, setIsSignUp, transactions}) {
@@ -21,18 +22,18 @@ function LogoBar ({isLoggingIn, isSignUp, setIsSignUp, transactions}) {
     },[transactions])
   
     return(
-        <div>
-            <div className='flex justify-between m-4'>
-                <h1 className="font-manrope font-bold text-3xl font-bold opacity-70 tracking-widest">
-                    <Link to="/">
-                        myFinFriend
+        <div className="bg-indigo-500 h-full p-4">
+            <div className='flex justify-between'>
+                <h1 className="text-white font-manrope font-bold text-3xl font-bold opacity-70 tracking-widest">
+                    <Link to="/" className="flex items-center ">
+                        myFinFri<RiRobot3Fill/>nd
                     </Link>
                 </h1>
                 {isLoggingIn===true ? (   
                     <div className="flex gap-4 items-center">            
                         <div className="relative">
                             <IoNotificationsOutline
-                                className="text-xl cursor-pointer hover:text-gray-700 hover:animate-ring origin-top"
+                                className="text-xl text-white cursor-pointer hover:text-gray-700 hover:animate-ring origin-top transition duration-200"
                                 onClick={() => setShowNotifications(prev => !prev)}
                             />
 
@@ -63,7 +64,7 @@ function LogoBar ({isLoggingIn, isSignUp, setIsSignUp, transactions}) {
                      
                         <div>
                             <Link to="/profile" className="bg-black">
-                                <RxAvatar className="text-xl hover:text-gray-700"/>  
+                                <RxAvatar className="text-xl text-white hover:text-gray-700 transition duration-200"/>  
                             </Link> 
                         </div>
                               
@@ -74,7 +75,6 @@ function LogoBar ({isLoggingIn, isSignUp, setIsSignUp, transactions}) {
                     </div>
                 )}
             </div>
-            <hr className='border-t-2'/>
         </div>
     );
 }

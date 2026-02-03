@@ -18,8 +18,8 @@ export default function Profile({user,loading}){
     }, [loading]);
 
     return(
-        <div className="h-screen">
-            <div className="flex justify-center mt-4">
+        <div className="h-screen bg-gray-100">
+            <div className="flex justify-center pt-4">
             <RxAvatar className="text-6xl"/>
             </div>
             <div className="text-center mt-2">

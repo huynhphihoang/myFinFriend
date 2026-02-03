@@ -136,11 +136,20 @@ function Dashboard({ user, authReady, transactions }) {
   }
 
   return (
-    <nav className="font-manrope">
-      <h2 className="text-center font-bold text-3xl mt-4">
+    <nav className="font-manrope bg-gray-100">
+      <h2 className="text-center font-bold text-3xl pt-4">
         Dashboard
       </h2>
 
+      {/* Description */}
+      <div className="text-center py-6 max-w-4xl mx-auto">
+        <p className="text-gray-600 text-lg leading-relaxed"> Upload your payslips and bills. 
+        Track your income, expenses, and balance automatically 
+        </p>
+        <p className="text-gray-600 text-lg leading-relaxed">
+          All in one place. Try it now!
+        </p>
+      </div>
       {/* Buttons */}
       <div className="flex justify-center gap-3 mt-3">
         <UploadFile />
