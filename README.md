@@ -39,7 +39,7 @@ Packed with basic analytical tools, this website serves as the fundamental budge
 # Website Snapshots
 
 ## Dashboard page
-![App Screenshot](frontend/public/images/dashboard.png)
+![App Screenshot](frontend/public/images/dashboard-2.png)
 - The main page where users can upload files (.csv or .pdf) to the website.
 - Users can select a start date and end date to view income, expenses, and balance within a specific time range.
 - A reset filter option is available to clear the selected date range.
@@ -52,7 +52,7 @@ Packed with basic analytical tools, this website serves as the fundamental budge
 - Navigation buttons are provided to access other pages, including View Transactions and the Profile (avatar icon)
 
 ## Details page
-![App Screenshot](frontend/public/images/detail-page.png)
+![App Screenshot](frontend/public/images/detail-2-page.png)
 - Users can analyse their finances using a date range and frequency filter (weekly, monthly, or quarterly).
 - This helps users understand spending patterns over time.
 - A reset filter button allows users to clear all inputs easily.
@@ -70,7 +70,7 @@ Packed with basic analytical tools, this website serves as the fundamental budge
 - Users can easily switch between the sign-up and log-in pages.
 
 ## Profile page
-![App Screenshot](frontend/public/images/profile-page.png)
+![App Screenshot](frontend/public/images/profile-2-page.png)
 - Displays the currently logged-in account information.
 - Provides quick navigation to the Dashboard and Transaction Details pages.
 - Users can log out, with a confirmation notification: “Successfully logged out”.
