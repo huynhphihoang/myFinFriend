@@ -1,5 +1,6 @@
 # myFinFriend
-A personal financial management web-app that integrates AI-powered tools to keep on track of your spending and budget
+A personal financial management web-app that integrates AI-powered tools to keep on track of your spending and budget.
+Packed with basic analytical tools, this website serves as the fundamental budgetting planner for students and any one wishing to automate and centralize their bills and spending without typing every transaction manually.
 
 ---
 
@@ -18,18 +19,25 @@ A personal financial management web-app that integrates AI-powered tools to keep
 
 [![Google Gen-Ai](https://img.shields.io/badge/GoogleGenAI-1.57.0-darkblue)](https://ai.google.dev/gemini-api/docs/models#gemini-3-flash)
 
-# How to run if you fork it.
+---
+
+# Steps to run the website locally
+
+## Setting up and downloading dependencies
+- Clone the repository into your local device
+- Install necessary libraries and dependencies: `pip install -r requirements.txt`
+  
 ## Frontend
-- Navigate to the folder "frontend" and then type `npm install`
-- Wait until the system is done downloading.
+- Navigate to the folder "frontend" and then type `npm install` to install required frontend libraries.
 - Finally, type `npm start` to start the website.
 
 ## Backend
-- Navigate to the folder "source" and then type `pip install -r requirements.txt` to download the requirements
-- Then, type `python main` to run the backend while running the frontend.
+- Type `python main` to run the backend while running the frontend.
 
+---
 
-# About Website
+# Website Snapshots
+
 ## Dashboard page
 ![App Screenshot](frontend/public/images/dashboard.png)
 - The main page where users can upload files (.csv or .pdf) to the website.
@@ -55,7 +63,7 @@ A personal financial management web-app that integrates AI-powered tools to keep
 - Users can create, edit, and delete transactions directly from this page.
 - Each action (create,edit,delate), the user can receive notification to know if the action is successful.
 
-## SignUp&LogIn page
+## Sign-Up & Log-In page
 ![App Screenshot](frontend/public/images/log-in&sign-up-page.png)
 - Allows new users to create an account.
 - Existing users can log in to access their personal finance data.
@@ -85,6 +93,9 @@ A personal financial management web-app that integrates AI-powered tools to keep
 
 # Data Schemas and Backend Configuration
 ## Supabase Schemas
+
+<img width="1528" height="797" alt="supabase-schema-zrvymzbkwytesurckjhe (1)" src="https://github.com/user-attachments/assets/c3ebe4f9-e428-4e66-b5aa-f7120dfac1bd" />
+
 1. category_list
 
 | Column Name   | Data Type | Notes          |
@@ -131,6 +142,10 @@ The following RLS policies have been set using PostgreSQL:
 - Users can **delete their own rows**
 - Users *cannot* access/read/update other users' rows
 - Backend (server) has access to every users' rows.
+
+
+
+
 
 
 
