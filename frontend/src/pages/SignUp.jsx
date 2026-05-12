@@ -1,6 +1,4 @@
 import { useState, useEffect } from "react";
-import { FaArrowLeft } from "react-icons/fa";
-import { Link } from "react-router-dom";
 import { supabase } from "../supabaseClient";
 import { useNavigate } from "react-router-dom";
 
@@ -37,7 +35,6 @@ export default function SignUp({isSignUp,setIsSignUp}) {
     const { error } = isSignUp
       ? await supabase.auth.signUp({ email, password })
       : await supabase.auth.signInWithPassword({ email, password });
-
     if (error) alert(error.message);
 
     setLoading(false);
@@ -46,7 +43,7 @@ export default function SignUp({isSignUp,setIsSignUp}) {
   return (
     <div className="relative h-screen flex items-center justify-center font-manrope bg-gray-100">
       {/* Auth card */}
-      <div className={`${isSignUp==true ? "bg-gradient-to-br from-blue-700 to-blue-300" : "bg-gradient-to-br from-blue-300 to-blue-700"} rounded-lg shadow-xl duration-500 transition`}>
+      <div className={`${isSignUp===true ? "bg-gradient-to-br from-black to-white" : "bg-gradient-to-br from-white to-black"} rounded-lg shadow-xl duration-500 transition`}>
         <h1 className="text-3xl text-white font-bold my-6 text-center">
           {isSignUp ? "Sign Up" : "Log In"}
         </h1>

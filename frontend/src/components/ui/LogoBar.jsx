@@ -22,9 +22,9 @@ function LogoBar ({isLoggingIn, isSignUp, setIsSignUp, transactions}) {
     },[transactions])
   
     return(
-        <div className="bg-indigo-500 h-full p-4">
+        <div className="bg-white h-full p-4 rounded-b-lg shadow-outer shadow-lg">
             <div className='flex justify-between'>
-                <h1 className="text-white font-manrope font-bold text-3xl font-bold opacity-70 tracking-widest">
+                <h1 className="text-black font-manrope font-bold text-3xl font-bold opacity-70 tracking-widest">
                     <Link to="/" className="flex items-center ">
                         myFinFri<RiRobot3Fill/>nd
                     </Link>
@@ -33,7 +33,7 @@ function LogoBar ({isLoggingIn, isSignUp, setIsSignUp, transactions}) {
                     <div className="flex gap-4 items-center">            
                         <div className="relative">
                             <IoNotificationsOutline
-                                className="text-xl text-white cursor-pointer hover:text-gray-700 hover:animate-ring origin-top transition duration-200"
+                                className="text-xl text-gray-600 cursor-pointer hover:text-gray-700 hover:animate-ring origin-top transition duration-200"
                                 onClick={() => setShowNotifications(prev => !prev)}
                             />
 
@@ -64,7 +64,7 @@ function LogoBar ({isLoggingIn, isSignUp, setIsSignUp, transactions}) {
                      
                         <div>
                             <Link to="/profile" className="bg-black">
-                                <RxAvatar className="text-xl text-white hover:text-gray-700 transition duration-200"/>  
+                                <RxAvatar className="text-xl text-gray-600 hover:text-gray-700 transition duration-200"/>  
                             </Link> 
                         </div>
                               
