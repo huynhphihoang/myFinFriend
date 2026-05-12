@@ -7,7 +7,7 @@ Packed with basic analytical tools, this website serves as the fundamental budge
 # Technologies Used
 
 [![Python](https://img.shields.io/badge/Python-3.10.2-red)](https://docs.python.org/3/)
-[![Flask](https://img.shields.io/badge/Flask-3.1.2-red)](https://flask.palletsprojects.com/)
+[![FastAPI](https://shields.io/badge/FastAPI-0.136.1-orange)](https://fastapi.tiangolo.com/)
 
 [![React](https://img.shields.io/badge/ReactJS-19.2.3-blue)](https://react.dev/)
 [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.4.19-yellow)](https://tailwindcss.com/docs)
@@ -32,7 +32,12 @@ Packed with basic analytical tools, this website serves as the fundamental budge
 - Finally, type `npm start` to start the website.
 
 ## Backend
-- Type `python main` to run the backend while running the frontend.
+- Type `uvicorn main:app --reload` to run the backend while running the frontend.
+
+---
+
+# Try our website through the Demo
+We're working on now........
 
 ---
 
@@ -65,7 +70,7 @@ Packed with basic analytical tools, this website serves as the fundamental budge
 
 ## Sign-Up & Log-In page
 ![App Screenshot](frontend/public/images/log-in&sign-up-page.png)
-- Allows new users to create an account.
+- Allows new users to create an account instantly.
 - Existing users can log in to access their personal finance data.
 - Users can easily switch between the sign-up and log-in pages.
 
@@ -96,7 +101,7 @@ Packed with basic analytical tools, this website serves as the fundamental budge
 
 <img width="1528" height="797" alt="supabase-schema-zrvymzbkwytesurckjhe (1)" src="https://github.com/user-attachments/assets/c3ebe4f9-e428-4e66-b5aa-f7120dfac1bd" />
 
-1. category_list
+### 1. category_list
 
 | Column Name   | Data Type | Notes          |
 | ------------- | --------- | -------------- |
@@ -106,7 +111,7 @@ Packed with basic analytical tools, this website serves as the fundamental budge
 This table keeps the list of default categories a record can be put into. 
 **Future Improvements**: Allowing users to be able to choose from the default list AND adding their own categorisation.
 
-2. transaction_history
+### 2. transaction_history
 
 | Column Name         | Data Type | Notes                                 |
 | ------------------- | --------- | ------------------------------------- |
@@ -121,7 +126,7 @@ This table stores the records of each users' transaction, is the central of myFi
 Analytical insights are produced using data from this source.
 **Future Expansion**: Integrating an AI Agent to produce analytics, charts and insights just from user's prompt.
 
-3. upload_storage
+### 3. upload_storage
 
 | Column Name   | Data Type | Notes                    |
 | ------------- | --------- | ------------------------ |
