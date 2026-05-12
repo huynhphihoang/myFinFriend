@@ -1,6 +1,8 @@
 import os 
 import sys
-from api import register_blueprints
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from api.main_workflow import router as main_router
 from flask import Flask
 from flask_cors import CORS
 
@@ -41,13 +43,16 @@ sys.path.insert(0, project_root)
 
 #Call Gemini response
 
-app = Flask(__name__)
+app = FastAPI()
 
-CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}},
-    allow_headers=["Authorization", "Content-Type"],
-    methods=["GET", "POST", "OPTIONS","DELETE","PUT"],)
-
-register_blueprints(app)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],       
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+app.include_router(main_router)
 
 if __name__ == "__main__":
     app.run(debug=True)
