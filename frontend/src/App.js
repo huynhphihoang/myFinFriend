@@ -24,13 +24,14 @@ function App() {
   const { transaction, loadingTransaction, errorTransaction } = useTransaction();
 
   /* -------------------- state -------------------- */
-  const [loadingState, setLoadingState] = useState(true);
+  const [loadingState, setLoadingState] = useState(false);
   const [errorState, setErrorState] = useState(null);
   const [isSignUp, setIsSignUp] = useState(true);
 
   /* -------------------- sync backend → state -------------------- */
   useEffect(() => {
     if (transaction) {
+      setLoadingState(true);
       setTransactions(transaction);
       setLoadingState(false);
     }

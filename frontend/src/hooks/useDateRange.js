@@ -8,7 +8,7 @@ export function useDateRange() {
   const [totalIncome, setTotalIncome] = useState([]);
   const [totalExpense, setTotalExpense] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   async function fetchTotalDateRange(payload) {

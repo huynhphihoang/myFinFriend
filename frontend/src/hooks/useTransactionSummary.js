@@ -3,7 +3,7 @@ import {useState, useEffect} from "react";
 
 export function useTransactionSummary() {
   const [transactionSummary, setTransactionSummary] = useState([]);
-  const [loadingSummary, setLoading] = useState(true);
+  const [loadingSummary, setLoading] = useState(false);
   const [errorSummary, setError] = useState(null);
 
   useEffect(() => {
