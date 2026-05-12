@@ -35,7 +35,7 @@ const shadowPlugin = {
 
 function BarChart({categories}) {
   const { transaction, loading, error } = useExpenseCategories();
-  const dataToRender = categories && categories.length == 0 ? transaction : categories 
+  const dataToRender = categories && categories.length === 0 ? transaction : categories 
 
   // Handle the bar chart if the dataToRender is null or undefined
   if (dataToRender ===null || dataToRender === undefined) {
@@ -109,6 +109,18 @@ function BarChart({categories}) {
     },
   };
 
+  if(loading) {
+    return (<div>
+      Please wait. It it loading.
+    </div>)
+  }
+
+  if (error) {
+    return(<div>
+      It's error.
+    </div>)
+  }
+  
   return (
     <div className="flex-1 bg-white font-manrope rounded-2xl shadow-xl p-4">
       <h3 className="text-center font-bold text-sm opacity-80 mb-2">

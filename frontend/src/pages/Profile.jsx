@@ -2,7 +2,7 @@ import { RxAvatar } from "react-icons/rx";
 import {Link} from "react-router-dom";
 import { supabase } from "../supabaseClient";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { toast} from "react-toastify"
 
 export default function Profile({user,loading}){

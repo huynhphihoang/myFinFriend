@@ -49,7 +49,7 @@ function Dashboard({ user, authReady, transactions }) {
   useEffect(() => {
     if (!user) navigate("/signup");
     if (!authReady) return
-  }, [user, navigate]);
+  }, [user, authReady, navigate]);
 
   /* -------------------- initial load -------------------- */
   useEffect(() => {
@@ -131,6 +131,30 @@ function Dashboard({ user, authReady, transactions }) {
     return (
       <div className="text-rose-700 text-xl mt-4 text-center">
         There is an error. Please contact IT support.
+      </div>
+    );
+  }
+
+  if (error) {
+     return (
+      <div className="text-rose-700 text-xl mt-4 text-center">
+        There is an error. Please contact IT support.
+      </div>
+    );
+  }
+
+  if (loadingSummary) {
+    return (
+      <div className="text-blue-700 text-xl mt-4 text-center">
+        Please wait for a few seconds. We're loading
+      </div>
+    );
+  }
+
+  if (loading) {
+    return (
+      <div className="text-blue-700 text-xl mt-4 text-center">
+        Please wait for a few seconds. We're loading
       </div>
     );
   }

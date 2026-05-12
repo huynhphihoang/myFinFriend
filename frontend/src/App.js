@@ -41,6 +41,12 @@ function App() {
     }
   }, [transaction, errorTransaction]);
 
+  if (loadingTransaction){
+    return(<div>
+      The transactions are loading. Please wait for a few seconds!
+    </div>)
+  }
+
   return (
     <div>
      <Router>

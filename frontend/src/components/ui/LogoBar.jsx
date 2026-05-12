@@ -3,12 +3,11 @@ import { RxAvatar } from "react-icons/rx";
 import LogInButton from "../buttons/LogInButton";
 import {Link} from "react-router-dom"
 import SignUpButton from "../buttons/SignUpButton";
-import { useState, useEffect,useRef } from "react";
+import { useState, useEffect } from "react";
 import { GoDotFill } from "react-icons/go";
 import { PiExclamationMarkFill } from "react-icons/pi";
 import { RiRobot3Fill } from "react-icons/ri";
 
-import { useTransaction } from "../../hooks/useTransactions";
 function LogoBar ({isLoggingIn, isSignUp, setIsSignUp, transactions}) {
     const [showNotifications, setShowNotifications] = useState(false);
     const [countOther, setCountOther] = useState(0);

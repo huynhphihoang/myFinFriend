@@ -1,6 +1,5 @@
 import { MdDelete } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
-import { deleteTransaction } from "../../api/transaction";
 
 function Usage({transaction, hasExpenseFilter,hasIncomeFilter,handleEdit, handleDelete}) {
     return(
